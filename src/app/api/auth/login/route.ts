@@ -5,7 +5,17 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, password } = await request.json();
+    let body: { email?: string; password?: string };
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json(
+        { error: "Invalid request body" },
+        { status: 400 }
+      );
+    }
+
+    const { email, password } = body;
 
     if (!email || !password) {
       return NextResponse.json(
@@ -14,7 +24,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const user = await prisma.user.findUnique({ where: { email } });
+    let user;
+    try {
+      user = await prisma.user.findUnique({ where: { email } });
+    } catch (dbError) {
+      console.error("Login DB error:", dbError);
+      return NextResponse.json(
+        { error: "Database connection failed. Please try again." },
+        { status: 503 }
+      );
+    }
 
     if (!user || !user.active) {
       return NextResponse.json(
@@ -23,7 +42,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const isValid = await compare(password, user.password);
+    let isValid: boolean;
+    try {
+      isValid = await compare(password, user.password);
+    } catch (bcryptError) {
+      console.error("Login bcrypt error:", bcryptError);
+      return NextResponse.json(
+        { error: "Authentication processing failed" },
+        { status: 500 }
+      );
+    }
+
     if (!isValid) {
       return NextResponse.json(
         { error: "Invalid email or password" },
@@ -31,12 +60,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const token = await createToken({
-      userId: user.id,
-      email: user.email,
-      name: user.name,
-      role: user.role,
-    });
+    let token: string;
+    try {
+      token = await createToken({
+        userId: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      });
+    } catch (jwtError) {
+      console.error("Login JWT error:", jwtError);
+      return NextResponse.json(
+        { error: "Session creation failed" },
+        { status: 500 }
+      );
+    }
 
     const response = NextResponse.json({
       user: { id: user.id, name: user.name, email: user.email, role: user.role },
@@ -51,9 +89,10 @@ export async function POST(request: NextRequest) {
     });
 
     return response;
-  } catch {
+  } catch (error) {
+    console.error("Login unexpected error:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: error instanceof Error ? error.message : "Internal server error" },
       { status: 500 }
     );
   }
