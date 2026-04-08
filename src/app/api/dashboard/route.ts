@@ -86,15 +86,46 @@ export async function GET() {
       }),
     ]);
 
-    const todayPurchases = await prisma.purchase.aggregate({
-      where: { createdAt: { gte: todayStart } },
-      _sum: { totalAmount: true },
-    });
-
-    const monthPurchases = await prisma.purchase.aggregate({
-      where: { createdAt: { gte: monthStart } },
-      _sum: { totalAmount: true },
-    });
+    const [todayPurchases, monthPurchases, expiryAlerts, lowStockAlerts, supplierDues] =
+      await Promise.all([
+        prisma.purchase.aggregate({
+          where: { createdAt: { gte: todayStart } },
+          _sum: { totalAmount: true },
+        }),
+        prisma.purchase.aggregate({
+          where: { createdAt: { gte: monthStart } },
+          _sum: { totalAmount: true },
+        }),
+        prisma.batch.findMany({
+          where: { quantity: { gt: 0 }, expiryDate: { lte: thirtyDaysFromNow, gt: now } },
+          include: { medicine: { select: { name: true, category: true } } },
+          orderBy: { expiryDate: "asc" },
+          take: 10,
+        }),
+        prisma.batch
+          .findMany({
+            where: { quantity: { gt: 0 }, expiryDate: { gt: now } },
+            include: { medicine: { select: { name: true, reorderLevel: true, category: true } } },
+          })
+          .then((batches) =>
+            batches
+              .filter((b) => b.quantity <= b.medicine.reorderLevel)
+              .map((b) => ({
+                medicineName: b.medicine.name,
+                category: b.medicine.category,
+                batchNumber: b.batchNumber,
+                currentQty: b.quantity,
+                reorderLevel: b.medicine.reorderLevel,
+              }))
+              .slice(0, 10)
+          ),
+        prisma.supplier.findMany({
+          where: { balance: { gt: 0 } },
+          select: { name: true, balance: true, phone: true },
+          orderBy: { balance: "desc" },
+          take: 5,
+        }),
+      ]);
 
     return NextResponse.json({
       stats: {
@@ -115,6 +146,16 @@ export async function GET() {
       monthlySalesData,
       topMedicines,
       customerDues,
+      expiryAlerts: expiryAlerts.map((b) => ({
+        medicineName: b.medicine.name,
+        category: b.medicine.category,
+        batchNumber: b.batchNumber,
+        quantity: b.quantity,
+        expiryDate: b.expiryDate,
+        daysLeft: Math.ceil((new Date(b.expiryDate).getTime() - now.getTime()) / (1000 * 60 * 60 * 24)),
+      })),
+      lowStockAlerts,
+      supplierDues,
     });
   } catch (error) {
     console.error("Dashboard error:", error);

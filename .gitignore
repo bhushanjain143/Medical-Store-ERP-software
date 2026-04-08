@@ -52,3 +52,5 @@ next-env.d.ts
 
 # generated prisma client (old output, now goes to node_modules)
 /src/generated
+
+.vercel

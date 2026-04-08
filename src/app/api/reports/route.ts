@@ -245,6 +245,90 @@ export async function GET(request: NextRequest) {
         });
       }
 
+      case "gst_detailed": {
+        const sales = await prisma.sale.findMany({
+          where: { ...(from || to ? { createdAt: dateFilter } : {}), status: "completed" },
+          include: {
+            items: { include: { medicine: { select: { name: true, hsnCode: true } } } },
+            customer: { select: { name: true } },
+          },
+          orderBy: { createdAt: "asc" },
+        });
+
+        const purchases = await prisma.purchase.findMany({
+          where: from || to ? { purchaseDate: dateFilter } : {},
+          include: {
+            supplier: { select: { name: true, gstin: true } },
+            items: { include: { medicine: { select: { name: true, hsnCode: true } } } },
+          },
+          orderBy: { purchaseDate: "asc" },
+        });
+
+        const gstSummary: Record<string, { taxable: number; cgst: number; sgst: number; total: number }> = {};
+        const hsnSummary: Record<string, { hsnCode: string; taxable: number; cgst: number; sgst: number; total: number; quantity: number }> = {};
+
+        const salesRegister = sales.map((sale) => {
+          let taxable = 0;
+          let gst = 0;
+          for (const item of sale.items) {
+            const rate = item.gstRate.toString();
+            if (!gstSummary[rate]) gstSummary[rate] = { taxable: 0, cgst: 0, sgst: 0, total: 0 };
+            const itemTaxable = item.totalAmount - item.gstAmount;
+            gstSummary[rate].taxable += itemTaxable;
+            gstSummary[rate].cgst += item.gstAmount / 2;
+            gstSummary[rate].sgst += item.gstAmount / 2;
+            gstSummary[rate].total += item.gstAmount;
+            taxable += itemTaxable;
+            gst += item.gstAmount;
+
+            const hsn = item.medicine.hsnCode || "N/A";
+            if (!hsnSummary[hsn]) hsnSummary[hsn] = { hsnCode: hsn, taxable: 0, cgst: 0, sgst: 0, total: 0, quantity: 0 };
+            hsnSummary[hsn].taxable += itemTaxable;
+            hsnSummary[hsn].cgst += item.gstAmount / 2;
+            hsnSummary[hsn].sgst += item.gstAmount / 2;
+            hsnSummary[hsn].total += item.gstAmount;
+            hsnSummary[hsn].quantity += item.quantity;
+          }
+          return {
+            invoiceNumber: sale.invoiceNumber,
+            date: new Date(sale.createdAt).toLocaleDateString("en-IN"),
+            customerName: sale.customer?.name || "Walk-in",
+            taxable,
+            cgst: gst / 2,
+            sgst: gst / 2,
+            total: gst,
+            invoiceTotal: sale.totalAmount,
+          };
+        });
+
+        const purchaseRegister = purchases.map((p) => {
+          const gst = p.gstAmount;
+          const taxable = p.subtotal - gst;
+          return {
+            invoiceNumber: p.invoiceNumber,
+            date: new Date(p.purchaseDate).toLocaleDateString("en-IN"),
+            supplierName: p.supplier.name,
+            gstin: p.supplier.gstin || "",
+            taxable,
+            cgst: gst / 2,
+            sgst: gst / 2,
+            total: gst,
+            invoiceTotal: p.totalAmount,
+          };
+        });
+
+        return NextResponse.json({
+          summary: {
+            totalTaxable: Object.values(gstSummary).reduce((s, g) => s + g.taxable, 0),
+            totalGst: Object.values(gstSummary).reduce((s, g) => s + g.total, 0),
+          },
+          gstSummary,
+          hsnSummary,
+          salesRegister,
+          purchaseRegister,
+        });
+      }
+
       default:
         return NextResponse.json({ error: "Invalid report type" }, { status: 400 });
     }

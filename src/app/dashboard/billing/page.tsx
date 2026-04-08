@@ -488,7 +488,9 @@ export default function BillingPage() {
                     options={[
                       { value: "cash", label: "Cash" },
                       { value: "upi", label: "UPI" },
-                      { value: "card", label: "Card" },
+                      { value: "card", label: "Debit/Credit Card" },
+                      { value: "net_banking", label: "Net Banking" },
+                      { value: "wallet", label: "Wallet" },
                       { value: "credit", label: "Credit (Udhar)" },
                     ]}
                     value={paymentMode}
@@ -514,29 +516,29 @@ export default function BillingPage() {
                   <div className="border-t border-slate-100 pt-4 space-y-2">
                     <div className="flex justify-between text-sm">
                       <span className="text-slate-500">Subtotal</span>
-                      <span className="text-slate-700">
-                        {formatCurrency(subtotal)}
-                      </span>
+                      <span className="text-slate-700">{formatCurrency(subtotal)}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-slate-500">GST (incl.)</span>
-                      <span className="text-slate-700">
-                        {formatCurrency(gstAmount)}
-                      </span>
+                      <span className="text-slate-500">CGST</span>
+                      <span className="text-slate-700">{formatCurrency(gstAmount / 2)}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-500">SGST</span>
+                      <span className="text-slate-700">{formatCurrency(gstAmount / 2)}</span>
+                    </div>
+                    <div className="flex justify-between text-xs text-slate-400">
+                      <span>Total GST (incl.)</span>
+                      <span>{formatCurrency(gstAmount)}</span>
                     </div>
                     {totalDiscount > 0 && (
                       <div className="flex justify-between text-sm">
                         <span className="text-slate-500">Discount</span>
-                        <span className="text-red-600">
-                          -{formatCurrency(totalDiscount)}
-                        </span>
+                        <span className="text-red-600">-{formatCurrency(totalDiscount)}</span>
                       </div>
                     )}
                     <div className="flex justify-between text-lg font-extrabold border-t border-slate-200 pt-3">
                       <span className="text-slate-900">Total</span>
-                      <span className="text-gradient">
-                        {formatCurrency(grandTotal)}
-                      </span>
+                      <span className="text-gradient">{formatCurrency(grandTotal)}</span>
                     </div>
                   </div>
 
@@ -641,102 +643,102 @@ export default function BillingPage() {
         >
           {viewingSale && (
             <div id="invoice-print">
-              <div className="text-center mb-6 border-b border-slate-200 pb-4">
-                <h2 className="text-xl font-bold text-slate-900">MedStore ERP</h2>
-                <p className="text-sm text-slate-500">Medical Store Invoice</p>
-                <p className="text-xs text-slate-400 mt-1">
-                  Invoice: {viewingSale.invoiceNumber} | Date:{" "}
-                  {formatDateTime(viewingSale.createdAt)}
-                </p>
+              <div className="text-center mb-6 border-b-2 border-teal-500 pb-4">
+                <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">MedStore ERP</h2>
+                <p className="text-sm text-slate-500">Medical Store - GST Tax Invoice</p>
+                <div className="flex justify-center gap-6 mt-2 text-xs text-slate-400">
+                  <span>Invoice: <strong className="text-slate-600">{viewingSale.invoiceNumber}</strong></span>
+                  <span>Date: <strong className="text-slate-600">{formatDateTime(viewingSale.createdAt)}</strong></span>
+                </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
+              <div className="grid grid-cols-2 gap-4 mb-5 text-sm bg-slate-50 rounded-lg p-3">
                 <div>
-                  <p className="text-slate-500">Customer:</p>
-                  <p className="font-medium">
-                    {viewingSale.customer?.name || "Walk-in Customer"}
-                  </p>
+                  <p className="text-[11px] text-slate-400 uppercase font-semibold mb-0.5">Bill To</p>
+                  <p className="font-semibold text-slate-900">{viewingSale.customer?.name || "Walk-in Customer"}</p>
+                  {viewingSale.customer?.phone && (
+                    <p className="text-xs text-slate-500">Ph: {viewingSale.customer.phone}</p>
+                  )}
                 </div>
                 <div className="text-right">
-                  <p className="text-slate-500">Billed by:</p>
-                  <p className="font-medium">{viewingSale.user.name}</p>
+                  <p className="text-[11px] text-slate-400 uppercase font-semibold mb-0.5">Billed By</p>
+                  <p className="font-semibold text-slate-900">{viewingSale.user.name}</p>
+                  <p className="text-xs text-slate-500">Payment: {viewingSale.paymentMode.toUpperCase()}</p>
                 </div>
               </div>
 
               <table className="w-full text-sm mb-4">
                 <thead>
-                  <tr className="bg-slate-50">
-                    <th className="text-left py-2 px-3 font-medium text-slate-500">#</th>
-                    <th className="text-left py-2 px-3 font-medium text-slate-500">Medicine</th>
-                    <th className="text-center py-2 px-3 font-medium text-slate-500">Qty</th>
-                    <th className="text-right py-2 px-3 font-medium text-slate-500">Price</th>
-                    <th className="text-right py-2 px-3 font-medium text-slate-500">GST</th>
-                    <th className="text-right py-2 px-3 font-medium text-slate-500">Total</th>
+                  <tr className="bg-teal-50 border-b border-teal-100">
+                    <th className="text-left py-2.5 px-3 font-semibold text-teal-700 text-xs">#</th>
+                    <th className="text-left py-2.5 px-3 font-semibold text-teal-700 text-xs">Medicine</th>
+                    <th className="text-center py-2.5 px-3 font-semibold text-teal-700 text-xs">Qty</th>
+                    <th className="text-right py-2.5 px-3 font-semibold text-teal-700 text-xs">Rate</th>
+                    <th className="text-right py-2.5 px-3 font-semibold text-teal-700 text-xs">GST%</th>
+                    <th className="text-right py-2.5 px-3 font-semibold text-teal-700 text-xs">CGST</th>
+                    <th className="text-right py-2.5 px-3 font-semibold text-teal-700 text-xs">SGST</th>
+                    <th className="text-right py-2.5 px-3 font-semibold text-teal-700 text-xs">Amount</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {viewingSale.items.map((item, i) => (
-                    <tr key={item.id} className="border-b border-slate-100">
-                      <td className="py-2 px-3 text-slate-500">{i + 1}</td>
-                      <td className="py-2 px-3">
-                        <p className="font-medium">{item.medicine.name}</p>
-                        <p className="text-xs text-slate-400">
-                          Batch: {item.batch.batchNumber}
-                        </p>
-                      </td>
-                      <td className="py-2 px-3 text-center">{item.quantity}</td>
-                      <td className="py-2 px-3 text-right">
-                        {formatCurrency(item.unitPrice)}
-                      </td>
-                      <td className="py-2 px-3 text-right text-slate-500">
-                        {item.gstRate}%
-                      </td>
-                      <td className="py-2 px-3 text-right font-medium">
-                        {formatCurrency(item.totalAmount)}
-                      </td>
-                    </tr>
-                  ))}
+                  {viewingSale.items.map((item, i) => {
+                    const itemGst = (item.totalAmount * item.gstRate) / (100 + item.gstRate);
+                    return (
+                      <tr key={item.id} className="border-b border-slate-100">
+                        <td className="py-2 px-3 text-slate-400">{i + 1}</td>
+                        <td className="py-2 px-3">
+                          <p className="font-medium text-slate-900">{item.medicine.name}</p>
+                          <p className="text-[10px] text-slate-400">Batch: {item.batch.batchNumber}</p>
+                        </td>
+                        <td className="py-2 px-3 text-center">{item.quantity}</td>
+                        <td className="py-2 px-3 text-right">{formatCurrency(item.unitPrice)}</td>
+                        <td className="py-2 px-3 text-right text-slate-500">{item.gstRate}%</td>
+                        <td className="py-2 px-3 text-right text-slate-500">{formatCurrency(itemGst / 2)}</td>
+                        <td className="py-2 px-3 text-right text-slate-500">{formatCurrency(itemGst / 2)}</td>
+                        <td className="py-2 px-3 text-right font-semibold">{formatCurrency(item.totalAmount)}</td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
 
-              <div className="border-t border-slate-200 pt-3 space-y-1 text-sm">
+              <div className="bg-slate-50 rounded-lg p-4 space-y-1.5 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-slate-500">Subtotal</span>
-                  <span>{formatCurrency(viewingSale.subtotal)}</span>
+                  <span className="text-slate-500">Subtotal (before tax)</span>
+                  <span>{formatCurrency(viewingSale.subtotal - viewingSale.gstAmount)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-500">GST (incl.)</span>
+                  <span className="text-slate-500">CGST</span>
+                  <span>{formatCurrency(viewingSale.gstAmount / 2)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-500">SGST</span>
+                  <span>{formatCurrency(viewingSale.gstAmount / 2)}</span>
+                </div>
+                <div className="flex justify-between text-xs text-slate-400">
+                  <span>Total GST</span>
                   <span>{formatCurrency(viewingSale.gstAmount)}</span>
                 </div>
                 {viewingSale.discount > 0 && (
                   <div className="flex justify-between">
                     <span className="text-slate-500">Discount</span>
-                    <span className="text-red-600">
-                      -{formatCurrency(viewingSale.discount)}
-                    </span>
+                    <span className="text-red-600">-{formatCurrency(viewingSale.discount)}</span>
                   </div>
                 )}
-                <div className="flex justify-between text-lg font-bold pt-2 border-t">
+                <div className="flex justify-between text-lg font-extrabold pt-2 border-t border-slate-200">
                   <span>Grand Total</span>
-                  <span className="text-primary">
-                    {formatCurrency(viewingSale.totalAmount)}
-                  </span>
-                </div>
-                <div className="flex justify-between text-xs text-slate-500 pt-1">
-                  <span>Payment: {viewingSale.paymentMode.toUpperCase()}</span>
-                  <span>Status: {viewingSale.status.toUpperCase()}</span>
+                  <span className="text-teal-600">{formatCurrency(viewingSale.totalAmount)}</span>
                 </div>
               </div>
 
+              {viewingSale.notes && (
+                <p className="text-xs text-slate-500 mt-3 italic">Note: {viewingSale.notes}</p>
+              )}
+
               <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-slate-100 no-print">
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    window.print();
-                  }}
-                >
+                <Button variant="outline" onClick={() => window.print()}>
                   <Printer className="h-4 w-4" />
-                  Print
+                  Print Invoice
                 </Button>
                 <Button onClick={() => setViewingSale(null)}>Close</Button>
               </div>

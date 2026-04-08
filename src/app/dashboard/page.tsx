@@ -58,21 +58,25 @@ interface DashboardData {
     user: { name: string };
     _count: { items: number };
   }>;
-  monthlySalesData: Array<{
-    month: string;
-    sales: number;
-    purchases: number;
-  }>;
-  topMedicines: Array<{
-    name: string;
+  monthlySalesData: Array<{ month: string; sales: number; purchases: number }>;
+  topMedicines: Array<{ name: string; quantity: number; revenue: number }>;
+  customerDues: Array<{ name: string; balance: number; phone: string | null }>;
+  expiryAlerts: Array<{
+    medicineName: string;
+    category: string;
+    batchNumber: string;
     quantity: number;
-    revenue: number;
+    expiryDate: string;
+    daysLeft: number;
   }>;
-  customerDues: Array<{
-    name: string;
-    balance: number;
-    phone: string | null;
+  lowStockAlerts: Array<{
+    medicineName: string;
+    category: string;
+    batchNumber: string;
+    currentQty: number;
+    reorderLevel: number;
   }>;
+  supplierDues: Array<{ name: string; balance: number; phone: string | null }>;
 }
 
 const COLORS = ["#0d9488", "#06b6d4", "#8b5cf6", "#f59e0b", "#ef4444"];
@@ -388,27 +392,21 @@ export default function DashboardPage() {
           {/* Customer Dues */}
           <Card>
             <CardHeader>
-              <h3 className="text-sm font-bold text-slate-900">
-                Pending Dues
-              </h3>
+              <h3 className="text-sm font-bold text-slate-900">Pending Dues</h3>
               <p className="text-xs text-slate-500 mt-0.5">Outstanding customer balances</p>
             </CardHeader>
             <CardContent>
               {data.customerDues.length > 0 ? (
                 <div className="space-y-3">
                   {data.customerDues.map((customer, i) => (
-                    <div key={i} className="flex items-center justify-between p-3.5 bg-gradient-to-r from-slate-50 to-red-50/30 rounded-xl border border-slate-100/80 hover:border-slate-200 transition-colors">
+                    <div key={i} className="flex items-center justify-between p-3.5 bg-gradient-to-r from-slate-50 to-red-50/30 rounded-xl border border-slate-100/80">
                       <div className="flex items-center gap-3">
                         <div className="w-9 h-9 rounded-xl bg-red-50 flex items-center justify-center">
                           <Users className="h-4 w-4 text-red-500" />
                         </div>
                         <div>
-                          <p className="text-sm font-semibold text-slate-900">
-                            {customer.name}
-                          </p>
-                          <p className="text-xs text-slate-500">
-                            {customer.phone || "No phone"}
-                          </p>
+                          <p className="text-sm font-semibold text-slate-900">{customer.name}</p>
+                          <p className="text-xs text-slate-500">{customer.phone || "No phone"}</p>
                         </div>
                       </div>
                       <span className="text-sm font-bold text-red-600 bg-red-50 px-2.5 py-1 rounded-lg">
@@ -429,6 +427,149 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         </div>
+
+        {/* Expiry & Low Stock Alerts */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Expiry Alerts */}
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center">
+                    <AlertTriangle className="h-4 w-4 text-red-500" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-900">Expiry Alerts</h3>
+                    <p className="text-xs text-slate-500">Medicines expiring within 30 days</p>
+                  </div>
+                </div>
+                <Badge variant="error">{data.expiryAlerts?.length || 0}</Badge>
+              </div>
+            </CardHeader>
+            <CardContent className="p-0">
+              {data.expiryAlerts?.length > 0 ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-slate-100">
+                        <th className="text-left py-2.5 px-4 text-xs font-semibold text-slate-500 uppercase">Medicine</th>
+                        <th className="text-left py-2.5 px-4 text-xs font-semibold text-slate-500 uppercase">Batch</th>
+                        <th className="text-right py-2.5 px-4 text-xs font-semibold text-slate-500 uppercase">Qty</th>
+                        <th className="text-right py-2.5 px-4 text-xs font-semibold text-slate-500 uppercase">Days Left</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {data.expiryAlerts.map((alert, i) => (
+                        <tr key={i} className="border-b border-slate-50 hover:bg-red-50/30">
+                          <td className="py-2.5 px-4">
+                            <p className="font-medium text-slate-900 text-xs">{alert.medicineName}</p>
+                            <p className="text-[10px] text-slate-400">{alert.category}</p>
+                          </td>
+                          <td className="py-2.5 px-4 text-xs text-slate-600">{alert.batchNumber}</td>
+                          <td className="py-2.5 px-4 text-xs text-right font-medium">{alert.quantity}</td>
+                          <td className="py-2.5 px-4 text-right">
+                            <Badge variant={alert.daysLeft <= 7 ? "error" : "warning"} size="sm">
+                              {alert.daysLeft}d
+                            </Badge>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="text-center py-8 px-4">
+                  <p className="text-sm text-slate-500">No medicines expiring soon</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Low Stock Alerts */}
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center">
+                    <Package className="h-4 w-4 text-amber-500" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-900">Low Stock Alerts</h3>
+                    <p className="text-xs text-slate-500">Below reorder level</p>
+                  </div>
+                </div>
+                <Badge variant="warning">{data.lowStockAlerts?.length || 0}</Badge>
+              </div>
+            </CardHeader>
+            <CardContent className="p-0">
+              {data.lowStockAlerts?.length > 0 ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-slate-100">
+                        <th className="text-left py-2.5 px-4 text-xs font-semibold text-slate-500 uppercase">Medicine</th>
+                        <th className="text-left py-2.5 px-4 text-xs font-semibold text-slate-500 uppercase">Batch</th>
+                        <th className="text-right py-2.5 px-4 text-xs font-semibold text-slate-500 uppercase">Current</th>
+                        <th className="text-right py-2.5 px-4 text-xs font-semibold text-slate-500 uppercase">Reorder</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {data.lowStockAlerts.map((alert, i) => (
+                        <tr key={i} className="border-b border-slate-50 hover:bg-amber-50/30">
+                          <td className="py-2.5 px-4">
+                            <p className="font-medium text-slate-900 text-xs">{alert.medicineName}</p>
+                            <p className="text-[10px] text-slate-400">{alert.category}</p>
+                          </td>
+                          <td className="py-2.5 px-4 text-xs text-slate-600">{alert.batchNumber}</td>
+                          <td className="py-2.5 px-4 text-right">
+                            <span className="text-xs font-bold text-red-600">{alert.currentQty}</span>
+                          </td>
+                          <td className="py-2.5 px-4 text-right text-xs text-slate-500">{alert.reorderLevel}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="text-center py-8 px-4">
+                  <p className="text-sm text-slate-500">All stock levels are healthy</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Supplier Dues */}
+        {data.supplierDues?.length > 0 && (
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center">
+                  <IndianRupee className="h-4 w-4 text-orange-500" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900">Supplier Outstanding</h3>
+                  <p className="text-xs text-slate-500">Pending supplier payments</p>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {data.supplierDues.map((supplier, i) => (
+                  <div key={i} className="flex items-center justify-between p-3.5 bg-gradient-to-r from-slate-50 to-orange-50/30 rounded-xl border border-slate-100/80">
+                    <div>
+                      <p className="text-sm font-semibold text-slate-900">{supplier.name}</p>
+                      <p className="text-xs text-slate-500">{supplier.phone || "No phone"}</p>
+                    </div>
+                    <span className="text-sm font-bold text-orange-600 bg-orange-50 px-2.5 py-1 rounded-lg">
+                      {formatCurrency(supplier.balance)}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   );

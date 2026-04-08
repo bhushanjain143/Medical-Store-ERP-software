@@ -16,21 +16,54 @@ import {
   Menu,
   Heart,
   X,
+  FileText,
+  Bell,
+  AlertTriangle,
+  Calculator,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
-const navItems = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/dashboard/medicines", label: "Medicines", icon: Pill },
-  { href: "/dashboard/billing", label: "Billing / POS", icon: ShoppingCart },
-  { href: "/dashboard/purchases", label: "Purchases", icon: Package },
-  { href: "/dashboard/customers", label: "Customers", icon: Users },
-  { href: "/dashboard/suppliers", label: "Suppliers", icon: Truck },
-  { href: "/dashboard/reports", label: "Reports", icon: BarChart3 },
-  { href: "/dashboard/users", label: "Users", icon: Shield },
-  { href: "/dashboard/settings", label: "Settings", icon: Settings },
+const navSections = [
+  {
+    label: "Main",
+    items: [
+      { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+      { href: "/dashboard/billing", label: "Billing / POS", icon: ShoppingCart },
+    ],
+  },
+  {
+    label: "Inventory",
+    items: [
+      { href: "/dashboard/medicines", label: "Medicines", icon: Pill },
+      { href: "/dashboard/purchases", label: "Purchases", icon: Package },
+      { href: "/dashboard/expiry", label: "Expiry Tracker", icon: AlertTriangle },
+    ],
+  },
+  {
+    label: "People",
+    items: [
+      { href: "/dashboard/customers", label: "Customers", icon: Users },
+      { href: "/dashboard/suppliers", label: "Suppliers", icon: Truck },
+      { href: "/dashboard/prescriptions", label: "Prescriptions", icon: FileText },
+    ],
+  },
+  {
+    label: "Finance",
+    items: [
+      { href: "/dashboard/reports", label: "Reports", icon: BarChart3 },
+      { href: "/dashboard/gst", label: "GST Reports", icon: Calculator },
+      { href: "/dashboard/notifications", label: "Alerts", icon: Bell },
+    ],
+  },
+  {
+    label: "Admin",
+    items: [
+      { href: "/dashboard/users", label: "Users", icon: Shield },
+      { href: "/dashboard/settings", label: "Settings", icon: Settings },
+    ],
+  },
 ];
 
 export function Sidebar() {
@@ -66,37 +99,42 @@ export function Sidebar() {
         )}
       </div>
 
-      {/* Nav section label */}
-      {!collapsed && (
-        <div className="px-5 pt-5 pb-2">
-          <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Navigation</p>
-        </div>
-      )}
-
-      <nav className="flex-1 px-3 py-2 space-y-0.5 overflow-y-auto">
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          const active = isActive(item.href);
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setMobileOpen(false)}
-              className={cn(
-                "group flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200",
-                active
-                  ? "bg-gradient-to-r from-teal-600 to-emerald-600 text-white shadow-md shadow-teal-600/25"
-                  : "text-slate-400 hover:bg-white/[0.06] hover:text-white"
-              )}
-            >
-              <Icon className={cn(
-                "h-[18px] w-[18px] flex-shrink-0 transition-transform duration-200",
-                !active && "group-hover:scale-110"
-              )} />
-              {!collapsed && <span>{item.label}</span>}
-            </Link>
-          );
-        })}
+      <nav className="flex-1 px-3 py-2 space-y-1 overflow-y-auto">
+        {navSections.map((section) => (
+          <div key={section.label}>
+            {!collapsed && (
+              <div className="px-3 pt-4 pb-1.5">
+                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">{section.label}</p>
+              </div>
+            )}
+            {collapsed && <div className="pt-2" />}
+            <div className="space-y-0.5">
+              {section.items.map((item) => {
+                const Icon = item.icon;
+                const active = isActive(item.href);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileOpen(false)}
+                    className={cn(
+                      "group flex items-center gap-3 px-3 py-2 rounded-xl text-[13px] font-medium transition-all duration-200",
+                      active
+                        ? "bg-gradient-to-r from-teal-600 to-emerald-600 text-white shadow-md shadow-teal-600/25"
+                        : "text-slate-400 hover:bg-white/[0.06] hover:text-white"
+                    )}
+                  >
+                    <Icon className={cn(
+                      "h-[18px] w-[18px] flex-shrink-0 transition-transform duration-200",
+                      !active && "group-hover:scale-110"
+                    )} />
+                    {!collapsed && <span>{item.label}</span>}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </nav>
 
       {/* Logout */}
