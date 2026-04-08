@@ -2,37 +2,51 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Heart, Shield, BarChart3, Zap, ArrowRight } from "lucide-react";
+import { Heart, UserPlus, ArrowRight, ShieldCheck, Store } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const router = useRouter();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [storeName, setStoreName] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const res = await fetch("/api/auth/login", {
+      const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ name, email, password, storeName }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        toast.error(data.error || "Login failed");
+        toast.error(data.error || "Registration failed");
         return;
       }
 
-      toast.success(`Welcome back, ${data.user.name}!`);
+      toast.success(`Welcome, ${data.user.name}! Your account is ready.`);
       router.push("/dashboard");
     } catch {
       toast.error("Network error. Please try again.");
@@ -43,23 +57,20 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left panel - hero area */}
+      {/* Left panel */}
       <div className="hidden lg:flex lg:w-[55%] relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-teal-900">
-        {/* Animated background blobs */}
         <div className="absolute inset-0">
           <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full bg-teal-500/20 blur-[100px] animate-float" />
           <div className="absolute bottom-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-cyan-500/15 blur-[120px] animate-float" style={{ animationDelay: "1.5s" }} />
           <div className="absolute top-[40%] left-[30%] w-[300px] h-[300px] rounded-full bg-emerald-500/10 blur-[80px] animate-float" style={{ animationDelay: "3s" }} />
         </div>
 
-        {/* Grid pattern overlay */}
         <div className="absolute inset-0 opacity-[0.03]" style={{
           backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
           backgroundSize: "40px 40px",
         }} />
 
         <div className="relative z-10 flex flex-col justify-between px-12 xl:px-16 py-12 w-full">
-          {/* Logo */}
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-teal-400 to-emerald-500 flex items-center justify-center shadow-lg shadow-teal-500/25">
               <Heart className="h-6 w-6 text-white" />
@@ -70,30 +81,28 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Main content */}
           <div className="animate-slide-up">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 mb-6">
-              <Zap className="h-3.5 w-3.5 text-amber-400" />
-              <span className="text-xs text-white/80 font-medium">All-in-one pharmacy solution</span>
+              <UserPlus className="h-3.5 w-3.5 text-emerald-400" />
+              <span className="text-xs text-white/80 font-medium">Get started in 30 seconds</span>
             </div>
 
             <h2 className="text-4xl xl:text-5xl font-extrabold text-white leading-[1.15] mb-5 tracking-tight">
-              Smart pharmacy
+              Start managing
               <br />
-              <span className="text-gradient bg-gradient-to-r from-teal-300 via-cyan-300 to-emerald-300 bg-clip-text text-transparent">management.</span>
+              <span className="text-gradient bg-gradient-to-r from-teal-300 via-cyan-300 to-emerald-300 bg-clip-text text-transparent">your pharmacy.</span>
             </h2>
             <p className="text-slate-400 text-lg max-w-lg leading-relaxed">
-              Track inventory, manage billing, monitor expiry dates, and generate comprehensive reports from one powerful dashboard.
+              Create your account and set up your medical store in minutes. Full inventory, billing, and reporting at your fingertips.
             </p>
 
-            {/* Feature pills */}
-            <div className="mt-10 grid grid-cols-2 gap-4">
+            <div className="mt-10 space-y-3">
               {[
-                { icon: Shield, label: "Inventory Control", desc: "Real-time stock tracking" },
-                { icon: BarChart3, label: "Smart Reports", desc: "GST-ready analytics" },
+                { icon: Store, label: "Complete Store Setup", desc: "Inventory, billing, purchases, reports" },
+                { icon: ShieldCheck, label: "Secure & Reliable", desc: "Cloud database, encrypted passwords" },
               ].map((f) => (
-                <div key={f.label} className="group flex items-start gap-3 p-4 rounded-2xl bg-white/[0.04] backdrop-blur-sm border border-white/[0.06] hover:bg-white/[0.08] transition-all duration-300">
-                  <div className="p-2 rounded-xl bg-teal-500/15 group-hover:bg-teal-500/25 transition-colors">
+                <div key={f.label} className="group flex items-start gap-3 p-4 rounded-2xl bg-white/[0.04] backdrop-blur-sm border border-white/[0.06]">
+                  <div className="p-2 rounded-xl bg-teal-500/15">
                     <f.icon className="h-5 w-5 text-teal-400" />
                   </div>
                   <div>
@@ -105,11 +114,10 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Bottom stats */}
           <div className="flex items-center gap-8">
             {[
-              { value: "500+", label: "Medicines" },
-              { value: "24/7", label: "Access" },
+              { value: "Free", label: "No cost" },
+              { value: "24/7", label: "Cloud access" },
               { value: "100%", label: "GST Ready" },
             ].map((s) => (
               <div key={s.label}>
@@ -121,13 +129,12 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Right panel - login form */}
+      {/* Right panel - registration form */}
       <div className="flex-1 flex items-center justify-center px-4 sm:px-6 py-8 sm:py-12 bg-gradient-to-b from-slate-50 to-white relative">
         <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full bg-teal-500/5 blur-[100px]" />
 
         <div className="w-full max-w-[420px] relative z-10 animate-fade-in-scale">
-          {/* Mobile logo */}
-          <div className="lg:hidden flex items-center gap-3 mb-10 justify-center">
+          <div className="lg:hidden flex items-center gap-3 mb-8 justify-center">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-400 to-emerald-500 flex items-center justify-center shadow-lg shadow-teal-500/20">
               <Heart className="h-5 w-5 text-white" />
             </div>
@@ -135,32 +142,58 @@ export default function LoginPage() {
           </div>
 
           <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 p-6 sm:p-8 xl:p-10">
-            <div className="mb-8">
+            <div className="mb-6">
               <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-                Welcome back
+                Create Account
               </h2>
               <p className="text-sm text-slate-500 mt-1.5">
-                Sign in to your pharmacy dashboard
+                Set up your pharmacy management system
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <Input
+                id="name"
+                label="Full Name"
+                type="text"
+                placeholder="John Doe"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
               <Input
                 id="email"
                 label="Email Address"
                 type="email"
-                placeholder="admin@medstore.com"
+                placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
               <Input
+                id="storeName"
+                label="Store Name (Optional)"
+                type="text"
+                placeholder="My Medical Store"
+                value={storeName}
+                onChange={(e) => setStoreName(e.target.value)}
+              />
+              <Input
                 id="password"
                 label="Password"
                 type="password"
-                placeholder="Enter your password"
+                placeholder="Min 6 characters"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <Input
+                id="confirmPassword"
+                label="Confirm Password"
+                type="password"
+                placeholder="Re-enter password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
               <Button
@@ -169,37 +202,18 @@ export default function LoginPage() {
                 className="w-full py-3 text-sm font-semibold"
                 size="lg"
               >
-                {!loading && "Sign In"}
+                {!loading && "Create Account"}
                 {!loading && <ArrowRight className="h-4 w-4 ml-1" />}
               </Button>
             </form>
 
-            <div className="mt-8 p-4 rounded-2xl bg-gradient-to-r from-slate-50 to-teal-50/50 border border-slate-200/80">
-              <div className="flex items-center gap-2 mb-2.5">
-                <div className="w-5 h-5 rounded-md bg-teal-100 flex items-center justify-center">
-                  <Shield className="h-3 w-3 text-teal-600" />
-                </div>
-                <p className="text-xs font-semibold text-slate-700">
-                  Demo Credentials
-                </p>
-              </div>
-              <div className="space-y-1.5">
-                <p className="text-xs text-slate-500">
-                  Email: <code className="px-1.5 py-0.5 rounded bg-white text-teal-700 font-semibold border border-slate-200/70">admin@medstore.com</code>
-                </p>
-                <p className="text-xs text-slate-500">
-                  Password: <code className="px-1.5 py-0.5 rounded bg-white text-teal-700 font-semibold border border-slate-200/70">admin123</code>
-                </p>
-              </div>
-            </div>
+            <p className="text-center text-sm text-slate-500 mt-6">
+              Already have an account?{" "}
+              <Link href="/login" className="text-teal-600 font-semibold hover:text-teal-700 transition-colors">
+                Sign in
+              </Link>
+            </p>
           </div>
-
-          <p className="text-center text-sm text-slate-500 mt-6">
-            Don&apos;t have an account?{" "}
-            <Link href="/register" className="text-teal-600 font-semibold hover:text-teal-700 transition-colors">
-              Create one
-            </Link>
-          </p>
         </div>
       </div>
     </div>
