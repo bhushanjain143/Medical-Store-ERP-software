@@ -19,8 +19,6 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
-  BarChart,
-  Bar,
   XAxis,
   YAxis,
   CartesianGrid,

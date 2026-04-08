@@ -1,20 +1,18 @@
 {
-  "name": "medical-store",
-  "version": "0.1.0",
+  "name": "medstore-erp",
+  "version": "1.0.0",
   "private": true,
+  "description": "Complete Medical Store ERP — inventory, billing, GST reports, expiry tracking & more",
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
     "postinstall": "prisma generate",
     "lint": "eslint",
-    "db:migrate": "npx prisma migrate dev",
     "db:push": "npx prisma db push",
     "db:seed": "npx tsx prisma/seed.ts",
-    "db:reset": "npx prisma migrate reset --force",
     "db:studio": "npx prisma studio",
-    "setup": "npx prisma migrate dev --name init && npx tsx prisma/seed.ts",
-    "setup:cloud": "npx prisma db push && npx tsx prisma/seed.ts"
+    "setup": "npx prisma db push && npx tsx prisma/seed.ts"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
@@ -30,8 +28,6 @@
     "date-fns": "^4.1.0",
     "dotenv": "^17.4.1",
     "jose": "^6.2.2",
-    "jspdf": "^4.2.1",
-    "jspdf-autotable": "^5.0.7",
     "lucide-react": "^1.7.0",
     "next": "16.2.2",
     "prisma": "^7.7.0",

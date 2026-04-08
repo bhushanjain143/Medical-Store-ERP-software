@@ -1,36 +1,117 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MedStore ERP — Pharmacy Management Software
 
-## Getting Started
+A full-featured, production-ready **Medical Store ERP** built with **Next.js 16**, **Prisma 7**, and **Tailwind CSS 4**. Manage inventory, billing, GST reports, prescriptions, expiry tracking, and more — all from one beautiful dashboard.
 
-First, run the development server:
+## Features
+
+| Module              | Description                                              |
+|---------------------|----------------------------------------------------------|
+| **Dashboard**       | Real-time stats, charts, alerts for expiry & low stock   |
+| **Billing / POS**   | Create invoices, manage payments, print GST invoices     |
+| **Medicines**       | Full medicine catalog with batch & stock management      |
+| **Purchases**       | Record purchase orders from suppliers with GST           |
+| **Customers**       | Customer directory with credit limits, loyalty points    |
+| **Suppliers**       | Supplier management with payment tracking                |
+| **Expiry Tracker**  | Monitor batches expiring soon with CSV export            |
+| **GST Reports**     | CGST/SGST breakdown, HSN summary, sales & purchase register |
+| **Prescriptions**   | Upload and manage patient prescriptions                  |
+| **Notifications**   | Centralized alerts for stock, expiry, and dues           |
+| **User Management** | Role-based access (Admin, Pharmacist, Cashier, etc.)     |
+| **Settings**        | Store info, tax config, invoice preferences              |
+| **Reports**         | Sales, purchase, inventory, and profit reports           |
+
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router)
+- **Database:** SQLite (local) / Turso (cloud) via Prisma 7
+- **Styling:** Tailwind CSS 4
+- **Auth:** JWT (jose) + bcryptjs
+- **Charts:** Recharts
+- **Icons:** Lucide React
+
+## Quick Start
+
+### Prerequisites
+
+- Node.js 18+
+- npm or yarn
+
+### Local Development
 
 ```bash
+# 1. Install dependencies
+npm install
+
+# 2. Set up the database and seed sample data
+npm run setup
+
+# 3. Start the dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) and log in:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Role  | Email                | Password  |
+|-------|----------------------|-----------|
+| Admin | admin@medstore.com   | admin123  |
+| Staff | staff@medstore.com   | staff123  |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Environment Variables
 
-## Learn More
+Copy `.env.example` to `.env` for local development:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+cp .env.example .env
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Variable             | Description                  | Required      |
+|----------------------|------------------------------|---------------|
+| `DATABASE_URL`       | SQLite file path (local)     | Local only    |
+| `TURSO_DATABASE_URL` | Turso database URL           | Production    |
+| `TURSO_AUTH_TOKEN`   | Turso auth token             | Production    |
+| `JWT_SECRET`         | Secret for signing JWT tokens| All           |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deployment
 
-## Deploy on Vercel
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for a step-by-step guide to deploy on **Vercel** + **Turso** (both free tier).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Quick summary:**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Push code to GitHub
+2. Create a Turso database and get credentials
+3. Import the repo on Vercel, set environment variables, deploy
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── api/            # API routes (auth, CRUD, reports)
+│   ├── dashboard/      # All dashboard pages
+│   ├── login/          # Login page
+│   ├── register/       # Registration page
+│   └── layout.tsx      # Root layout with meta tags
+├── components/
+│   ├── layout/         # Sidebar, Header
+│   └── ui/             # Reusable components (Button, Card, Modal, etc.)
+└── lib/
+    ├── auth.ts         # JWT helpers
+    ├── prisma.ts       # Prisma client (auto-detects SQLite or Turso)
+    └── utils.ts        # Formatting utilities
+```
+
+## Scripts
+
+| Command          | Description                           |
+|------------------|---------------------------------------|
+| `npm run dev`    | Start development server              |
+| `npm run build`  | Build for production                  |
+| `npm run start`  | Start production server               |
+| `npm run setup`  | Push schema to DB + seed sample data  |
+| `npm run lint`   | Run ESLint                            |
+| `npm run db:push`| Push Prisma schema to database        |
+| `npm run db:seed`| Seed database with sample data        |
+
+## License
+
+Private — All rights reserved.
