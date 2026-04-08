@@ -181,7 +181,23 @@ input[type="number"] {
 .stagger-children > *:nth-child(8) { animation-delay: 420ms; }
 
 @media print {
-  .no-print {
+  .no-print, aside, nav, header, button, [role="dialog"] > div:first-child {
     display: none !important;
   }
+  body {
+    background: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  main, .print-area {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+  #invoice-print {
+    padding: 20px !important;
+    font-size: 12px !important;
+  }
+  table { page-break-inside: auto; }
+  tr { page-break-inside: avoid; }
 }

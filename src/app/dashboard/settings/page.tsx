@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { PageLoading } from "@/components/ui/loading";
-import { Save, Store, FileText, Bell } from "lucide-react";
+import { Save, Store, FileText, Bell, Printer, Database, Shield } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -25,9 +25,15 @@ export default function SettingsPage() {
           storeEmail: "",
           storeGstin: "",
           storeDrugLicense: "",
+          storePAN: "",
           invoicePrefix: "INV",
+          invoiceFooter: "Thank you for your purchase!",
           lowStockThreshold: "10",
           expiryAlertDays: "30",
+          currency: "INR",
+          receiptCopies: "1",
+          enableSMS: "false",
+          enableEmail: "false",
           ...data,
         });
       })
@@ -52,59 +58,33 @@ export default function SettingsPage() {
     }
   };
 
-  const updateSetting = (key: string, value: string) => {
-    setSettings((prev) => ({ ...prev, [key]: value }));
-  };
+  const u = (key: string, value: string) => setSettings((prev) => ({ ...prev, [key]: value }));
 
   if (loading) return <PageLoading />;
 
   return (
     <div>
-      <Header title="Settings" subtitle="Configure your store settings" />
-      <div className="p-4 sm:p-6 max-w-3xl space-y-4 sm:space-y-6">
+      <Header title="Settings" subtitle="Configure your store, billing, alerts & system preferences" />
+      <div className="p-4 sm:p-6 max-w-4xl space-y-6">
         {/* Store Information */}
         <Card>
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-teal-50 to-emerald-50 border border-teal-100/50">
-                <Store className="h-5 w-5 text-teal-600" />
+              <div className="p-2.5 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 shadow-sm">
+                <Store className="h-5 w-5 text-white" />
               </div>
               <div>
                 <h3 className="text-sm font-bold text-slate-900">Store Information</h3>
-                <p className="text-xs text-slate-500">Your store details for invoices</p>
+                <p className="text-xs text-slate-500">Your pharmacy details — displayed on invoices</p>
               </div>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            <Input
-              id="storeName"
-              label="Store Name"
-              value={settings.storeName || ""}
-              onChange={(e) => updateSetting("storeName", e.target.value)}
-              placeholder="Your Medical Store Name"
-            />
-            <Input
-              id="storeAddress"
-              label="Address"
-              value={settings.storeAddress || ""}
-              onChange={(e) => updateSetting("storeAddress", e.target.value)}
-              placeholder="Full store address"
-            />
+            <Input id="storeName" label="Store / Pharmacy Name" value={settings.storeName || ""} onChange={(e) => u("storeName", e.target.value)} placeholder="Your Medical Store Name" />
+            <Input id="storeAddress" label="Full Address" value={settings.storeAddress || ""} onChange={(e) => u("storeAddress", e.target.value)} placeholder="123 Main Road, City, State - PIN" />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Input
-                id="storePhone"
-                label="Phone"
-                value={settings.storePhone || ""}
-                onChange={(e) => updateSetting("storePhone", e.target.value)}
-                placeholder="Store phone number"
-              />
-              <Input
-                id="storeEmail"
-                label="Email"
-                value={settings.storeEmail || ""}
-                onChange={(e) => updateSetting("storeEmail", e.target.value)}
-                placeholder="Store email"
-              />
+              <Input id="storePhone" label="Phone Number" value={settings.storePhone || ""} onChange={(e) => u("storePhone", e.target.value)} placeholder="e.g., +91 98765 43210" />
+              <Input id="storeEmail" label="Email Address" value={settings.storeEmail || ""} onChange={(e) => u("storeEmail", e.target.value)} placeholder="e.g., contact@yourstore.com" />
             </div>
           </CardContent>
         </Card>
@@ -113,84 +93,124 @@ export default function SettingsPage() {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100/50">
-                <FileText className="h-5 w-5 text-blue-600" />
+              <div className="p-2.5 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-sm">
+                <FileText className="h-5 w-5 text-white" />
               </div>
               <div>
                 <h3 className="text-sm font-bold text-slate-900">Tax & Compliance</h3>
-                <p className="text-xs text-slate-500">GST and regulatory details</p>
+                <p className="text-xs text-slate-500">GST, Drug License and regulatory details</p>
               </div>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Input
-                id="storeGstin"
-                label="GSTIN"
-                value={settings.storeGstin || ""}
-                onChange={(e) => updateSetting("storeGstin", e.target.value)}
-                placeholder="e.g., 29AABCU9603R1ZM"
-              />
-              <Input
-                id="storeDrugLicense"
-                label="Drug License No."
-                value={settings.storeDrugLicense || ""}
-                onChange={(e) => updateSetting("storeDrugLicense", e.target.value)}
-                placeholder="e.g., DL-20B-12345"
-              />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Input id="storeGstin" label="GSTIN Number" value={settings.storeGstin || ""} onChange={(e) => u("storeGstin", e.target.value)} placeholder="e.g., 29AABCU9603R1ZM" />
+              <Input id="storeDrugLicense" label="Drug License No." value={settings.storeDrugLicense || ""} onChange={(e) => u("storeDrugLicense", e.target.value)} placeholder="e.g., DL-20B-12345" />
+              <Input id="storePAN" label="PAN Number" value={settings.storePAN || ""} onChange={(e) => u("storePAN", e.target.value)} placeholder="e.g., AABCU9603R" />
             </div>
-            <Input
-              id="invoicePrefix"
-              label="Invoice Prefix"
-              value={settings.invoicePrefix || ""}
-              onChange={(e) => updateSetting("invoicePrefix", e.target.value)}
-              placeholder="e.g., INV"
-              hint="Used as prefix for invoice numbers"
-            />
           </CardContent>
         </Card>
 
-        {/* Alerts */}
+        {/* Invoice & Billing */}
         <Card>
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-100/50">
-                <Bell className="h-5 w-5 text-amber-600" />
+              <div className="p-2.5 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 shadow-sm">
+                <Printer className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-slate-900">Invoice & Billing</h3>
+                <p className="text-xs text-slate-500">Invoice format, prefix, and receipt settings</p>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Input id="invoicePrefix" label="Invoice Prefix" value={settings.invoicePrefix || ""} onChange={(e) => u("invoicePrefix", e.target.value)} placeholder="e.g., INV" />
+              <Input id="currency" label="Currency" value={settings.currency || ""} onChange={(e) => u("currency", e.target.value)} placeholder="INR" />
+              <Input id="receiptCopies" label="Receipt Copies" type="number" min="1" max="3" value={settings.receiptCopies || ""} onChange={(e) => u("receiptCopies", e.target.value)} />
+            </div>
+            <Input id="invoiceFooter" label="Invoice Footer Message" value={settings.invoiceFooter || ""} onChange={(e) => u("invoiceFooter", e.target.value)} placeholder="Thank you for your purchase!" />
+          </CardContent>
+        </Card>
+
+        {/* Alerts & Thresholds */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 shadow-sm">
+                <Bell className="h-5 w-5 text-white" />
               </div>
               <div>
                 <h3 className="text-sm font-bold text-slate-900">Alerts & Thresholds</h3>
-                <p className="text-xs text-slate-500">Stock and expiry notifications</p>
+                <p className="text-xs text-slate-500">Configure stock and expiry notification settings</p>
               </div>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Input
-                id="lowStockThreshold"
-                label="Low Stock Alert Threshold"
-                type="number"
-                min="1"
-                value={settings.lowStockThreshold || ""}
-                onChange={(e) => updateSetting("lowStockThreshold", e.target.value)}
-                hint="Alert when stock drops below this level"
-              />
-              <Input
-                id="expiryAlertDays"
-                label="Expiry Alert (Days)"
-                type="number"
-                min="1"
-                value={settings.expiryAlertDays || ""}
-                onChange={(e) => updateSetting("expiryAlertDays", e.target.value)}
-                hint="Alert before medicines expire"
-              />
+              <Input id="lowStockThreshold" label="Low Stock Alert Threshold" type="number" min="1" value={settings.lowStockThreshold || ""} onChange={(e) => u("lowStockThreshold", e.target.value)} placeholder="10" />
+              <Input id="expiryAlertDays" label="Expiry Alert (Days Before)" type="number" min="1" value={settings.expiryAlertDays || ""} onChange={(e) => u("expiryAlertDays", e.target.value)} placeholder="30" />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
+                <input
+                  type="checkbox"
+                  id="enableSMS"
+                  checked={settings.enableSMS === "true"}
+                  onChange={(e) => u("enableSMS", e.target.checked ? "true" : "false")}
+                  className="rounded border-slate-300 text-teal-600 focus:ring-teal-500 h-4 w-4"
+                />
+                <label htmlFor="enableSMS" className="text-sm text-slate-700 font-medium">Enable SMS Notifications</label>
+              </div>
+              <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
+                <input
+                  type="checkbox"
+                  id="enableEmail"
+                  checked={settings.enableEmail === "true"}
+                  onChange={(e) => u("enableEmail", e.target.checked ? "true" : "false")}
+                  className="rounded border-slate-300 text-teal-600 focus:ring-teal-500 h-4 w-4"
+                />
+                <label htmlFor="enableEmail" className="text-sm text-slate-700 font-medium">Enable Email Notifications</label>
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        <div className="flex justify-end">
-          <Button onClick={handleSave} loading={saving} size="lg">
+        {/* System Info */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-xl bg-gradient-to-br from-slate-500 to-gray-600 shadow-sm">
+                <Database className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-slate-900">System Information</h3>
+                <p className="text-xs text-slate-500">Application and database details</p>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                { label: "Version", value: "2.0.0" },
+                { label: "Database", value: "Turso Cloud" },
+                { label: "Framework", value: "Next.js 16" },
+                { label: "ORM", value: "Prisma 7" },
+              ].map((item) => (
+                <div key={item.label} className="p-3 rounded-xl bg-slate-50 border border-slate-100 text-center">
+                  <p className="text-[10px] text-slate-400 uppercase font-semibold">{item.label}</p>
+                  <p className="text-sm font-bold text-slate-700 mt-0.5">{item.value}</p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="flex justify-end pb-6">
+          <Button onClick={handleSave} loading={saving} size="lg" className="px-8">
             <Save className="h-4 w-4" />
-            Save Settings
+            Save All Settings
           </Button>
         </div>
       </div>

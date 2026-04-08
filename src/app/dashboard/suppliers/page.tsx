@@ -9,7 +9,10 @@ import { Modal } from "@/components/ui/modal";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageLoading } from "@/components/ui/loading";
 import { formatCurrency } from "@/lib/utils";
-import { Plus, Search, Truck, Edit, Trash2, Phone, Mail, MapPin, FileText } from "lucide-react";
+import {
+  Plus, Search, Truck, Edit, Trash2, Phone, Mail, MapPin, FileText,
+  IndianRupee, Package, Users, CreditCard,
+} from "lucide-react";
 import { useEffect, useState, useCallback } from "react";
 import toast from "react-hot-toast";
 
@@ -25,14 +28,7 @@ interface Supplier {
   _count: { purchases: number };
 }
 
-const emptyForm = {
-  name: "",
-  phone: "",
-  email: "",
-  address: "",
-  gstin: "",
-  drugLicense: "",
-};
+const emptyForm = { name: "", phone: "", email: "", address: "", gstin: "", drugLicense: "" };
 
 export default function SuppliersPage() {
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
@@ -56,9 +52,7 @@ export default function SuppliersPage() {
     }
   }, [search]);
 
-  useEffect(() => {
-    fetchSuppliers();
-  }, [fetchSuppliers]);
+  useEffect(() => { fetchSuppliers(); }, [fetchSuppliers]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,11 +60,7 @@ export default function SuppliersPage() {
     try {
       const url = editingId ? `/api/suppliers/${editingId}` : "/api/suppliers";
       const method = editingId ? "PUT" : "POST";
-      const res = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
+      const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
       if (!res.ok) throw new Error();
       toast.success(editingId ? "Supplier updated" : "Supplier added");
       setShowModal(false);
@@ -97,26 +87,46 @@ export default function SuppliersPage() {
 
   const openEdit = (s: Supplier) => {
     setEditingId(s.id);
-    setForm({
-      name: s.name,
-      phone: s.phone || "",
-      email: s.email || "",
-      address: s.address || "",
-      gstin: s.gstin || "",
-      drugLicense: s.drugLicense || "",
-    });
+    setForm({ name: s.name, phone: s.phone || "", email: s.email || "", address: s.address || "", gstin: s.gstin || "", drugLicense: s.drugLicense || "" });
     setShowModal(true);
   };
 
   if (loading) return <PageLoading />;
 
   const totalPayable = suppliers.reduce((sum, s) => sum + s.balance, 0);
+  const totalPurchases = suppliers.reduce((sum, s) => sum + s._count.purchases, 0);
+  const withDues = suppliers.filter((s) => s.balance > 0);
 
   return (
     <div>
-      <Header title="Suppliers" subtitle={`${suppliers.length} suppliers • Payable: ${formatCurrency(totalPayable)}`} />
-      <div className="p-4 sm:p-6">
-        <div className="flex flex-col sm:flex-row gap-3 mb-4 sm:mb-6">
+      <Header title="Suppliers" subtitle="Manage distributors and purchase partners" />
+      <div className="p-4 sm:p-6 space-y-6">
+        {/* Stats Row */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 p-4 text-white shadow-lg">
+            <Users className="h-5 w-5 text-white/50 mb-1" />
+            <p className="text-2xl font-extrabold">{suppliers.length}</p>
+            <p className="text-xs text-white/80">Total Suppliers</p>
+          </div>
+          <div className="rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 p-4 text-white shadow-lg">
+            <Package className="h-5 w-5 text-white/50 mb-1" />
+            <p className="text-2xl font-extrabold">{totalPurchases}</p>
+            <p className="text-xs text-white/80">Total Purchases</p>
+          </div>
+          <div className="rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 p-4 text-white shadow-lg">
+            <IndianRupee className="h-5 w-5 text-white/50 mb-1" />
+            <p className="text-2xl font-extrabold">{formatCurrency(totalPayable)}</p>
+            <p className="text-xs text-white/80">Total Payable</p>
+          </div>
+          <div className="rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 p-4 text-white shadow-lg">
+            <CreditCard className="h-5 w-5 text-white/50 mb-1" />
+            <p className="text-2xl font-extrabold">{withDues.length}</p>
+            <p className="text-xs text-white/80">With Pending Dues</p>
+          </div>
+        </div>
+
+        {/* Toolbar */}
+        <div className="flex flex-col sm:flex-row gap-3">
           <div className="flex-1 relative group">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-teal-500 transition-colors" />
             <input
@@ -133,6 +143,7 @@ export default function SuppliersPage() {
           </Button>
         </div>
 
+        {/* Supplier Cards */}
         {suppliers.length === 0 ? (
           <EmptyState
             icon={Truck}
@@ -156,21 +167,26 @@ export default function SuppliersPage() {
                       </div>
                     </div>
                     <div className="flex gap-1">
-                      <button onClick={() => openEdit(s)} className="p-1.5 rounded text-slate-400 hover:text-blue-600 hover:bg-blue-50"><Edit className="h-3.5 w-3.5" /></button>
-                      <button onClick={() => handleDelete(s.id)} className="p-1.5 rounded text-slate-400 hover:text-red-600 hover:bg-red-50"><Trash2 className="h-3.5 w-3.5" /></button>
+                      <button onClick={() => openEdit(s)} className="p-1.5 rounded text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"><Edit className="h-3.5 w-3.5" /></button>
+                      <button onClick={() => handleDelete(s.id)} className="p-1.5 rounded text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"><Trash2 className="h-3.5 w-3.5" /></button>
                     </div>
                   </div>
                   <div className="space-y-1.5 text-xs text-slate-500">
-                    {s.phone && <div className="flex items-center gap-2"><Phone className="h-3 w-3" />{s.phone}</div>}
-                    {s.email && <div className="flex items-center gap-2"><Mail className="h-3 w-3" />{s.email}</div>}
-                    {s.address && <div className="flex items-center gap-2"><MapPin className="h-3 w-3" />{s.address}</div>}
-                    {s.gstin && <div className="flex items-center gap-2"><FileText className="h-3 w-3" />GSTIN: {s.gstin}</div>}
-                    {s.drugLicense && <div className="flex items-center gap-2"><FileText className="h-3 w-3" />DL: {s.drugLicense}</div>}
+                    {s.phone && <div className="flex items-center gap-2"><Phone className="h-3 w-3 flex-shrink-0" />{s.phone}</div>}
+                    {s.email && <div className="flex items-center gap-2"><Mail className="h-3 w-3 flex-shrink-0" /><span className="truncate">{s.email}</span></div>}
+                    {s.address && <div className="flex items-center gap-2"><MapPin className="h-3 w-3 flex-shrink-0" /><span className="truncate">{s.address}</span></div>}
+                    {s.gstin && <div className="flex items-center gap-2"><FileText className="h-3 w-3 flex-shrink-0" />GSTIN: {s.gstin}</div>}
+                    {s.drugLicense && <div className="flex items-center gap-2"><FileText className="h-3 w-3 flex-shrink-0" />DL: {s.drugLicense}</div>}
                   </div>
-                  {s.balance > 0 && (
+                  {s.balance > 0 ? (
                     <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between">
                       <span className="text-xs text-slate-500">Amount Payable</span>
-                      <Badge variant="warning">{formatCurrency(s.balance)}</Badge>
+                      <Badge variant="danger">{formatCurrency(s.balance)}</Badge>
+                    </div>
+                  ) : (
+                    <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between">
+                      <span className="text-xs text-slate-500">Payment Status</span>
+                      <Badge variant="success" dot>Settled</Badge>
                     </div>
                   )}
                 </CardContent>
@@ -179,11 +195,8 @@ export default function SuppliersPage() {
           </div>
         )}
 
-        <Modal
-          open={showModal}
-          onClose={() => { setShowModal(false); setEditingId(null); }}
-          title={editingId ? "Edit Supplier" : "Add Supplier"}
-        >
+        {/* Add/Edit Supplier Modal */}
+        <Modal open={showModal} onClose={() => { setShowModal(false); setEditingId(null); }} title={editingId ? "Edit Supplier" : "Add Supplier"} size="lg">
           <form onSubmit={handleSubmit} className="space-y-4">
             <Input id="name" label="Supplier / Distributor Name *" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="e.g., ABC Pharma Distributors" required />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
