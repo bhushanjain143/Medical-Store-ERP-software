@@ -18,7 +18,9 @@ import {
   Receipt,
   X,
   Eye,
+  Download,
 } from "lucide-react";
+import { generateInvoicePDF } from "@/lib/generate-invoice-pdf";
 import { useEffect, useState, useRef, useCallback } from "react";
 import toast from "react-hot-toast";
 
@@ -607,6 +609,13 @@ export default function BillingPage() {
                             >
                               <Eye className="h-4 w-4" />
                             </button>
+                            <button
+                              onClick={() => generateInvoicePDF(sale)}
+                              className="p-1.5 rounded text-slate-400 hover:text-teal-600 hover:bg-teal-50 transition-colors"
+                              title="Download PDF"
+                            >
+                              <Download className="h-4 w-4" />
+                            </button>
                             {sale.status === "completed" && (
                               <button
                                 onClick={() => handleReturn(sale.id)}
@@ -737,10 +746,14 @@ export default function BillingPage() {
                 <p className="text-xs text-slate-500 mt-3 italic">Note: {viewingSale.notes}</p>
               )}
 
-              <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-slate-100 no-print">
+              <div className="flex flex-wrap justify-end gap-2 sm:gap-3 mt-6 pt-4 border-t border-slate-100 no-print">
+                <Button variant="outline" onClick={() => generateInvoicePDF(viewingSale)}>
+                  <Download className="h-4 w-4" />
+                  Download PDF
+                </Button>
                 <Button variant="outline" onClick={() => window.print()}>
                   <Printer className="h-4 w-4" />
-                  Print Invoice
+                  Print
                 </Button>
                 <Button onClick={() => setViewingSale(null)}>Close</Button>
               </div>
