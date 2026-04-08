@@ -280,22 +280,22 @@ export default function MedicinesPage() {
 
               return (
                 <Card key={med.id} className="overflow-hidden card-hover">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between px-4 sm:px-5 py-3 sm:py-4 gap-3 sm:gap-0">
-                    <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
-                      <div className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-teal-50 to-emerald-50 border border-teal-100/50 flex-shrink-0">
-                        <Pill className="h-4 w-4 sm:h-5 sm:w-5 text-teal-600" />
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between px-3 sm:px-5 py-3 sm:py-4 gap-2 sm:gap-0">
+                    <div className="flex items-center gap-2.5 sm:gap-4 flex-1 min-w-0">
+                      <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-teal-50 to-emerald-50 border border-teal-100/50 flex-shrink-0">
+                        <Pill className="h-3.5 w-3.5 sm:h-5 sm:w-5 text-teal-600" />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-                          <h3 className="text-sm font-semibold text-slate-900 truncate max-w-[150px] sm:max-w-none">
+                        <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
+                          <h3 className="text-xs sm:text-sm font-semibold text-slate-900 truncate max-w-[120px] sm:max-w-none">
                             {med.name}
                           </h3>
-                          <Badge>{med.category}</Badge>
+                          <Badge size="sm">{med.category}</Badge>
                           {med.prescriptionReq && (
-                            <Badge variant="info">Rx</Badge>
+                            <Badge variant="info" size="sm">Rx</Badge>
                           )}
                         </div>
-                        <p className="text-xs text-slate-500 mt-0.5 truncate">
+                        <p className="text-[10px] sm:text-xs text-slate-500 mt-0.5 truncate">
                           {[med.genericName, med.manufacturer]
                             .filter(Boolean)
                             .join(" • ") || "No details"}
@@ -303,7 +303,7 @@ export default function MedicinesPage() {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3 sm:gap-6 flex-shrink-0 pl-12 sm:pl-0">
+                    <div className="flex items-center gap-2 sm:gap-6 flex-shrink-0 pl-10 sm:pl-0">
                       <div className="text-right">
                         <div className="flex items-center gap-1.5">
                           <Package className="h-3.5 w-3.5 text-slate-400" />

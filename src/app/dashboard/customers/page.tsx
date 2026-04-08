@@ -155,23 +155,24 @@ export default function CustomersPage() {
               className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-white text-sm shadow-sm hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 transition-all"
             />
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             {(["all", "due", "credit"] as const).map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
-                className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
+                className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all whitespace-nowrap ${
                   filter === f ? "bg-slate-900 text-white" : "bg-white text-slate-600 border border-slate-200 hover:border-slate-300"
                 }`}
               >
                 {f === "all" ? "All" : f === "due" ? "With Dues" : "Credit"}
               </button>
             ))}
+            <Button onClick={() => { setEditingId(null); setForm(emptyForm); setShowModal(true); }}>
+              <UserPlus className="h-4 w-4" />
+              <span className="hidden sm:inline">Add Customer</span>
+              <span className="sm:hidden">Add</span>
+            </Button>
           </div>
-          <Button onClick={() => { setEditingId(null); setForm(emptyForm); setShowModal(true); }}>
-            <UserPlus className="h-4 w-4" />
-            Add Customer
-          </Button>
         </div>
 
         {/* Customer Cards */}
@@ -211,20 +212,20 @@ export default function CustomersPage() {
                     {c.address && <div className="flex items-center gap-2"><MapPin className="h-3 w-3 flex-shrink-0" /><span className="truncate">{c.address}</span></div>}
                     {c.gstin && <div className="flex items-center gap-2"><CreditCard className="h-3 w-3 flex-shrink-0" />GSTIN: {c.gstin}</div>}
                   </div>
-                  <div className="mt-3 pt-3 border-t border-slate-100 grid grid-cols-3 gap-2 text-center">
-                    <div>
+                  <div className="mt-3 pt-3 border-t border-slate-100 grid grid-cols-3 gap-1 text-center">
+                    <div className="min-w-0">
                       <p className="text-[10px] text-slate-400">Balance</p>
-                      <p className={`text-xs font-bold ${c.balance > 0 ? "text-red-600" : "text-emerald-600"}`}>
+                      <p className={`text-[11px] sm:text-xs font-bold truncate ${c.balance > 0 ? "text-red-600" : "text-emerald-600"}`}>
                         {c.balance > 0 ? formatCurrency(c.balance) : "₹0"}
                       </p>
                     </div>
-                    <div>
-                      <p className="text-[10px] text-slate-400">Credit Limit</p>
-                      <p className="text-xs font-bold text-slate-700">{formatCurrency(c.creditLimit || 0)}</p>
+                    <div className="min-w-0">
+                      <p className="text-[10px] text-slate-400">Credit</p>
+                      <p className="text-[11px] sm:text-xs font-bold text-slate-700 truncate">{formatCurrency(c.creditLimit || 0)}</p>
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <p className="text-[10px] text-slate-400">Points</p>
-                      <p className="text-xs font-bold text-amber-600">{c.loyaltyPoints || 0}</p>
+                      <p className="text-[11px] sm:text-xs font-bold text-amber-600">{c.loyaltyPoints || 0}</p>
                     </div>
                   </div>
                 </CardContent>

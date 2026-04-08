@@ -191,7 +191,7 @@ export default function ReportsPage() {
             )}
 
             {activeTab === "expiry" && (
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4">
                 <SummaryCard label="Expired" value={(summary.expired as number).toString()} color="red" />
                 <SummaryCard label="Expired Value" value={formatCurrency(summary.expiredValue as number)} color="red" />
                 <SummaryCard label="30 Days" value={(summary.within30 as number).toString()} color="amber" />

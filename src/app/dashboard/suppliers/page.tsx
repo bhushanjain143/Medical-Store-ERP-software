@@ -179,13 +179,13 @@ export default function SuppliersPage() {
                     {s.drugLicense && <div className="flex items-center gap-2"><FileText className="h-3 w-3 flex-shrink-0" />DL: {s.drugLicense}</div>}
                   </div>
                   {s.balance > 0 ? (
-                    <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between">
-                      <span className="text-xs text-slate-500">Amount Payable</span>
-                      <Badge variant="danger">{formatCurrency(s.balance)}</Badge>
+                    <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                      <span className="text-xs text-slate-500 flex-shrink-0">Amount Payable</span>
+                      <Badge variant="danger"><span className="truncate max-w-[100px] inline-block">{formatCurrency(s.balance)}</span></Badge>
                     </div>
                   ) : (
-                    <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between">
-                      <span className="text-xs text-slate-500">Payment Status</span>
+                    <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                      <span className="text-xs text-slate-500 flex-shrink-0">Payment Status</span>
                       <Badge variant="success" dot>Settled</Badge>
                     </div>
                   )}

@@ -133,28 +133,28 @@ export default function ExpiryTrackerPage() {
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-          {filters.map((f) => (
-            <button
-              key={f.id}
-              onClick={() => setFilter(f.id)}
-              className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
-                filter === f.id
-                  ? "bg-slate-900 text-white shadow-md"
-                  : "bg-white text-slate-600 border border-slate-200 hover:border-slate-300"
-              }`}
-            >
-              <span className={`w-2 h-2 rounded-full ${f.color}`} />
-              {f.label}
-              <span className="text-xs opacity-70">({f.count})</span>
-            </button>
-          ))}
-          <div className="ml-auto">
-            <Button variant="outline" size="sm" onClick={exportCSV}>
-              <Download className="h-4 w-4" />
-              Export
-            </Button>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 flex-1">
+            {filters.map((f) => (
+              <button
+                key={f.id}
+                onClick={() => setFilter(f.id)}
+                className={`flex items-center gap-1.5 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-sm font-semibold transition-all ${
+                  filter === f.id
+                    ? "bg-slate-900 text-white shadow-md"
+                    : "bg-white text-slate-600 border border-slate-200 hover:border-slate-300"
+                }`}
+              >
+                <span className={`w-2 h-2 rounded-full ${f.color}`} />
+                {f.label}
+                <span className="text-[10px] sm:text-xs opacity-70">({f.count})</span>
+              </button>
+            ))}
           </div>
+          <Button variant="outline" size="sm" onClick={exportCSV} className="self-start sm:self-auto">
+            <Download className="h-4 w-4" />
+            Export
+          </Button>
         </div>
 
         {/* Batch Table */}

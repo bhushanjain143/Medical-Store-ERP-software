@@ -56,27 +56,27 @@ export function Modal({
     >
       <div
         className={cn(
-          "bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl shadow-slate-900/10 w-full animate-fade-in-scale border border-slate-100 max-h-[90vh] sm:max-h-none",
+          "bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl shadow-slate-900/10 w-full animate-fade-in-scale border border-slate-100 max-h-[92vh] sm:max-h-[90vh] flex flex-col",
           sizes[size]
         )}
       >
         {title && (
-          <div className="flex items-start justify-between px-4 sm:px-6 py-4 sm:py-5 border-b border-slate-100">
-            <div>
-              <h2 className="text-lg font-bold text-slate-900">{title}</h2>
+          <div className="flex items-start justify-between px-4 sm:px-6 py-3.5 sm:py-5 border-b border-slate-100 flex-shrink-0">
+            <div className="min-w-0 flex-1 mr-2">
+              <h2 className="text-base sm:text-lg font-bold text-slate-900 truncate">{title}</h2>
               {subtitle && (
-                <p className="text-sm text-slate-500 mt-0.5">{subtitle}</p>
+                <p className="text-xs sm:text-sm text-slate-500 mt-0.5 truncate">{subtitle}</p>
               )}
             </div>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-all duration-200"
+              className="p-1.5 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-all duration-200 flex-shrink-0"
             >
               <X className="h-5 w-5" />
             </button>
           </div>
         )}
-        <div className="p-4 sm:p-6 max-h-[70vh] sm:max-h-[80vh] overflow-y-auto">{children}</div>
+        <div className="p-4 sm:p-6 overflow-y-auto flex-1 min-h-0">{children}</div>
       </div>
     </div>
   );

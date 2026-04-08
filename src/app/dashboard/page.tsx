@@ -152,36 +152,36 @@ export default function DashboardPage() {
       <Header title="Dashboard" subtitle="Overview of your medical store" />
       <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
         {/* Stat Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4 stagger-children">
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4 stagger-children">
           {statCards.map((stat, idx) => {
             const Icon = stat.icon;
             const g = gradientCards[idx];
             return (
               <div
                 key={stat.label}
-                className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${g.from} ${g.to} p-3.5 sm:p-5 text-white shadow-lg ${g.shadow} card-hover`}
+                className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${g.from} ${g.to} p-3 sm:p-5 text-white shadow-lg ${g.shadow} card-hover min-w-0`}
               >
-                <div className="absolute top-0 right-0 w-16 sm:w-20 h-16 sm:h-20 rounded-full bg-white/10 -mr-4 sm:-mr-6 -mt-4 sm:-mt-6 blur-sm" />
-                <div className="relative">
-                  <div className="flex items-center justify-between mb-2 sm:mb-3">
+                <div className="absolute top-0 right-0 w-14 sm:w-20 h-14 sm:h-20 rounded-full bg-white/10 -mr-3 sm:-mr-6 -mt-3 sm:-mt-6 blur-sm" />
+                <div className="relative min-w-0">
+                  <div className="flex items-center justify-between mb-1.5 sm:mb-3">
                     <div className={`p-1.5 sm:p-2 rounded-lg sm:rounded-xl ${g.iconBg}`}>
-                      <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
+                      <Icon className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
                     </div>
                     {stat.trend && (
-                      <span className="flex items-center gap-0.5 text-[10px] sm:text-xs font-semibold bg-white/20 px-1.5 sm:px-2 py-0.5 rounded-lg">
+                      <span className="flex items-center gap-0.5 text-[10px] font-semibold bg-white/20 px-1.5 py-0.5 rounded-lg">
                         {stat.trend === "up" ? (
-                          <ArrowUpRight className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+                          <ArrowUpRight className="h-3 w-3" />
                         ) : (
-                          <ArrowDownRight className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+                          <ArrowDownRight className="h-3 w-3" />
                         )}
                       </span>
                     )}
                   </div>
-                  <p className="text-base sm:text-2xl font-extrabold tracking-tight leading-tight truncate">
+                  <p className="text-sm sm:text-2xl font-extrabold tracking-tight leading-tight truncate">
                     {stat.value}
                   </p>
                   <p className="text-[10px] sm:text-xs text-white/80 font-medium mt-0.5 sm:mt-1 truncate">{stat.label}</p>
-                  <p className="text-[10px] sm:text-[11px] text-white/60 mt-0.5 truncate">{stat.sub}</p>
+                  <p className="text-[9px] sm:text-[11px] text-white/60 mt-0.5 truncate">{stat.sub}</p>
                 </div>
               </div>
             );
@@ -212,7 +212,7 @@ export default function DashboardPage() {
               </div>
             </CardHeader>
             <CardContent>
-              <ResponsiveContainer width="100%" height={250} className="sm:[&]:!h-[300px]">
+              <ResponsiveContainer width="100%" height={220}>
                 <AreaChart data={data.monthlySalesData}>
                   <defs>
                     <linearGradient id="salesGradient" x1="0" y1="0" x2="0" y2="1">
@@ -397,17 +397,17 @@ export default function DashboardPage() {
               {data.customerDues.length > 0 ? (
                 <div className="space-y-3">
                   {data.customerDues.map((customer, i) => (
-                    <div key={i} className="flex items-center justify-between p-3.5 bg-gradient-to-r from-slate-50 to-red-50/30 rounded-xl border border-slate-100/80">
-                      <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-xl bg-red-50 flex items-center justify-center">
-                          <Users className="h-4 w-4 text-red-500" />
+                    <div key={i} className="flex items-center justify-between gap-2 p-3 sm:p-3.5 bg-gradient-to-r from-slate-50 to-red-50/30 rounded-xl border border-slate-100/80">
+                      <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+                        <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0">
+                          <Users className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-red-500" />
                         </div>
-                        <div>
-                          <p className="text-sm font-semibold text-slate-900">{customer.name}</p>
-                          <p className="text-xs text-slate-500">{customer.phone || "No phone"}</p>
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold text-slate-900 truncate">{customer.name}</p>
+                          <p className="text-xs text-slate-500 truncate">{customer.phone || "No phone"}</p>
                         </div>
                       </div>
-                      <span className="text-sm font-bold text-red-600 bg-red-50 px-2.5 py-1 rounded-lg">
+                      <span className="text-xs sm:text-sm font-bold text-red-600 bg-red-50 px-2 sm:px-2.5 py-1 rounded-lg flex-shrink-0 whitespace-nowrap">
                         {formatCurrency(customer.balance)}
                       </span>
                     </div>
@@ -554,12 +554,12 @@ export default function DashboardPage() {
             <CardContent>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {data.supplierDues.map((supplier, i) => (
-                  <div key={i} className="flex items-center justify-between p-3.5 bg-gradient-to-r from-slate-50 to-orange-50/30 rounded-xl border border-slate-100/80">
-                    <div>
-                      <p className="text-sm font-semibold text-slate-900">{supplier.name}</p>
-                      <p className="text-xs text-slate-500">{supplier.phone || "No phone"}</p>
+                  <div key={i} className="flex items-center justify-between gap-2 p-3 sm:p-3.5 bg-gradient-to-r from-slate-50 to-orange-50/30 rounded-xl border border-slate-100/80">
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-slate-900 truncate">{supplier.name}</p>
+                      <p className="text-xs text-slate-500 truncate">{supplier.phone || "No phone"}</p>
                     </div>
-                    <span className="text-sm font-bold text-orange-600 bg-orange-50 px-2.5 py-1 rounded-lg">
+                    <span className="text-xs sm:text-sm font-bold text-orange-600 bg-orange-50 px-2 sm:px-2.5 py-1 rounded-lg flex-shrink-0 whitespace-nowrap">
                       {formatCurrency(supplier.balance)}
                     </span>
                   </div>

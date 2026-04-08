@@ -122,7 +122,7 @@ export default function LoginPage() {
       </div>
 
       {/* Right panel - login form */}
-      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 py-8 sm:py-12 bg-gradient-to-b from-slate-50 to-white relative">
+      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 py-6 sm:py-12 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full bg-teal-500/5 blur-[100px]" />
 
         <div className="w-full max-w-[420px] relative z-10 animate-fade-in-scale">

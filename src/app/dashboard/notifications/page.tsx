@@ -76,7 +76,7 @@ export default function NotificationsPage() {
       />
       <div className="p-4 sm:p-6 space-y-6">
         {/* Alert Summary */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-3">
           <div className="rounded-2xl bg-gradient-to-br from-red-500 to-rose-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
             <ShieldAlert className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 mb-1" />
             <p className="text-[11px] sm:text-xs text-white/80">Expired</p>
@@ -128,12 +128,12 @@ export default function NotificationsPage() {
               {data.expiryAlerts.length > 0 ? (
                 <div className="space-y-2">
                   {data.expiryAlerts.map((alert, i) => (
-                    <div key={i} className="flex items-center justify-between p-3 rounded-lg bg-red-50/50 border border-red-100/50">
-                      <div>
-                        <p className="text-sm font-medium text-slate-900">{alert.medicineName}</p>
-                        <p className="text-xs text-slate-500">Batch: {alert.batchNumber} • Qty: {alert.quantity}</p>
+                    <div key={i} className="flex items-center justify-between gap-2 p-3 rounded-lg bg-red-50/50 border border-red-100/50">
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-medium text-slate-900 truncate">{alert.medicineName}</p>
+                        <p className="text-xs text-slate-500 truncate">Batch: {alert.batchNumber} • Qty: {alert.quantity}</p>
                       </div>
-                      <div className="text-right">
+                      <div className="text-right flex-shrink-0">
                         <Badge variant={alert.daysLeft <= 7 ? "danger" : "warning"} size="sm">{alert.daysLeft}d</Badge>
                         <p className="text-[10px] text-slate-400 mt-0.5">{formatDate(alert.expiryDate)}</p>
                       </div>
@@ -168,12 +168,12 @@ export default function NotificationsPage() {
               {data.lowStockAlerts.length > 0 ? (
                 <div className="space-y-2">
                   {data.lowStockAlerts.map((alert, i) => (
-                    <div key={i} className="flex items-center justify-between p-3 rounded-lg bg-amber-50/50 border border-amber-100/50">
-                      <div>
-                        <p className="text-sm font-medium text-slate-900">{alert.medicineName}</p>
-                        <p className="text-xs text-slate-500">Batch: {alert.batchNumber}</p>
+                    <div key={i} className="flex items-center justify-between gap-2 p-3 rounded-lg bg-amber-50/50 border border-amber-100/50">
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-medium text-slate-900 truncate">{alert.medicineName}</p>
+                        <p className="text-xs text-slate-500 truncate">Batch: {alert.batchNumber}</p>
                       </div>
-                      <div className="text-right">
+                      <div className="text-right flex-shrink-0">
                         <p className="text-sm font-bold text-red-600">{alert.currentQty}</p>
                         <p className="text-[10px] text-slate-400">Min: {alert.reorderLevel}</p>
                       </div>
@@ -203,12 +203,12 @@ export default function NotificationsPage() {
               {data.customerDues.length > 0 ? (
                 <div className="space-y-2">
                   {data.customerDues.map((c, i) => (
-                    <div key={i} className="flex items-center justify-between p-3 rounded-lg bg-blue-50/50 border border-blue-100/50">
-                      <div>
-                        <p className="text-sm font-medium text-slate-900">{c.name}</p>
-                        <p className="text-xs text-slate-500">{c.phone || "No phone"}</p>
+                    <div key={i} className="flex items-center justify-between gap-2 p-3 rounded-lg bg-blue-50/50 border border-blue-100/50">
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-medium text-slate-900 truncate">{c.name}</p>
+                        <p className="text-xs text-slate-500 truncate">{c.phone || "No phone"}</p>
                       </div>
-                      <span className="text-sm font-bold text-red-600">{formatCurrency(c.balance)}</span>
+                      <span className="text-xs sm:text-sm font-bold text-red-600 flex-shrink-0 whitespace-nowrap">{formatCurrency(c.balance)}</span>
                     </div>
                   ))}
                 </div>
@@ -235,12 +235,12 @@ export default function NotificationsPage() {
               {data.supplierDues.length > 0 ? (
                 <div className="space-y-2">
                   {data.supplierDues.map((s, i) => (
-                    <div key={i} className="flex items-center justify-between p-3 rounded-lg bg-violet-50/50 border border-violet-100/50">
-                      <div>
-                        <p className="text-sm font-medium text-slate-900">{s.name}</p>
-                        <p className="text-xs text-slate-500">{s.phone || "No phone"}</p>
+                    <div key={i} className="flex items-center justify-between gap-2 p-3 rounded-lg bg-violet-50/50 border border-violet-100/50">
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-medium text-slate-900 truncate">{s.name}</p>
+                        <p className="text-xs text-slate-500 truncate">{s.phone || "No phone"}</p>
                       </div>
-                      <span className="text-sm font-bold text-orange-600">{formatCurrency(s.balance)}</span>
+                      <span className="text-xs sm:text-sm font-bold text-orange-600 flex-shrink-0 whitespace-nowrap">{formatCurrency(s.balance)}</span>
                     </div>
                   ))}
                 </div>

@@ -288,7 +288,7 @@ export default function BillingPage() {
       <Header title="Billing / POS" subtitle="Create invoices and manage sales" />
       <div className="p-4 sm:p-6">
         {/* Toggle between POS and Sales History */}
-        <div className="flex gap-2 sm:gap-3 mb-4 sm:mb-6 overflow-x-auto">
+        <div className="flex gap-2 sm:gap-3 mb-4 sm:mb-6 overflow-x-auto pb-0.5">
           <Button
             variant={!showSales ? "primary" : "outline"}
             onClick={() => setShowSales(false)}
@@ -516,31 +516,31 @@ export default function BillingPage() {
                   />
 
                   <div className="border-t border-slate-100 pt-4 space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-slate-500">Subtotal</span>
-                      <span className="text-slate-700">{formatCurrency(subtotal)}</span>
+                    <div className="flex justify-between text-sm gap-2">
+                      <span className="text-slate-500 flex-shrink-0">Subtotal</span>
+                      <span className="text-slate-700 truncate text-right">{formatCurrency(subtotal)}</span>
                     </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-slate-500">CGST</span>
-                      <span className="text-slate-700">{formatCurrency(gstAmount / 2)}</span>
+                    <div className="flex justify-between text-sm gap-2">
+                      <span className="text-slate-500 flex-shrink-0">CGST</span>
+                      <span className="text-slate-700 truncate text-right">{formatCurrency(gstAmount / 2)}</span>
                     </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-slate-500">SGST</span>
-                      <span className="text-slate-700">{formatCurrency(gstAmount / 2)}</span>
+                    <div className="flex justify-between text-sm gap-2">
+                      <span className="text-slate-500 flex-shrink-0">SGST</span>
+                      <span className="text-slate-700 truncate text-right">{formatCurrency(gstAmount / 2)}</span>
                     </div>
-                    <div className="flex justify-between text-xs text-slate-400">
-                      <span>Total GST (incl.)</span>
-                      <span>{formatCurrency(gstAmount)}</span>
+                    <div className="flex justify-between text-xs text-slate-400 gap-2">
+                      <span className="flex-shrink-0">Total GST (incl.)</span>
+                      <span className="truncate text-right">{formatCurrency(gstAmount)}</span>
                     </div>
                     {totalDiscount > 0 && (
-                      <div className="flex justify-between text-sm">
-                        <span className="text-slate-500">Discount</span>
-                        <span className="text-red-600">-{formatCurrency(totalDiscount)}</span>
+                      <div className="flex justify-between text-sm gap-2">
+                        <span className="text-slate-500 flex-shrink-0">Discount</span>
+                        <span className="text-red-600 truncate text-right">-{formatCurrency(totalDiscount)}</span>
                       </div>
                     )}
-                    <div className="flex justify-between text-lg font-extrabold border-t border-slate-200 pt-3">
-                      <span className="text-slate-900">Total</span>
-                      <span className="text-gradient">{formatCurrency(grandTotal)}</span>
+                    <div className="flex justify-between text-base sm:text-lg font-extrabold border-t border-slate-200 pt-3 gap-2">
+                      <span className="text-slate-900 flex-shrink-0">Total</span>
+                      <span className="text-gradient truncate text-right">{formatCurrency(grandTotal)}</span>
                     </div>
                   </div>
 
