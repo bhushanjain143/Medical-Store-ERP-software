@@ -135,26 +135,26 @@ export default function PurchasesPage() {
       <Header title="Purchases" subtitle="Manage purchase entries from suppliers" />
       <div className="p-4 sm:p-6 space-y-6">
         {/* Stats Row */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
-            <Package className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 mb-1" />
-            <p className="text-lg sm:text-2xl font-extrabold">{purchases.length}</p>
-            <p className="text-[11px] sm:text-xs text-white/80">Total Purchases</p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+          <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 p-2.5 sm:p-3.5 text-white shadow-lg overflow-hidden min-w-0">
+            <Package className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white/50 mb-1" />
+            <p className="text-base sm:text-xl font-extrabold">{purchases.length}</p>
+            <p className="text-[10px] sm:text-xs text-white/80">Total Purchases</p>
           </div>
-          <div className="rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
-            <IndianRupee className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 mb-1" />
-            <p className="text-lg sm:text-2xl font-extrabold truncate">{formatCurrency(totalAmount)}</p>
-            <p className="text-[11px] sm:text-xs text-white/80">Total Value</p>
+          <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 p-2.5 sm:p-3.5 text-white shadow-lg overflow-hidden min-w-0">
+            <IndianRupee className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white/50 mb-1" />
+            <p className="text-base sm:text-xl font-extrabold truncate">{formatCurrency(totalAmount)}</p>
+            <p className="text-[10px] sm:text-xs text-white/80">Total Value</p>
           </div>
-          <div className="rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
-            <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 mb-1" />
-            <p className="text-lg sm:text-2xl font-extrabold truncate">{formatCurrency(totalPaid)}</p>
-            <p className="text-[11px] sm:text-xs text-white/80">Total Paid</p>
+          <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 p-2.5 sm:p-3.5 text-white shadow-lg overflow-hidden min-w-0">
+            <CheckCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white/50 mb-1" />
+            <p className="text-base sm:text-xl font-extrabold truncate">{formatCurrency(totalPaid)}</p>
+            <p className="text-[10px] sm:text-xs text-white/80">Total Paid</p>
           </div>
-          <div className="rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
-            <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 mb-1" />
-            <p className="text-lg sm:text-2xl font-extrabold">{pendingCount}</p>
-            <p className="text-[11px] sm:text-xs text-white/80">Pending Payments</p>
+          <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 p-2.5 sm:p-3.5 text-white shadow-lg overflow-hidden min-w-0">
+            <Clock className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white/50 mb-1" />
+            <p className="text-base sm:text-xl font-extrabold">{pendingCount}</p>
+            <p className="text-[10px] sm:text-xs text-white/80">Pending Payments</p>
           </div>
         </div>
 

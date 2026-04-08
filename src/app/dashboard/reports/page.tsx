@@ -384,10 +384,10 @@ function SummaryCard({ label, value, color }: { label: string; value: string; co
   };
   const cfg = configs[color] || configs.blue;
   return (
-    <div className={`relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br ${cfg.gradient} px-3.5 sm:px-5 py-3.5 sm:py-5 text-white shadow-lg ${cfg.shadow} card-hover`}>
-      <div className="absolute top-0 right-0 w-12 sm:w-16 h-12 sm:h-16 rounded-full bg-white/10 -mr-3 sm:-mr-4 -mt-3 sm:-mt-4 blur-sm" />
-      <p className="text-xs sm:text-sm font-medium text-white/80 truncate">{label}</p>
-      <p className="text-lg sm:text-2xl font-extrabold mt-0.5 sm:mt-1 tracking-tight truncate">{value}</p>
+    <div className={`relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br ${cfg.gradient} px-2.5 sm:px-4 py-3 sm:py-4 text-white shadow-lg ${cfg.shadow} card-hover min-w-0`}>
+      <div className="absolute top-0 right-0 w-10 sm:w-14 h-10 sm:h-14 rounded-full bg-white/10 -mr-2 sm:-mr-3 -mt-2 sm:-mt-3 blur-sm" />
+      <p className="text-[10px] sm:text-xs font-medium text-white/80 truncate">{label}</p>
+      <p className="text-base sm:text-xl font-extrabold mt-0.5 tracking-tight truncate">{value}</p>
     </div>
   );
 }

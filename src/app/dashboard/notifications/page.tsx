@@ -76,32 +76,32 @@ export default function NotificationsPage() {
       />
       <div className="p-4 sm:p-6 space-y-6">
         {/* Alert Summary */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-3">
-          <div className="rounded-2xl bg-gradient-to-br from-red-500 to-rose-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
-            <ShieldAlert className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 mb-1" />
-            <p className="text-[11px] sm:text-xs text-white/80">Expired</p>
-            <p className="text-xl sm:text-2xl font-extrabold">{data.expiredCount}</p>
-            <p className="text-[10px] text-white/60 truncate">Loss: {formatCurrency(data.totalExpiryLoss)}</p>
+        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-2 sm:gap-3">
+          <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-red-500 to-rose-600 p-2.5 sm:p-3.5 text-white shadow-lg overflow-hidden min-w-0">
+            <ShieldAlert className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white/50 mb-1" />
+            <p className="text-[10px] sm:text-xs text-white/80">Expired</p>
+            <p className="text-lg sm:text-xl font-extrabold">{data.expiredCount}</p>
+            <p className="text-[9px] sm:text-[10px] text-white/60 truncate">Loss: {formatCurrency(data.totalExpiryLoss)}</p>
           </div>
-          <div className="rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
-            <AlertTriangle className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 mb-1" />
-            <p className="text-[11px] sm:text-xs text-white/80">Expiring Soon</p>
-            <p className="text-xl sm:text-2xl font-extrabold">{data.expiryAlerts.length}</p>
+          <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600 p-2.5 sm:p-3.5 text-white shadow-lg overflow-hidden min-w-0">
+            <AlertTriangle className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white/50 mb-1" />
+            <p className="text-[10px] sm:text-xs text-white/80">Expiring Soon</p>
+            <p className="text-lg sm:text-xl font-extrabold">{data.expiryAlerts.length}</p>
           </div>
-          <div className="rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
-            <Package className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 mb-1" />
-            <p className="text-[11px] sm:text-xs text-white/80">Low Stock</p>
-            <p className="text-xl sm:text-2xl font-extrabold">{data.lowStockAlerts.length}</p>
+          <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-600 p-2.5 sm:p-3.5 text-white shadow-lg overflow-hidden min-w-0">
+            <Package className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white/50 mb-1" />
+            <p className="text-[10px] sm:text-xs text-white/80">Low Stock</p>
+            <p className="text-lg sm:text-xl font-extrabold">{data.lowStockAlerts.length}</p>
           </div>
-          <div className="rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
-            <IndianRupee className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 mb-1" />
-            <p className="text-[11px] sm:text-xs text-white/80">Customer Dues</p>
-            <p className="text-xl sm:text-2xl font-extrabold">{data.customerDues.length}</p>
+          <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 p-2.5 sm:p-3.5 text-white shadow-lg overflow-hidden min-w-0">
+            <IndianRupee className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white/50 mb-1" />
+            <p className="text-[10px] sm:text-xs text-white/80">Customer Dues</p>
+            <p className="text-lg sm:text-xl font-extrabold">{data.customerDues.length}</p>
           </div>
-          <div className="rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
-            <TrendingDown className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 mb-1" />
-            <p className="text-[11px] sm:text-xs text-white/80">Supplier Dues</p>
-            <p className="text-xl sm:text-2xl font-extrabold">{data.supplierDues.length}</p>
+          <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 p-2.5 sm:p-3.5 text-white shadow-lg overflow-hidden min-w-0">
+            <TrendingDown className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white/50 mb-1" />
+            <p className="text-[10px] sm:text-xs text-white/80">Supplier Dues</p>
+            <p className="text-lg sm:text-xl font-extrabold">{data.supplierDues.length}</p>
           </div>
         </div>
 

@@ -35,6 +35,11 @@ table {
   word-break: break-word;
 }
 
+/* Prevent main content from overflowing its flex-allocated width */
+main {
+  contain: inline-size;
+}
+
 body {
   font-family: var(--font-sans);
   background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 50%, #f0fdfa 100%);

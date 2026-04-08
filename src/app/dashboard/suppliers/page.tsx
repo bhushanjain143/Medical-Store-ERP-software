@@ -102,26 +102,26 @@ export default function SuppliersPage() {
       <Header title="Suppliers" subtitle="Manage distributors and purchase partners" />
       <div className="p-4 sm:p-6 space-y-6">
         {/* Stats Row */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
-            <Users className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 mb-1" />
-            <p className="text-lg sm:text-2xl font-extrabold">{suppliers.length}</p>
-            <p className="text-[11px] sm:text-xs text-white/80">Total Suppliers</p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+          <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 p-2.5 sm:p-3.5 text-white shadow-lg overflow-hidden min-w-0">
+            <Users className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white/50 mb-1" />
+            <p className="text-base sm:text-xl font-extrabold">{suppliers.length}</p>
+            <p className="text-[10px] sm:text-xs text-white/80">Total Suppliers</p>
           </div>
-          <div className="rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
-            <Package className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 mb-1" />
-            <p className="text-lg sm:text-2xl font-extrabold">{totalPurchases}</p>
-            <p className="text-[11px] sm:text-xs text-white/80">Total Purchases</p>
+          <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 p-2.5 sm:p-3.5 text-white shadow-lg overflow-hidden min-w-0">
+            <Package className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white/50 mb-1" />
+            <p className="text-base sm:text-xl font-extrabold">{totalPurchases}</p>
+            <p className="text-[10px] sm:text-xs text-white/80">Total Purchases</p>
           </div>
-          <div className="rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
-            <IndianRupee className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 mb-1" />
-            <p className="text-lg sm:text-2xl font-extrabold truncate">{formatCurrency(totalPayable)}</p>
-            <p className="text-[11px] sm:text-xs text-white/80">Total Payable</p>
+          <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 p-2.5 sm:p-3.5 text-white shadow-lg overflow-hidden min-w-0">
+            <IndianRupee className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white/50 mb-1" />
+            <p className="text-base sm:text-xl font-extrabold truncate">{formatCurrency(totalPayable)}</p>
+            <p className="text-[10px] sm:text-xs text-white/80">Total Payable</p>
           </div>
-          <div className="rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
-            <CreditCard className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 mb-1" />
-            <p className="text-lg sm:text-2xl font-extrabold">{withDues.length}</p>
-            <p className="text-[11px] sm:text-xs text-white/80">Pending Dues</p>
+          <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 p-2.5 sm:p-3.5 text-white shadow-lg overflow-hidden min-w-0">
+            <CreditCard className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white/50 mb-1" />
+            <p className="text-base sm:text-xl font-extrabold">{withDues.length}</p>
+            <p className="text-[10px] sm:text-xs text-white/80">Pending Dues</p>
           </div>
         </div>
 

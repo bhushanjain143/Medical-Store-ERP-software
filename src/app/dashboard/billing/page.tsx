@@ -306,9 +306,9 @@ export default function BillingPage() {
         </div>
 
         {!showSales ? (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] xl:grid-cols-3 gap-4">
             {/* Medicine Search & Cart */}
-            <div className="lg:col-span-2 space-y-3 sm:space-y-4 order-2 lg:order-1">
+            <div className="xl:col-span-2 space-y-3 sm:space-y-4 order-2 lg:order-1 min-w-0">
               {/* Search */}
               <Card>
                 <CardContent className="py-3">
@@ -463,7 +463,7 @@ export default function BillingPage() {
             </div>
 
             {/* Bill Summary */}
-            <div className="space-y-4 order-1 lg:order-2">
+            <div className="space-y-4 order-1 lg:order-2 min-w-0">
               <Card>
                 <CardHeader>
                   <h3 className="text-sm font-semibold text-slate-900">
@@ -545,14 +545,13 @@ export default function BillingPage() {
                   </div>
 
                   <Button
-                    className="w-full py-3.5"
-                    size="lg"
+                    className="w-full py-3"
                     onClick={handleSubmit}
                     loading={loading}
                     disabled={cart.length === 0}
                   >
-                    <Receipt className="h-4 w-4" />
-                    Generate Invoice
+                    <Receipt className="h-4 w-4 flex-shrink-0" />
+                    <span className="truncate">Generate Invoice</span>
                   </Button>
                 </CardContent>
               </Card>

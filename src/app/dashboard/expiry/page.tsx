@@ -108,27 +108,27 @@ export default function ExpiryTrackerPage() {
       <Header title="Expiry Tracker" subtitle="Monitor and manage medicine expiry dates" />
       <div className="p-4 sm:p-6 space-y-6">
         {/* Summary Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-red-500 to-rose-600 p-3 sm:p-4 text-white shadow-lg">
-            <XCircle className="absolute top-2 right-2 h-6 w-6 sm:h-8 sm:w-8 text-white/20" />
-            <p className="text-xs font-medium text-white/80">Expired</p>
-            <p className="text-xl sm:text-2xl font-extrabold">{expiredCount}</p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br from-red-500 to-rose-600 p-3 text-white shadow-lg min-w-0">
+            <XCircle className="absolute top-2 right-2 h-5 w-5 sm:h-7 sm:w-7 text-white/20" />
+            <p className="text-[11px] font-medium text-white/80">Expired</p>
+            <p className="text-lg sm:text-2xl font-extrabold">{expiredCount}</p>
             <p className="text-[10px] text-white/60 truncate">Loss: {formatCurrency(totalLossValue)}</p>
           </div>
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600 p-3 sm:p-4 text-white shadow-lg">
-            <Clock className="absolute top-2 right-2 h-6 w-6 sm:h-8 sm:w-8 text-white/20" />
-            <p className="text-[11px] sm:text-xs font-medium text-white/80">Critical (7d)</p>
-            <p className="text-xl sm:text-2xl font-extrabold">{within7}</p>
+          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600 p-3 text-white shadow-lg min-w-0">
+            <Clock className="absolute top-2 right-2 h-5 w-5 sm:h-7 sm:w-7 text-white/20" />
+            <p className="text-[11px] font-medium text-white/80">Critical (7d)</p>
+            <p className="text-lg sm:text-2xl font-extrabold">{within7}</p>
           </div>
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-600 p-3 sm:p-4 text-white shadow-lg">
-            <AlertTriangle className="absolute top-2 right-2 h-6 w-6 sm:h-8 sm:w-8 text-white/20" />
-            <p className="text-[11px] sm:text-xs font-medium text-white/80">Warning (30d)</p>
-            <p className="text-xl sm:text-2xl font-extrabold">{within30}</p>
+          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-600 p-3 text-white shadow-lg min-w-0">
+            <AlertTriangle className="absolute top-2 right-2 h-5 w-5 sm:h-7 sm:w-7 text-white/20" />
+            <p className="text-[11px] font-medium text-white/80">Warning (30d)</p>
+            <p className="text-lg sm:text-2xl font-extrabold">{within30}</p>
           </div>
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 p-3 sm:p-4 text-white shadow-lg">
-            <Shield className="absolute top-2 right-2 h-6 w-6 sm:h-8 sm:w-8 text-white/20" />
-            <p className="text-[11px] sm:text-xs font-medium text-white/80">Watchlist (90d)</p>
-            <p className="text-xl sm:text-2xl font-extrabold">{within90}</p>
+          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 p-3 text-white shadow-lg min-w-0">
+            <Shield className="absolute top-2 right-2 h-5 w-5 sm:h-7 sm:w-7 text-white/20" />
+            <p className="text-[11px] font-medium text-white/80">Watchlist (90d)</p>
+            <p className="text-lg sm:text-2xl font-extrabold">{within90}</p>
           </div>
         </div>
 
