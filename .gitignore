@@ -50,4 +50,5 @@ auth-wal
 *.tsbuildinfo
 next-env.d.ts
 
-/src/generated/prisma
+# generated prisma client (old output, now goes to node_modules)
+/src/generated

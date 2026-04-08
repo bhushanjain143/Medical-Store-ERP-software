@@ -5,7 +5,7 @@ if (!process.env.DATABASE_URL && !process.env.TURSO_DATABASE_URL) {
 }
 
 async function createSeedClient() {
-  const { PrismaClient } = await import("../src/generated/prisma/index.js");
+  const { PrismaClient } = await import("@prisma/client");
 
   if (process.env.TURSO_DATABASE_URL) {
     const { PrismaLibSql } = await import("@prisma/adapter-libsql");
