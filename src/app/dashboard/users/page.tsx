@@ -125,25 +125,25 @@ export default function UsersPage() {
       <div className="p-4 sm:p-6 space-y-6">
         {/* Stats Row */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 p-4 text-white shadow-lg">
-            <Users className="h-5 w-5 text-white/50 mb-1" />
-            <p className="text-2xl font-extrabold">{users.length}</p>
-            <p className="text-xs text-white/80">Total Users</p>
+          <div className="rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
+            <Users className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 mb-1" />
+            <p className="text-lg sm:text-2xl font-extrabold">{users.length}</p>
+            <p className="text-[11px] sm:text-xs text-white/80">Total Users</p>
           </div>
-          <div className="rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 p-4 text-white shadow-lg">
-            <ShieldCheck className="h-5 w-5 text-white/50 mb-1" />
-            <p className="text-2xl font-extrabold">{activeCount}</p>
-            <p className="text-xs text-white/80">Active</p>
+          <div className="rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
+            <ShieldCheck className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 mb-1" />
+            <p className="text-lg sm:text-2xl font-extrabold">{activeCount}</p>
+            <p className="text-[11px] sm:text-xs text-white/80">Active</p>
           </div>
-          <div className="rounded-2xl bg-gradient-to-br from-red-500 to-rose-600 p-4 text-white shadow-lg">
-            <Shield className="h-5 w-5 text-white/50 mb-1" />
-            <p className="text-2xl font-extrabold">{adminCount}</p>
-            <p className="text-xs text-white/80">Admins</p>
+          <div className="rounded-2xl bg-gradient-to-br from-red-500 to-rose-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
+            <Shield className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 mb-1" />
+            <p className="text-lg sm:text-2xl font-extrabold">{adminCount}</p>
+            <p className="text-[11px] sm:text-xs text-white/80">Admins</p>
           </div>
-          <div className="rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 p-4 text-white shadow-lg">
-            <User className="h-5 w-5 text-white/50 mb-1" />
-            <p className="text-2xl font-extrabold">{users.length - activeCount}</p>
-            <p className="text-xs text-white/80">Inactive</p>
+          <div className="rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
+            <User className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 mb-1" />
+            <p className="text-lg sm:text-2xl font-extrabold">{users.length - activeCount}</p>
+            <p className="text-[11px] sm:text-xs text-white/80">Inactive</p>
           </div>
         </div>
 

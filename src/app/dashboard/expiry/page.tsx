@@ -109,36 +109,36 @@ export default function ExpiryTrackerPage() {
       <div className="p-4 sm:p-6 space-y-6">
         {/* Summary Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-red-500 to-rose-600 p-4 text-white shadow-lg">
-            <XCircle className="absolute top-2 right-2 h-8 w-8 text-white/20" />
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-red-500 to-rose-600 p-3 sm:p-4 text-white shadow-lg">
+            <XCircle className="absolute top-2 right-2 h-6 w-6 sm:h-8 sm:w-8 text-white/20" />
             <p className="text-xs font-medium text-white/80">Expired</p>
-            <p className="text-2xl font-extrabold">{expiredCount}</p>
-            <p className="text-[10px] text-white/60">Loss: {formatCurrency(totalLossValue)}</p>
+            <p className="text-xl sm:text-2xl font-extrabold">{expiredCount}</p>
+            <p className="text-[10px] text-white/60 truncate">Loss: {formatCurrency(totalLossValue)}</p>
           </div>
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600 p-4 text-white shadow-lg">
-            <Clock className="absolute top-2 right-2 h-8 w-8 text-white/20" />
-            <p className="text-xs font-medium text-white/80">Critical (7d)</p>
-            <p className="text-2xl font-extrabold">{within7}</p>
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600 p-3 sm:p-4 text-white shadow-lg">
+            <Clock className="absolute top-2 right-2 h-6 w-6 sm:h-8 sm:w-8 text-white/20" />
+            <p className="text-[11px] sm:text-xs font-medium text-white/80">Critical (7d)</p>
+            <p className="text-xl sm:text-2xl font-extrabold">{within7}</p>
           </div>
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-600 p-4 text-white shadow-lg">
-            <AlertTriangle className="absolute top-2 right-2 h-8 w-8 text-white/20" />
-            <p className="text-xs font-medium text-white/80">Warning (30d)</p>
-            <p className="text-2xl font-extrabold">{within30}</p>
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-600 p-3 sm:p-4 text-white shadow-lg">
+            <AlertTriangle className="absolute top-2 right-2 h-6 w-6 sm:h-8 sm:w-8 text-white/20" />
+            <p className="text-[11px] sm:text-xs font-medium text-white/80">Warning (30d)</p>
+            <p className="text-xl sm:text-2xl font-extrabold">{within30}</p>
           </div>
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 p-4 text-white shadow-lg">
-            <Shield className="absolute top-2 right-2 h-8 w-8 text-white/20" />
-            <p className="text-xs font-medium text-white/80">Watchlist (90d)</p>
-            <p className="text-2xl font-extrabold">{within90}</p>
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 p-3 sm:p-4 text-white shadow-lg">
+            <Shield className="absolute top-2 right-2 h-6 w-6 sm:h-8 sm:w-8 text-white/20" />
+            <p className="text-[11px] sm:text-xs font-medium text-white/80">Watchlist (90d)</p>
+            <p className="text-xl sm:text-2xl font-extrabold">{within90}</p>
           </div>
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
           {filters.map((f) => (
             <button
               key={f.id}
               onClick={() => setFilter(f.id)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+              className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
                 filter === f.id
                   ? "bg-slate-900 text-white shadow-md"
                   : "bg-white text-slate-600 border border-slate-200 hover:border-slate-300"

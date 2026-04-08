@@ -136,25 +136,25 @@ export default function PurchasesPage() {
       <div className="p-4 sm:p-6 space-y-6">
         {/* Stats Row */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 p-4 text-white shadow-lg">
-            <Package className="h-5 w-5 text-white/50 mb-1" />
-            <p className="text-2xl font-extrabold">{purchases.length}</p>
-            <p className="text-xs text-white/80">Total Purchases</p>
+          <div className="rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
+            <Package className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 mb-1" />
+            <p className="text-lg sm:text-2xl font-extrabold">{purchases.length}</p>
+            <p className="text-[11px] sm:text-xs text-white/80">Total Purchases</p>
           </div>
-          <div className="rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 p-4 text-white shadow-lg">
-            <IndianRupee className="h-5 w-5 text-white/50 mb-1" />
-            <p className="text-2xl font-extrabold">{formatCurrency(totalAmount)}</p>
-            <p className="text-xs text-white/80">Total Value</p>
+          <div className="rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
+            <IndianRupee className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 mb-1" />
+            <p className="text-lg sm:text-2xl font-extrabold truncate">{formatCurrency(totalAmount)}</p>
+            <p className="text-[11px] sm:text-xs text-white/80">Total Value</p>
           </div>
-          <div className="rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 p-4 text-white shadow-lg">
-            <CheckCircle className="h-5 w-5 text-white/50 mb-1" />
-            <p className="text-2xl font-extrabold">{formatCurrency(totalPaid)}</p>
-            <p className="text-xs text-white/80">Total Paid</p>
+          <div className="rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
+            <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 mb-1" />
+            <p className="text-lg sm:text-2xl font-extrabold truncate">{formatCurrency(totalPaid)}</p>
+            <p className="text-[11px] sm:text-xs text-white/80">Total Paid</p>
           </div>
-          <div className="rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 p-4 text-white shadow-lg">
-            <Clock className="h-5 w-5 text-white/50 mb-1" />
-            <p className="text-2xl font-extrabold">{pendingCount}</p>
-            <p className="text-xs text-white/80">Pending Payments</p>
+          <div className="rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
+            <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 mb-1" />
+            <p className="text-lg sm:text-2xl font-extrabold">{pendingCount}</p>
+            <p className="text-[11px] sm:text-xs text-white/80">Pending Payments</p>
           </div>
         </div>
 
@@ -256,7 +256,8 @@ export default function PurchasesPage() {
                   </Badge>
                 </div>
               </div>
-              <table className="w-full text-sm">
+              <div className="overflow-x-auto -mx-4 sm:-mx-6 px-4 sm:px-6">
+              <table className="w-full text-sm min-w-[500px]">
                 <thead>
                   <tr className="bg-blue-50 border-b border-blue-100">
                     <th className="text-left py-2.5 px-3 font-semibold text-blue-700 text-xs">#</th>
@@ -282,6 +283,7 @@ export default function PurchasesPage() {
                   ))}
                 </tbody>
               </table>
+              </div>
               <div className="bg-slate-50 rounded-lg p-4 space-y-1.5 text-sm">
                 <div className="flex justify-between"><span className="text-slate-500">Subtotal</span><span>{formatCurrency(viewingPurchase.subtotal)}</span></div>
                 <div className="flex justify-between"><span className="text-slate-500">GST</span><span>{formatCurrency(viewingPurchase.gstAmount)}</span></div>

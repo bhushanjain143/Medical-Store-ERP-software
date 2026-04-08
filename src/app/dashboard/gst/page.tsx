@@ -106,18 +106,22 @@ export default function GSTReportsPage() {
         {/* Date Filter */}
         <Card>
           <CardContent className="py-4">
-            <div className="flex flex-col sm:flex-row items-end gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
               <Input id="from" label="From Date" type="date" value={fromDate} onChange={(e) => setFromDate(e.target.value)} />
               <Input id="to" label="To Date" type="date" value={toDate} onChange={(e) => setToDate(e.target.value)} />
-              <Button onClick={fetchReport} loading={loading}>
-                <Calculator className="h-4 w-4" />
-                Generate GST Report
-              </Button>
-              {data && (
-                <Button variant="outline" onClick={exportCSV}>
-                  <Download className="h-4 w-4" />
-                  Export CSV
+              <div className="flex items-end">
+                <Button onClick={fetchReport} loading={loading} className="w-full sm:w-auto">
+                  <Calculator className="h-4 w-4" />
+                  Generate
                 </Button>
+              </div>
+              {data && (
+                <div className="flex items-end">
+                  <Button variant="outline" onClick={exportCSV} className="w-full sm:w-auto">
+                    <Download className="h-4 w-4" />
+                    Export CSV
+                  </Button>
+                </div>
               )}
             </div>
           </CardContent>
@@ -129,22 +133,22 @@ export default function GSTReportsPage() {
           <>
             {/* Summary Cards */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <div className="rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 p-4 text-white shadow-lg">
-                <IndianRupee className="h-5 w-5 text-white/50 mb-1" />
-                <p className="text-xs text-white/80">Total Taxable</p>
-                <p className="text-xl font-extrabold">{formatCurrency(data.summary.totalTaxable)}</p>
+              <div className="rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
+                <IndianRupee className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 mb-1" />
+                <p className="text-[11px] sm:text-xs text-white/80">Total Taxable</p>
+                <p className="text-lg sm:text-xl font-extrabold truncate">{formatCurrency(data.summary.totalTaxable)}</p>
               </div>
-              <div className="rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 p-4 text-white shadow-lg">
-                <p className="text-xs text-white/80">CGST</p>
-                <p className="text-xl font-extrabold">{formatCurrency(data.summary.totalGst / 2)}</p>
+              <div className="rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
+                <p className="text-[11px] sm:text-xs text-white/80">CGST</p>
+                <p className="text-lg sm:text-xl font-extrabold truncate">{formatCurrency(data.summary.totalGst / 2)}</p>
               </div>
-              <div className="rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 p-4 text-white shadow-lg">
-                <p className="text-xs text-white/80">SGST</p>
-                <p className="text-xl font-extrabold">{formatCurrency(data.summary.totalGst / 2)}</p>
+              <div className="rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
+                <p className="text-[11px] sm:text-xs text-white/80">SGST</p>
+                <p className="text-lg sm:text-xl font-extrabold truncate">{formatCurrency(data.summary.totalGst / 2)}</p>
               </div>
-              <div className="rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 p-4 text-white shadow-lg">
-                <p className="text-xs text-white/80">Total GST</p>
-                <p className="text-xl font-extrabold">{formatCurrency(data.summary.totalGst)}</p>
+              <div className="rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 p-3 sm:p-4 text-white shadow-lg overflow-hidden">
+                <p className="text-[11px] sm:text-xs text-white/80">Total GST</p>
+                <p className="text-lg sm:text-xl font-extrabold truncate">{formatCurrency(data.summary.totalGst)}</p>
               </div>
             </div>
 

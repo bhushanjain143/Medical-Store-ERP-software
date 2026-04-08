@@ -388,7 +388,7 @@ export default function BillingPage() {
                     </div>
                   ) : (
                     <div className="overflow-x-auto">
-                      <table className="w-full text-sm">
+                      <table className="w-full text-sm min-w-[500px]">
                         <thead>
                           <tr className="bg-slate-50 border-b border-slate-100">
                             <th className="text-left py-3 px-4 font-medium text-slate-500">
@@ -646,13 +646,13 @@ export default function BillingPage() {
               <div className="text-center mb-6 border-b-2 border-teal-500 pb-4">
                 <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">MedStore ERP</h2>
                 <p className="text-sm text-slate-500">Medical Store - GST Tax Invoice</p>
-                <div className="flex justify-center gap-6 mt-2 text-xs text-slate-400">
+                <div className="flex flex-wrap justify-center gap-3 sm:gap-6 mt-2 text-xs text-slate-400">
                   <span>Invoice: <strong className="text-slate-600">{viewingSale.invoiceNumber}</strong></span>
                   <span>Date: <strong className="text-slate-600">{formatDateTime(viewingSale.createdAt)}</strong></span>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 mb-5 text-sm bg-slate-50 rounded-lg p-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5 text-sm bg-slate-50 rounded-lg p-3">
                 <div>
                   <p className="text-[11px] text-slate-400 uppercase font-semibold mb-0.5">Bill To</p>
                   <p className="font-semibold text-slate-900">{viewingSale.customer?.name || "Walk-in Customer"}</p>
@@ -667,17 +667,18 @@ export default function BillingPage() {
                 </div>
               </div>
 
-              <table className="w-full text-sm mb-4">
+              <div className="overflow-x-auto -mx-4 sm:-mx-6 px-4 sm:px-6">
+              <table className="w-full text-sm mb-4 min-w-[600px]">
                 <thead>
                   <tr className="bg-teal-50 border-b border-teal-100">
-                    <th className="text-left py-2.5 px-3 font-semibold text-teal-700 text-xs">#</th>
-                    <th className="text-left py-2.5 px-3 font-semibold text-teal-700 text-xs">Medicine</th>
-                    <th className="text-center py-2.5 px-3 font-semibold text-teal-700 text-xs">Qty</th>
-                    <th className="text-right py-2.5 px-3 font-semibold text-teal-700 text-xs">Rate</th>
-                    <th className="text-right py-2.5 px-3 font-semibold text-teal-700 text-xs">GST%</th>
-                    <th className="text-right py-2.5 px-3 font-semibold text-teal-700 text-xs">CGST</th>
-                    <th className="text-right py-2.5 px-3 font-semibold text-teal-700 text-xs">SGST</th>
-                    <th className="text-right py-2.5 px-3 font-semibold text-teal-700 text-xs">Amount</th>
+                    <th className="text-left py-2.5 px-2 sm:px-3 font-semibold text-teal-700 text-xs">#</th>
+                    <th className="text-left py-2.5 px-2 sm:px-3 font-semibold text-teal-700 text-xs">Medicine</th>
+                    <th className="text-center py-2.5 px-2 sm:px-3 font-semibold text-teal-700 text-xs">Qty</th>
+                    <th className="text-right py-2.5 px-2 sm:px-3 font-semibold text-teal-700 text-xs">Rate</th>
+                    <th className="text-right py-2.5 px-2 sm:px-3 font-semibold text-teal-700 text-xs">GST%</th>
+                    <th className="text-right py-2.5 px-2 sm:px-3 font-semibold text-teal-700 text-xs">CGST</th>
+                    <th className="text-right py-2.5 px-2 sm:px-3 font-semibold text-teal-700 text-xs">SGST</th>
+                    <th className="text-right py-2.5 px-2 sm:px-3 font-semibold text-teal-700 text-xs">Amount</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -685,22 +686,23 @@ export default function BillingPage() {
                     const itemGst = (item.totalAmount * item.gstRate) / (100 + item.gstRate);
                     return (
                       <tr key={item.id} className="border-b border-slate-100">
-                        <td className="py-2 px-3 text-slate-400">{i + 1}</td>
-                        <td className="py-2 px-3">
+                        <td className="py-2 px-2 sm:px-3 text-slate-400">{i + 1}</td>
+                        <td className="py-2 px-2 sm:px-3">
                           <p className="font-medium text-slate-900">{item.medicine.name}</p>
                           <p className="text-[10px] text-slate-400">Batch: {item.batch.batchNumber}</p>
                         </td>
-                        <td className="py-2 px-3 text-center">{item.quantity}</td>
-                        <td className="py-2 px-3 text-right">{formatCurrency(item.unitPrice)}</td>
-                        <td className="py-2 px-3 text-right text-slate-500">{item.gstRate}%</td>
-                        <td className="py-2 px-3 text-right text-slate-500">{formatCurrency(itemGst / 2)}</td>
-                        <td className="py-2 px-3 text-right text-slate-500">{formatCurrency(itemGst / 2)}</td>
-                        <td className="py-2 px-3 text-right font-semibold">{formatCurrency(item.totalAmount)}</td>
+                        <td className="py-2 px-2 sm:px-3 text-center">{item.quantity}</td>
+                        <td className="py-2 px-2 sm:px-3 text-right">{formatCurrency(item.unitPrice)}</td>
+                        <td className="py-2 px-2 sm:px-3 text-right text-slate-500">{item.gstRate}%</td>
+                        <td className="py-2 px-2 sm:px-3 text-right text-slate-500">{formatCurrency(itemGst / 2)}</td>
+                        <td className="py-2 px-2 sm:px-3 text-right text-slate-500">{formatCurrency(itemGst / 2)}</td>
+                        <td className="py-2 px-2 sm:px-3 text-right font-semibold">{formatCurrency(item.totalAmount)}</td>
                       </tr>
                     );
                   })}
                 </tbody>
               </table>
+              </div>
 
               <div className="bg-slate-50 rounded-lg p-4 space-y-1.5 text-sm">
                 <div className="flex justify-between">

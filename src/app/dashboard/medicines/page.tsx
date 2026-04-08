@@ -380,8 +380,8 @@ export default function MedicinesPage() {
 
                   {/* Batch details */}
                   {isExpanded && (
-                    <div className="border-t border-slate-100 bg-slate-50/50 px-5 py-4 animate-fade-in">
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-xs">
+                    <div className="border-t border-slate-100 bg-slate-50/50 px-3 sm:px-5 py-3 sm:py-4 animate-fade-in">
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-4 text-xs">
                         <div>
                           <span className="text-slate-500">Composition:</span>
                           <p className="font-medium text-slate-700">
@@ -409,7 +409,7 @@ export default function MedicinesPage() {
                       </div>
                       {med.batches.length > 0 ? (
                         <div className="overflow-x-auto">
-                          <table className="w-full text-xs">
+                          <table className="w-full text-xs min-w-[500px]">
                             <thead>
                               <tr className="bg-white">
                                 <th className="text-left py-2 px-3 font-medium text-slate-500">

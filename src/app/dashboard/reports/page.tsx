@@ -125,7 +125,7 @@ export default function ReportsPage() {
         {/* Date Filter & Generate */}
         <Card className="mb-6">
           <CardContent className="py-4">
-            <div className="flex flex-col sm:flex-row items-end gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
               <Input
                 id="from"
                 label="From Date"
@@ -140,15 +140,19 @@ export default function ReportsPage() {
                 value={toDate}
                 onChange={(e) => setToDate(e.target.value)}
               />
-              <Button onClick={fetchReport} loading={loading}>
-                <BarChart3 className="h-4 w-4" />
-                Generate Report
-              </Button>
-              {data && (
-                <Button variant="outline" onClick={exportCSV}>
-                  <Download className="h-4 w-4" />
-                  Export CSV
+              <div className="flex items-end">
+                <Button onClick={fetchReport} loading={loading} className="w-full sm:w-auto">
+                  <BarChart3 className="h-4 w-4" />
+                  Generate
                 </Button>
+              </div>
+              {data && (
+                <div className="flex items-end">
+                  <Button variant="outline" onClick={exportCSV} className="w-full sm:w-auto">
+                    <Download className="h-4 w-4" />
+                    Export CSV
+                  </Button>
+                </div>
               )}
             </div>
           </CardContent>
@@ -217,7 +221,8 @@ export default function ReportsPage() {
               <Card>
                 <CardHeader><h3 className="text-sm font-semibold">GST Breakdown by Rate</h3></CardHeader>
                 <CardContent className="p-0">
-                  <table className="w-full text-sm">
+                  <div className="overflow-x-auto">
+                  <table className="w-full text-sm min-w-[500px]">
                     <thead><tr className="bg-slate-50 border-b">
                       <th className="text-left py-3 px-4 font-medium text-slate-500">GST Rate</th>
                       <th className="text-right py-3 px-4 font-medium text-slate-500">Taxable Amount</th>
@@ -237,6 +242,7 @@ export default function ReportsPage() {
                       ))}
                     </tbody>
                   </table>
+                  </div>
                 </CardContent>
               </Card>
             ) : null}
@@ -245,7 +251,7 @@ export default function ReportsPage() {
               <Card>
                 <CardHeader><h3 className="text-sm font-semibold">Stock Details</h3></CardHeader>
                 <CardContent className="p-0 overflow-x-auto">
-                  <table className="w-full text-sm">
+                  <table className="w-full text-sm min-w-[600px]">
                     <thead><tr className="bg-slate-50 border-b">
                       <th className="text-left py-3 px-4 font-medium text-slate-500">Medicine</th>
                       <th className="text-left py-3 px-4 font-medium text-slate-500">Category</th>
@@ -279,7 +285,7 @@ export default function ReportsPage() {
               <Card>
                 <CardHeader><h3 className="text-sm font-semibold">Expiring / Expired Medicines</h3></CardHeader>
                 <CardContent className="p-0 overflow-x-auto">
-                  <table className="w-full text-sm">
+                  <table className="w-full text-sm min-w-[600px]">
                     <thead><tr className="bg-slate-50 border-b">
                       <th className="text-left py-3 px-4 font-medium text-slate-500">Medicine</th>
                       <th className="text-left py-3 px-4 font-medium text-slate-500">Batch</th>
@@ -322,7 +328,7 @@ export default function ReportsPage() {
                   </h3>
                 </CardHeader>
                 <CardContent className="p-0 overflow-x-auto">
-                  <table className="w-full text-sm">
+                  <table className="w-full text-sm min-w-[500px]">
                     <thead>
                       <tr className="bg-slate-50 border-b">
                         <th className="text-left py-3 px-4 font-medium text-slate-500">Invoice</th>

@@ -29,7 +29,7 @@ export function CardHeader({
 }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn("px-6 py-4 border-b border-slate-100/80", className)}
+      className={cn("px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-100/80", className)}
       {...props}
     >
       {children}
@@ -43,7 +43,7 @@ export function CardContent({
   ...props
 }: HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn("px-6 py-4", className)} {...props}>
+    <div className={cn("px-4 sm:px-6 py-3 sm:py-4", className)} {...props}>
       {children}
     </div>
   );

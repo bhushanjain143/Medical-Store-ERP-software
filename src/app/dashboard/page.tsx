@@ -177,7 +177,7 @@ export default function DashboardPage() {
                       </span>
                     )}
                   </div>
-                  <p className="text-lg sm:text-2xl font-extrabold tracking-tight leading-tight">
+                  <p className="text-base sm:text-2xl font-extrabold tracking-tight leading-tight truncate">
                     {stat.value}
                   </p>
                   <p className="text-[10px] sm:text-xs text-white/80 font-medium mt-0.5 sm:mt-1 truncate">{stat.label}</p>
@@ -345,23 +345,23 @@ export default function DashboardPage() {
                     {data.recentSales.length > 0 ? (
                       data.recentSales.map((sale) => (
                         <tr key={sale.id} className="border-b border-slate-50 hover:bg-teal-50/30 transition-colors">
-                          <td className="py-3.5 px-5">
-                            <div className="flex items-center gap-2.5">
-                              <div className="w-8 h-8 rounded-lg bg-teal-50 flex items-center justify-center">
-                                <ShoppingCart className="h-3.5 w-3.5 text-teal-600" />
+                          <td className="py-3 px-3 sm:px-5">
+                            <div className="flex items-center gap-2">
+                              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-teal-50 flex items-center justify-center flex-shrink-0">
+                                <ShoppingCart className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-teal-600" />
                               </div>
-                              <span className="font-semibold text-slate-900">
+                              <span className="font-semibold text-slate-900 text-xs sm:text-sm">
                                 {sale.invoiceNumber}
                               </span>
                             </div>
                           </td>
-                          <td className="py-3.5 px-5 text-slate-600">
+                          <td className="py-3 px-3 sm:px-5 text-slate-600 text-xs sm:text-sm">
                             {sale.customer?.name || "Walk-in"}
                           </td>
-                          <td className="py-3.5 px-5 font-bold text-slate-900">
+                          <td className="py-3 px-3 sm:px-5 font-bold text-slate-900 text-xs sm:text-sm">
                             {formatCurrency(sale.totalAmount)}
                           </td>
-                          <td className="py-3.5 px-5">
+                          <td className="py-3 px-3 sm:px-5">
                             <Badge
                               variant={sale.paymentMode === "credit" ? "warning" : "success"}
                               dot
@@ -369,7 +369,7 @@ export default function DashboardPage() {
                               {sale.paymentMode}
                             </Badge>
                           </td>
-                          <td className="py-3.5 px-5 text-slate-500 text-xs font-medium">
+                          <td className="py-3 px-3 sm:px-5 text-slate-500 text-xs font-medium">
                             {formatDateTime(sale.createdAt)}
                           </td>
                         </tr>
