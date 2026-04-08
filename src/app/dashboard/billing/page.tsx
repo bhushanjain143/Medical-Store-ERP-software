@@ -1,0 +1,749 @@
+"use client";
+
+import { Header } from "@/components/layout/header";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Modal } from "@/components/ui/modal";
+import { formatCurrency, formatDate, formatDateTime } from "@/lib/utils";
+import {
+  Search,
+  Plus,
+  Minus,
+  Trash2,
+  ShoppingCart,
+  Printer,
+  Receipt,
+  X,
+  Eye,
+} from "lucide-react";
+import { useEffect, useState, useRef, useCallback } from "react";
+import toast from "react-hot-toast";
+
+interface Batch {
+  id: string;
+  batchNumber: string;
+  sellingPrice: number;
+  mrp: number;
+  quantity: number;
+  expiryDate: string;
+}
+
+interface Medicine {
+  id: string;
+  name: string;
+  genericName: string | null;
+  category: string;
+  gstRate: number;
+  batches: Batch[];
+}
+
+interface CartItem {
+  medicineId: string;
+  medicineName: string;
+  batchId: string;
+  batchNumber: string;
+  quantity: number;
+  maxQuantity: number;
+  unitPrice: number;
+  mrp: number;
+  gstRate: number;
+  discount: number;
+}
+
+interface Customer {
+  id: string;
+  name: string;
+  phone: string | null;
+}
+
+interface SaleRecord {
+  id: string;
+  invoiceNumber: string;
+  totalAmount: number;
+  paymentMode: string;
+  status: string;
+  discount: number;
+  gstAmount: number;
+  subtotal: number;
+  createdAt: string;
+  notes: string | null;
+  customer: { name: string; phone: string | null } | null;
+  user: { name: string };
+  items: Array<{
+    id: string;
+    quantity: number;
+    unitPrice: number;
+    totalAmount: number;
+    gstRate: number;
+    gstAmount: number;
+    discount: number;
+    medicine: { name: string };
+    batch: { batchNumber: string };
+  }>;
+}
+
+export default function BillingPage() {
+  const [medicines, setMedicines] = useState<Medicine[]>([]);
+  const [customers, setCustomers] = useState<Customer[]>([]);
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<Medicine[]>([]);
+  const [selectedCustomer, setSelectedCustomer] = useState("");
+  const [paymentMode, setPaymentMode] = useState("cash");
+  const [discount, setDiscount] = useState("0");
+  const [notes, setNotes] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [sales, setSales] = useState<SaleRecord[]>([]);
+  const [salesTotal, setSalesTotal] = useState(0);
+  const [showSales, setShowSales] = useState(false);
+  const [viewingSale, setViewingSale] = useState<SaleRecord | null>(null);
+  const searchRef = useRef<HTMLInputElement>(null);
+  const [showSearch, setShowSearch] = useState(false);
+
+  const loadData = useCallback(async () => {
+    try {
+      const [medRes, custRes] = await Promise.all([
+        fetch("/api/medicines"),
+        fetch("/api/customers"),
+      ]);
+      const medData = await medRes.json();
+      const custData = await custRes.json();
+      setMedicines(Array.isArray(medData) ? medData : []);
+      setCustomers(Array.isArray(custData) ? custData : []);
+    } catch {
+      toast.error("Failed to load data");
+    }
+  }, []);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  const loadSales = async () => {
+    try {
+      const res = await fetch("/api/sales?limit=50");
+      const data = await res.json();
+      setSales(data.sales || []);
+      setSalesTotal(data.total || 0);
+    } catch {
+      toast.error("Failed to load sales");
+    }
+  };
+
+  useEffect(() => {
+    if (showSales) loadSales();
+  }, [showSales]);
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    if (query.length < 2) {
+      setSearchResults([]);
+      setShowSearch(false);
+      return;
+    }
+    const q = query.toLowerCase();
+    const results = medicines.filter(
+      (m) =>
+        m.name.toLowerCase().includes(q) ||
+        m.genericName?.toLowerCase().includes(q) ||
+        m.batches.some((b) => b.batchNumber.toLowerCase().includes(q))
+    );
+    setSearchResults(results.slice(0, 10));
+    setShowSearch(true);
+  };
+
+  const addToCart = (medicine: Medicine, batch: Batch) => {
+    const existing = cart.find((item) => item.batchId === batch.id);
+    if (existing) {
+      if (existing.quantity >= batch.quantity) {
+        toast.error("Maximum stock reached");
+        return;
+      }
+      setCart(
+        cart.map((item) =>
+          item.batchId === batch.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        )
+      );
+    } else {
+      setCart([
+        ...cart,
+        {
+          medicineId: medicine.id,
+          medicineName: medicine.name,
+          batchId: batch.id,
+          batchNumber: batch.batchNumber,
+          quantity: 1,
+          maxQuantity: batch.quantity,
+          unitPrice: batch.sellingPrice,
+          mrp: batch.mrp,
+          gstRate: medicine.gstRate,
+          discount: 0,
+        },
+      ]);
+    }
+    setSearchQuery("");
+    setSearchResults([]);
+    setShowSearch(false);
+    searchRef.current?.focus();
+  };
+
+  const updateQuantity = (batchId: string, delta: number) => {
+    setCart(
+      cart
+        .map((item) => {
+          if (item.batchId !== batchId) return item;
+          const newQty = item.quantity + delta;
+          if (newQty <= 0) return null;
+          if (newQty > item.maxQuantity) {
+            toast.error("Maximum stock reached");
+            return item;
+          }
+          return { ...item, quantity: newQty };
+        })
+        .filter(Boolean) as CartItem[]
+    );
+  };
+
+  const removeFromCart = (batchId: string) => {
+    setCart(cart.filter((item) => item.batchId !== batchId));
+  };
+
+  const subtotal = cart.reduce(
+    (sum, item) => sum + item.quantity * item.unitPrice - item.discount,
+    0
+  );
+  const gstAmount = cart.reduce(
+    (sum, item) =>
+      sum +
+      ((item.quantity * item.unitPrice - item.discount) * item.gstRate) /
+        (100 + item.gstRate),
+    0
+  );
+  const totalDiscount = parseFloat(discount) || 0;
+  const grandTotal = subtotal - totalDiscount;
+
+  const handleSubmit = async () => {
+    if (cart.length === 0) {
+      toast.error("Cart is empty");
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch("/api/sales", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: cart.map((item) => ({
+            batchId: item.batchId,
+            quantity: item.quantity,
+            discount: item.discount,
+          })),
+          customerId: selectedCustomer || null,
+          paymentMode,
+          discount,
+          notes: notes || null,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      toast.success(`Invoice ${data.invoiceNumber} created!`);
+      setViewingSale(data);
+      setCart([]);
+      setDiscount("0");
+      setNotes("");
+      setSelectedCustomer("");
+      loadData();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Failed to create sale");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleReturn = async (saleId: string) => {
+    if (!confirm("Are you sure you want to return this sale? Stock will be restored.")) return;
+    try {
+      const res = await fetch(`/api/sales/${saleId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "returned" }),
+      });
+      if (!res.ok) throw new Error();
+      toast.success("Sale returned successfully");
+      loadSales();
+    } catch {
+      toast.error("Failed to return sale");
+    }
+  };
+
+  return (
+    <div>
+      <Header title="Billing / POS" subtitle="Create invoices and manage sales" />
+      <div className="p-4 sm:p-6">
+        {/* Toggle between POS and Sales History */}
+        <div className="flex gap-2 sm:gap-3 mb-4 sm:mb-6 overflow-x-auto">
+          <Button
+            variant={!showSales ? "primary" : "outline"}
+            onClick={() => setShowSales(false)}
+          >
+            <ShoppingCart className="h-4 w-4" />
+            New Bill
+          </Button>
+          <Button
+            variant={showSales ? "primary" : "outline"}
+            onClick={() => setShowSales(true)}
+          >
+            <Receipt className="h-4 w-4" />
+            Sales History ({salesTotal})
+          </Button>
+        </div>
+
+        {!showSales ? (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+            {/* Medicine Search & Cart */}
+            <div className="lg:col-span-2 space-y-3 sm:space-y-4 order-2 lg:order-1">
+              {/* Search */}
+              <Card>
+                <CardContent className="py-3">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                    <input
+                      ref={searchRef}
+                      type="text"
+                      placeholder="Search medicines by name, generic name, or batch number..."
+                      value={searchQuery}
+                      onChange={(e) => handleSearch(e.target.value)}
+                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white text-sm shadow-sm hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 transition-all"
+                      autoFocus
+                    />
+                    {showSearch && searchResults.length > 0 && (
+                      <div className="absolute z-10 top-full left-0 right-0 mt-1.5 bg-white border border-slate-200 rounded-2xl shadow-xl shadow-slate-200/50 max-h-80 overflow-y-auto">
+                        {searchResults.map((med) =>
+                          med.batches
+                            .filter((b) => b.quantity > 0)
+                            .map((batch) => (
+                              <button
+                                key={batch.id}
+                                onClick={() => addToCart(med, batch)}
+                                className="w-full text-left px-4 py-3 hover:bg-slate-50 border-b border-slate-50 last:border-0 transition-colors"
+                              >
+                                <div className="flex items-center justify-between">
+                                  <div>
+                                    <p className="text-sm font-medium text-slate-900">
+                                      {med.name}
+                                    </p>
+                                    <p className="text-xs text-slate-500">
+                                      Batch: {batch.batchNumber} • Stock:{" "}
+                                      {batch.quantity} • Exp:{" "}
+                                      {formatDate(batch.expiryDate)}
+                                    </p>
+                                  </div>
+                                  <div className="text-right">
+                                    <p className="text-sm font-semibold text-primary">
+                                      {formatCurrency(batch.sellingPrice)}
+                                    </p>
+                                    <p className="text-[11px] text-slate-400">
+                                      MRP: {formatCurrency(batch.mrp)}
+                                    </p>
+                                  </div>
+                                </div>
+                              </button>
+                            ))
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Cart Table */}
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-sm font-semibold text-slate-900">
+                      Cart ({cart.length} items)
+                    </h3>
+                    {cart.length > 0 && (
+                      <button
+                        onClick={() => setCart([])}
+                        className="text-xs text-red-500 hover:text-red-700"
+                      >
+                        Clear All
+                      </button>
+                    )}
+                  </div>
+                </CardHeader>
+                <CardContent className="p-0">
+                  {cart.length === 0 ? (
+                    <div className="py-12 text-center">
+                      <ShoppingCart className="h-10 w-10 text-slate-300 mx-auto mb-3" />
+                      <p className="text-sm text-slate-500">
+                        Search and add medicines to start billing
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="bg-slate-50 border-b border-slate-100">
+                            <th className="text-left py-3 px-4 font-medium text-slate-500">
+                              Medicine
+                            </th>
+                            <th className="text-center py-3 px-4 font-medium text-slate-500">
+                              Qty
+                            </th>
+                            <th className="text-right py-3 px-4 font-medium text-slate-500">
+                              Price
+                            </th>
+                            <th className="text-right py-3 px-4 font-medium text-slate-500">
+                              Total
+                            </th>
+                            <th className="text-center py-3 px-4 font-medium text-slate-500 w-12"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {cart.map((item) => (
+                            <tr key={item.batchId} className="border-b border-slate-50">
+                              <td className="py-3 px-4">
+                                <p className="font-medium text-slate-900">
+                                  {item.medicineName}
+                                </p>
+                                <p className="text-xs text-slate-500">
+                                  Batch: {item.batchNumber} • GST: {item.gstRate}%
+                                </p>
+                              </td>
+                              <td className="py-3 px-4">
+                                <div className="flex items-center justify-center gap-2">
+                                  <button
+                                    onClick={() => updateQuantity(item.batchId, -1)}
+                                    className="p-1 rounded bg-slate-100 hover:bg-slate-200 transition-colors"
+                                  >
+                                    <Minus className="h-3 w-3" />
+                                  </button>
+                                  <span className="w-8 text-center font-medium">
+                                    {item.quantity}
+                                  </span>
+                                  <button
+                                    onClick={() => updateQuantity(item.batchId, 1)}
+                                    className="p-1 rounded bg-slate-100 hover:bg-slate-200 transition-colors"
+                                  >
+                                    <Plus className="h-3 w-3" />
+                                  </button>
+                                </div>
+                              </td>
+                              <td className="py-3 px-4 text-right text-slate-600">
+                                {formatCurrency(item.unitPrice)}
+                              </td>
+                              <td className="py-3 px-4 text-right font-medium text-slate-900">
+                                {formatCurrency(item.quantity * item.unitPrice)}
+                              </td>
+                              <td className="py-3 px-4 text-center">
+                                <button
+                                  onClick={() => removeFromCart(item.batchId)}
+                                  className="p-1 rounded text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors"
+                                >
+                                  <X className="h-4 w-4" />
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Bill Summary */}
+            <div className="space-y-4 order-1 lg:order-2">
+              <Card>
+                <CardHeader>
+                  <h3 className="text-sm font-semibold text-slate-900">
+                    Bill Summary
+                  </h3>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <Select
+                    id="customer"
+                    label="Customer"
+                    options={[
+                      { value: "", label: "Walk-in Customer" },
+                      ...customers.map((c) => ({
+                        value: c.id,
+                        label: `${c.name}${c.phone ? ` (${c.phone})` : ""}`,
+                      })),
+                    ]}
+                    value={selectedCustomer}
+                    onChange={(e) => setSelectedCustomer(e.target.value)}
+                  />
+                  <Select
+                    id="paymentMode"
+                    label="Payment Mode"
+                    options={[
+                      { value: "cash", label: "Cash" },
+                      { value: "upi", label: "UPI" },
+                      { value: "card", label: "Card" },
+                      { value: "credit", label: "Credit (Udhar)" },
+                    ]}
+                    value={paymentMode}
+                    onChange={(e) => setPaymentMode(e.target.value)}
+                  />
+                  <Input
+                    id="discount"
+                    label="Discount (₹)"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={discount}
+                    onChange={(e) => setDiscount(e.target.value)}
+                  />
+                  <Input
+                    id="notes"
+                    label="Notes"
+                    placeholder="Optional notes..."
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                  />
+
+                  <div className="border-t border-slate-100 pt-4 space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-500">Subtotal</span>
+                      <span className="text-slate-700">
+                        {formatCurrency(subtotal)}
+                      </span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-500">GST (incl.)</span>
+                      <span className="text-slate-700">
+                        {formatCurrency(gstAmount)}
+                      </span>
+                    </div>
+                    {totalDiscount > 0 && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-slate-500">Discount</span>
+                        <span className="text-red-600">
+                          -{formatCurrency(totalDiscount)}
+                        </span>
+                      </div>
+                    )}
+                    <div className="flex justify-between text-lg font-extrabold border-t border-slate-200 pt-3">
+                      <span className="text-slate-900">Total</span>
+                      <span className="text-gradient">
+                        {formatCurrency(grandTotal)}
+                      </span>
+                    </div>
+                  </div>
+
+                  <Button
+                    className="w-full py-3.5"
+                    size="lg"
+                    onClick={handleSubmit}
+                    loading={loading}
+                    disabled={cart.length === 0}
+                  >
+                    <Receipt className="h-4 w-4" />
+                    Generate Invoice
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        ) : (
+          /* Sales History */
+          <Card>
+            <CardContent className="p-0">
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm min-w-[700px]">
+                  <thead>
+                    <tr className="bg-slate-50 border-b border-slate-200">
+                      <th className="text-left py-3 px-3 sm:px-4 font-medium text-slate-500 text-xs">Invoice</th>
+                      <th className="text-left py-3 px-3 sm:px-4 font-medium text-slate-500 text-xs">Customer</th>
+                      <th className="text-right py-3 px-3 sm:px-4 font-medium text-slate-500 text-xs">Amount</th>
+                      <th className="text-left py-3 px-3 sm:px-4 font-medium text-slate-500 text-xs">Payment</th>
+                      <th className="text-left py-3 px-3 sm:px-4 font-medium text-slate-500 text-xs">Status</th>
+                      <th className="text-left py-3 px-3 sm:px-4 font-medium text-slate-500 text-xs">Date</th>
+                      <th className="text-center py-3 px-3 sm:px-4 font-medium text-slate-500 text-xs">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {sales.map((sale) => (
+                      <tr key={sale.id} className="border-b border-slate-50 hover:bg-slate-50/50">
+                        <td className="py-3 px-4 font-medium text-slate-900">
+                          {sale.invoiceNumber}
+                        </td>
+                        <td className="py-3 px-4 text-slate-600">
+                          {sale.customer?.name || "Walk-in"}
+                        </td>
+                        <td className="py-3 px-4 text-right font-medium text-slate-900">
+                          {formatCurrency(sale.totalAmount)}
+                        </td>
+                        <td className="py-3 px-4">
+                          <Badge variant={sale.paymentMode === "credit" ? "warning" : "success"}>
+                            {sale.paymentMode}
+                          </Badge>
+                        </td>
+                        <td className="py-3 px-4">
+                          <Badge variant={sale.status === "completed" ? "success" : "danger"}>
+                            {sale.status}
+                          </Badge>
+                        </td>
+                        <td className="py-3 px-4 text-slate-500 text-xs">
+                          {formatDateTime(sale.createdAt)}
+                        </td>
+                        <td className="py-3 px-4">
+                          <div className="flex items-center justify-center gap-1">
+                            <button
+                              onClick={() => setViewingSale(sale)}
+                              className="p-1.5 rounded text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                              title="View"
+                            >
+                              <Eye className="h-4 w-4" />
+                            </button>
+                            {sale.status === "completed" && (
+                              <button
+                                onClick={() => handleReturn(sale.id)}
+                                className="p-1.5 rounded text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"
+                                title="Return"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </button>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                    {sales.length === 0 && (
+                      <tr>
+                        <td colSpan={7} className="py-12 text-center text-slate-500">
+                          No sales found
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Invoice View Modal */}
+        <Modal
+          open={!!viewingSale}
+          onClose={() => setViewingSale(null)}
+          title={`Invoice: ${viewingSale?.invoiceNumber || ""}`}
+          size="lg"
+        >
+          {viewingSale && (
+            <div id="invoice-print">
+              <div className="text-center mb-6 border-b border-slate-200 pb-4">
+                <h2 className="text-xl font-bold text-slate-900">MedStore ERP</h2>
+                <p className="text-sm text-slate-500">Medical Store Invoice</p>
+                <p className="text-xs text-slate-400 mt-1">
+                  Invoice: {viewingSale.invoiceNumber} | Date:{" "}
+                  {formatDateTime(viewingSale.createdAt)}
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
+                <div>
+                  <p className="text-slate-500">Customer:</p>
+                  <p className="font-medium">
+                    {viewingSale.customer?.name || "Walk-in Customer"}
+                  </p>
+                </div>
+                <div className="text-right">
+                  <p className="text-slate-500">Billed by:</p>
+                  <p className="font-medium">{viewingSale.user.name}</p>
+                </div>
+              </div>
+
+              <table className="w-full text-sm mb-4">
+                <thead>
+                  <tr className="bg-slate-50">
+                    <th className="text-left py-2 px-3 font-medium text-slate-500">#</th>
+                    <th className="text-left py-2 px-3 font-medium text-slate-500">Medicine</th>
+                    <th className="text-center py-2 px-3 font-medium text-slate-500">Qty</th>
+                    <th className="text-right py-2 px-3 font-medium text-slate-500">Price</th>
+                    <th className="text-right py-2 px-3 font-medium text-slate-500">GST</th>
+                    <th className="text-right py-2 px-3 font-medium text-slate-500">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {viewingSale.items.map((item, i) => (
+                    <tr key={item.id} className="border-b border-slate-100">
+                      <td className="py-2 px-3 text-slate-500">{i + 1}</td>
+                      <td className="py-2 px-3">
+                        <p className="font-medium">{item.medicine.name}</p>
+                        <p className="text-xs text-slate-400">
+                          Batch: {item.batch.batchNumber}
+                        </p>
+                      </td>
+                      <td className="py-2 px-3 text-center">{item.quantity}</td>
+                      <td className="py-2 px-3 text-right">
+                        {formatCurrency(item.unitPrice)}
+                      </td>
+                      <td className="py-2 px-3 text-right text-slate-500">
+                        {item.gstRate}%
+                      </td>
+                      <td className="py-2 px-3 text-right font-medium">
+                        {formatCurrency(item.totalAmount)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              <div className="border-t border-slate-200 pt-3 space-y-1 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-slate-500">Subtotal</span>
+                  <span>{formatCurrency(viewingSale.subtotal)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-500">GST (incl.)</span>
+                  <span>{formatCurrency(viewingSale.gstAmount)}</span>
+                </div>
+                {viewingSale.discount > 0 && (
+                  <div className="flex justify-between">
+                    <span className="text-slate-500">Discount</span>
+                    <span className="text-red-600">
+                      -{formatCurrency(viewingSale.discount)}
+                    </span>
+                  </div>
+                )}
+                <div className="flex justify-between text-lg font-bold pt-2 border-t">
+                  <span>Grand Total</span>
+                  <span className="text-primary">
+                    {formatCurrency(viewingSale.totalAmount)}
+                  </span>
+                </div>
+                <div className="flex justify-between text-xs text-slate-500 pt-1">
+                  <span>Payment: {viewingSale.paymentMode.toUpperCase()}</span>
+                  <span>Status: {viewingSale.status.toUpperCase()}</span>
+                </div>
+              </div>
+
+              <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-slate-100 no-print">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    window.print();
+                  }}
+                >
+                  <Printer className="h-4 w-4" />
+                  Print
+                </Button>
+                <Button onClick={() => setViewingSale(null)}>Close</Button>
+              </div>
+            </div>
+          )}
+        </Modal>
+      </div>
+    </div>
+  );
+}

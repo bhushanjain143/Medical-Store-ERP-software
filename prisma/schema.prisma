@@ -1,0 +1,194 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id        String     @id @default(cuid())
+  name      String
+  email     String     @unique
+  password  String
+  role      String     @default("salesperson")
+  pin       String?
+  active    Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  sales     Sale[]
+  auditLogs AuditLog[]
+}
+
+model Medicine {
+  id              String         @id @default(cuid())
+  name            String
+  genericName     String?
+  composition     String?
+  category        String         @default("Tablet")
+  manufacturer    String?
+  hsnCode         String?
+  gstRate         Float          @default(12)
+  prescriptionReq Boolean        @default(false)
+  rackLocation    String?
+  reorderLevel    Int            @default(10)
+  active          Boolean        @default(true)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  batches         Batch[]
+  saleItems       SaleItem[]
+  purchaseItems   PurchaseItem[]
+}
+
+model Batch {
+  id            String         @id @default(cuid())
+  medicineId    String
+  medicine      Medicine       @relation(fields: [medicineId], references: [id], onDelete: Cascade)
+  batchNumber   String
+  mrp           Float
+  purchasePrice Float
+  sellingPrice  Float
+  quantity      Int
+  mfgDate       DateTime?
+  expiryDate    DateTime
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  saleItems     SaleItem[]
+  purchaseItems PurchaseItem[]
+}
+
+model Customer {
+  id        String    @id @default(cuid())
+  name      String
+  phone     String?   @unique
+  email     String?
+  address   String?
+  balance   Float     @default(0)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  sales     Sale[]
+  payments  Payment[]
+}
+
+model Supplier {
+  id          String     @id @default(cuid())
+  name        String
+  phone       String?
+  email       String?
+  address     String?
+  gstin       String?
+  drugLicense String?
+  balance     Float      @default(0)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  purchases   Purchase[]
+  payments    Payment[]
+}
+
+model Sale {
+  id            String     @id @default(cuid())
+  invoiceNumber String     @unique
+  customerId    String?
+  customer      Customer?  @relation(fields: [customerId], references: [id])
+  userId        String
+  user          User       @relation(fields: [userId], references: [id])
+  subtotal      Float
+  discount      Float      @default(0)
+  gstAmount     Float      @default(0)
+  totalAmount   Float
+  paymentMode   String     @default("cash")
+  status        String     @default("completed")
+  notes         String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  items         SaleItem[]
+  payments      Payment[]
+}
+
+model SaleItem {
+  id          String   @id @default(cuid())
+  saleId      String
+  sale        Sale     @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  medicineId  String
+  medicine    Medicine @relation(fields: [medicineId], references: [id])
+  batchId     String
+  batch       Batch    @relation(fields: [batchId], references: [id])
+  quantity    Int
+  unitPrice   Float
+  discount    Float    @default(0)
+  gstRate     Float
+  gstAmount   Float
+  totalAmount Float
+  createdAt   DateTime @default(now())
+}
+
+model Purchase {
+  id            String         @id @default(cuid())
+  invoiceNumber String
+  supplierId    String
+  supplier      Supplier       @relation(fields: [supplierId], references: [id])
+  subtotal      Float
+  gstAmount     Float          @default(0)
+  totalAmount   Float
+  paymentStatus String         @default("pending")
+  paidAmount    Float          @default(0)
+  notes         String?
+  purchaseDate  DateTime       @default(now())
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  items         PurchaseItem[]
+  payments      Payment[]
+}
+
+model PurchaseItem {
+  id          String   @id @default(cuid())
+  purchaseId  String
+  purchase    Purchase @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
+  medicineId  String
+  medicine    Medicine @relation(fields: [medicineId], references: [id])
+  batchId     String
+  batch       Batch    @relation(fields: [batchId], references: [id])
+  quantity    Int
+  unitPrice   Float
+  gstRate     Float
+  gstAmount   Float
+  totalAmount Float
+  createdAt   DateTime @default(now())
+}
+
+model Payment {
+  id         String    @id @default(cuid())
+  type       String
+  saleId     String?
+  sale       Sale?     @relation(fields: [saleId], references: [id])
+  purchaseId String?
+  purchase   Purchase? @relation(fields: [purchaseId], references: [id])
+  customerId String?
+  customer   Customer? @relation(fields: [customerId], references: [id])
+  supplierId String?
+  supplier   Supplier? @relation(fields: [supplierId], references: [id])
+  amount     Float
+  mode       String
+  reference  String?
+  notes      String?
+  createdAt  DateTime  @default(now())
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  action    String
+  entity    String
+  entityId  String?
+  details   String?
+  createdAt DateTime @default(now())
+}
