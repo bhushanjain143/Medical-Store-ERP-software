@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { hash } from "bcryptjs";
-import { generateOTP, storeOTP, sendOTPEmail } from "@/lib/otp";
+import { createToken } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -32,19 +32,20 @@ export async function POST(request: NextRequest) {
 
     const hashedPassword = await hash(password, 12);
 
+    let user;
     if (existing && !existing.active) {
-      await prisma.user.update({
+      user = await prisma.user.update({
         where: { email },
-        data: { name, password: hashedPassword },
+        data: { name, password: hashedPassword, active: true },
       });
     } else {
-      await prisma.user.create({
+      user = await prisma.user.create({
         data: {
           name,
           email,
           password: hashedPassword,
           role: "admin",
-          active: false,
+          active: true,
         },
       });
     }
@@ -57,15 +58,26 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const otp = generateOTP();
-    await storeOTP(email, otp, "register");
-    await sendOTPEmail(email, otp, "register");
-
-    return NextResponse.json({
-      requireOtp: true,
-      email,
-      message: "Account created. Please verify your email with the OTP sent.",
+    const token = await createToken({
+      userId: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
     });
+
+    const response = NextResponse.json({
+      user: { id: user.id, name: user.name, email: user.email, role: user.role },
+    });
+
+    response.cookies.set("auth-token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 60 * 60 * 24 * 7,
+      path: "/",
+    });
+
+    return response;
   } catch (error) {
     console.error("Registration error:", error);
     return NextResponse.json(
