@@ -164,13 +164,17 @@ export default function SettingsPage() {
                   />
                   <label htmlFor="enableSMS" className="text-sm text-slate-700 font-medium">Enable SMS Notifications</label>
                 </div>
+                {(settings.smsPhone || settings.storePhone) && (
+                  <p className="text-xs text-slate-500">
+                    Configured number: <span className="font-semibold text-slate-700">{settings.smsPhone || settings.storePhone}</span>
+                  </p>
+                )}
                 <Input
                   id="smsPhone"
                   label="SMS Phone Number"
                   placeholder="e.g., +91 98765 43210"
                   value={settings.smsPhone || settings.storePhone || ""}
                   onChange={(e) => u("smsPhone", e.target.value)}
-                  disabled={settings.enableSMS !== "true"}
                 />
                 {settings.enableSMS === "true" && !(settings.smsPhone || settings.storePhone) && (
                   <p className="text-[11px] text-amber-600">Set a phone number above to receive SMS alerts.</p>
@@ -187,6 +191,11 @@ export default function SettingsPage() {
                   />
                   <label htmlFor="enableEmail" className="text-sm text-slate-700 font-medium">Enable Email Notifications</label>
                 </div>
+                {(settings.emailAddress || settings.storeEmail) && (
+                  <p className="text-xs text-slate-500">
+                    Configured email: <span className="font-semibold text-slate-700">{settings.emailAddress || settings.storeEmail}</span>
+                  </p>
+                )}
                 <Input
                   id="emailAddress"
                   label="Notification Email"
@@ -194,7 +203,6 @@ export default function SettingsPage() {
                   placeholder="e.g., alerts@yourstore.com"
                   value={settings.emailAddress || settings.storeEmail || ""}
                   onChange={(e) => u("emailAddress", e.target.value)}
-                  disabled={settings.enableEmail !== "true"}
                 />
                 {settings.enableEmail === "true" && !(settings.emailAddress || settings.storeEmail) && (
                   <p className="text-[11px] text-amber-600">Set an email address above to receive email alerts.</p>

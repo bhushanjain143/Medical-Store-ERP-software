@@ -76,7 +76,7 @@ export default function NotificationsPage() {
       />
       <div className="p-4 sm:p-6 space-y-6">
         {/* Alert Summary */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-3">
+        <div className="grid grid-cols-1 min-[480px]:grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-3">
           <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-red-500 to-rose-600 px-4 py-3.5 sm:px-5 sm:py-4 text-white shadow-lg min-h-[88px]">
             <ShieldAlert className="h-4 w-4 text-white/40 mb-1.5" />
             <p className="text-[10px] sm:text-xs text-white/80">Expired</p>

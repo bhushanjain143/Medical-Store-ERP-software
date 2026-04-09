@@ -303,7 +303,7 @@ export default function BillingPage() {
               setShowSearch(false);
               setViewingSale(null);
               loadData();
-              searchRef.current?.focus();
+              setTimeout(() => searchRef.current?.focus(), 100);
             }}
           >
             <ShoppingCart className="h-4 w-4" />
@@ -311,7 +311,10 @@ export default function BillingPage() {
           </Button>
           <Button
             variant={showSales ? "primary" : "outline"}
-            onClick={() => setShowSales(true)}
+            onClick={() => {
+              setShowSales(true);
+              loadSales();
+            }}
           >
             <Receipt className="h-4 w-4" />
             Sales History ({salesTotal})
@@ -319,7 +322,7 @@ export default function BillingPage() {
         </div>
 
         {!showSales ? (
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] xl:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] xl:grid-cols-3 gap-4">
             {/* Medicine Search & Cart */}
             <div className="xl:col-span-2 space-y-3 sm:space-y-4 min-w-0">
               {/* Search */}
@@ -562,17 +565,21 @@ export default function BillingPage() {
                     size="lg"
                     onClick={handleSubmit}
                     loading={loading}
-                    disabled={cart.length === 0}
+                    disabled={loading || cart.length === 0}
                   >
                     <Receipt className="h-4 w-4 flex-shrink-0" />
                     <span className="truncate">
-                      {cart.length === 0 ? "Add Items to Cart First" : "Generate Invoice"}
+                      {loading
+                        ? "Processing..."
+                        : cart.length === 0
+                        ? "Add Items to Generate Invoice"
+                        : `Generate Invoice — ${formatCurrency(grandTotal)}`}
                     </span>
                   </Button>
                   {cart.length === 0 && (
                     <div className="text-center p-3 rounded-xl bg-amber-50 border border-amber-200">
                       <p className="text-xs text-amber-700 font-medium">
-                        Use the search box above to find medicines and add them to the cart before generating an invoice.
+                        Search and add medicines to the cart above, then click Generate Invoice to create the bill.
                       </p>
                     </div>
                   )}

@@ -119,13 +119,13 @@ export default function ExpiryTrackerPage() {
             return (
               <div
                 key={card.label}
-                className={`rounded-xl sm:rounded-2xl bg-gradient-to-br ${card.gradient} px-4 py-3.5 sm:px-5 sm:py-4 text-white shadow-lg min-h-[90px] sm:min-h-[100px] flex flex-col justify-between`}
+                className={`rounded-xl sm:rounded-2xl bg-gradient-to-br ${card.gradient} px-4 py-3.5 sm:px-5 sm:py-4 text-white shadow-lg min-h-[90px] sm:min-h-[100px] flex flex-col justify-between overflow-hidden`}
               >
                 <div className="flex items-start justify-between gap-2">
-                  <p className="text-[11px] sm:text-xs font-semibold text-white/80 leading-tight">{card.label}</p>
+                  <p className="text-[11px] sm:text-xs font-semibold text-white/80 leading-tight truncate">{card.label}</p>
                   <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-white/25 flex-shrink-0" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <p className="text-2xl sm:text-3xl font-extrabold leading-none mt-1">{card.value}</p>
                   <p className="text-[10px] sm:text-[11px] text-white/60 mt-1 truncate">{card.sub}</p>
                 </div>

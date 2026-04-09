@@ -301,13 +301,29 @@ export default function PurchasesPage() {
         </Modal>
 
         {/* New Purchase Modal */}
-        <Modal open={showModal} onClose={() => setShowModal(false)} title="New Purchase Entry" subtitle="Record a new purchase from supplier" size="xl">
+        <Modal open={showModal} onClose={() => { setShowModal(false); setForm({ supplierId: "", invoiceNumber: "", paidAmount: "0", notes: "" }); setItems([{ ...emptyItem }]); }} title="New Purchase Entry" subtitle="Record a new purchase from supplier" size="xl">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <Select id="supplierId" label="Supplier *" options={[{ value: "", label: "-- Select Supplier --" }, ...suppliers.map((s) => ({ value: s.id, label: s.name }))]} value={form.supplierId} onChange={(e) => setForm({ ...form, supplierId: e.target.value })} />
-              <Input id="invoiceNumber" label="Invoice No. *" value={form.invoiceNumber} onChange={(e) => setForm({ ...form, invoiceNumber: e.target.value })} placeholder="e.g., SUP-INV-001" required />
+              <Input id="invoiceNumber" label="Invoice No. *" value={form.invoiceNumber} onChange={(e) => setForm({ ...form, invoiceNumber: e.target.value })} placeholder="e.g., SUP-INV-001" />
               <Input id="paidAmount" label="Amount Paid (₹)" type="number" min="0" step="0.01" value={form.paidAmount} onChange={(e) => setForm({ ...form, paidAmount: e.target.value })} />
             </div>
+
+            {suppliers.length === 0 && (
+              <div className="text-center p-3 rounded-xl bg-amber-50 border border-amber-200">
+                <p className="text-xs text-amber-700 font-medium">
+                  No suppliers found. Please add a supplier first from the Suppliers page.
+                </p>
+              </div>
+            )}
+
+            {medicines.length === 0 && (
+              <div className="text-center p-3 rounded-xl bg-amber-50 border border-amber-200">
+                <p className="text-xs text-amber-700 font-medium">
+                  No medicines found. Please add medicines first from the Medicines page.
+                </p>
+              </div>
+            )}
 
             <div>
               <div className="flex items-center justify-between mb-3">
@@ -317,7 +333,7 @@ export default function PurchasesPage() {
                   Add Item
                 </Button>
               </div>
-              <div className="space-y-3 max-h-[40vh] overflow-y-auto">
+              <div className="space-y-3 max-h-[40vh] overflow-y-auto pr-1">
                 {items.map((item, index) => (
                   <div key={index} className="rounded-xl bg-slate-50 border border-slate-200 p-3 sm:p-4">
                     <div className="flex items-center justify-between mb-3">
@@ -329,14 +345,14 @@ export default function PurchasesPage() {
                       )}
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                      <Select label="Medicine *" options={[{ value: "", label: "-- Select --" }, ...medicines.map((m) => ({ value: m.id, label: m.name }))]} value={item.medicineId} onChange={(e) => updateItem(index, "medicineId", e.target.value)} />
-                      <Input label="Batch No. *" placeholder="BT-2026-001" value={item.batchNumber} onChange={(e) => updateItem(index, "batchNumber", e.target.value)} />
-                      <Input label="Quantity *" type="number" placeholder="100" min="1" value={item.quantity} onChange={(e) => updateItem(index, "quantity", e.target.value)} />
-                      <Input label="Purchase ₹ *" type="number" placeholder="5.50" step="0.01" min="0" value={item.purchasePrice} onChange={(e) => updateItem(index, "purchasePrice", e.target.value)} />
-                      <Input label="Selling ₹ *" type="number" placeholder="8.00" step="0.01" min="0" value={item.sellingPrice} onChange={(e) => updateItem(index, "sellingPrice", e.target.value)} />
-                      <Input label="MRP ₹ *" type="number" placeholder="10.00" step="0.01" min="0" value={item.mrp} onChange={(e) => updateItem(index, "mrp", e.target.value)} />
-                      <Input label="Expiry Date *" type="date" value={item.expiryDate} onChange={(e) => updateItem(index, "expiryDate", e.target.value)} />
-                      <Input label="Mfg Date" type="date" value={item.mfgDate} onChange={(e) => updateItem(index, "mfgDate", e.target.value)} />
+                      <Select id={`medicine-${index}`} label="Medicine *" options={[{ value: "", label: "-- Select --" }, ...medicines.map((m) => ({ value: m.id, label: m.name }))]} value={item.medicineId} onChange={(e) => updateItem(index, "medicineId", e.target.value)} />
+                      <Input id={`batch-${index}`} label="Batch No. *" placeholder="BT-2026-001" value={item.batchNumber} onChange={(e) => updateItem(index, "batchNumber", e.target.value)} />
+                      <Input id={`qty-${index}`} label="Quantity *" type="number" placeholder="100" min="1" value={item.quantity} onChange={(e) => updateItem(index, "quantity", e.target.value)} />
+                      <Input id={`pp-${index}`} label="Purchase ₹ *" type="number" placeholder="5.50" step="0.01" min="0" value={item.purchasePrice} onChange={(e) => updateItem(index, "purchasePrice", e.target.value)} />
+                      <Input id={`sp-${index}`} label="Selling ₹ *" type="number" placeholder="8.00" step="0.01" min="0" value={item.sellingPrice} onChange={(e) => updateItem(index, "sellingPrice", e.target.value)} />
+                      <Input id={`mrp-${index}`} label="MRP ₹ *" type="number" placeholder="10.00" step="0.01" min="0" value={item.mrp} onChange={(e) => updateItem(index, "mrp", e.target.value)} />
+                      <Input id={`exp-${index}`} label="Expiry Date *" type="date" value={item.expiryDate} onChange={(e) => updateItem(index, "expiryDate", e.target.value)} />
+                      <Input id={`mfg-${index}`} label="Mfg Date" type="date" value={item.mfgDate} onChange={(e) => updateItem(index, "mfgDate", e.target.value)} />
                     </div>
                   </div>
                 ))}
@@ -346,8 +362,8 @@ export default function PurchasesPage() {
             <Input id="notes" label="Notes (optional)" placeholder="Notes about this purchase..." value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
 
             <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-4 border-t border-slate-100">
-              <Button type="button" variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
-              <Button type="submit" loading={saving} disabled={!form.supplierId || !form.invoiceNumber}>
+              <Button type="button" variant="secondary" onClick={() => { setShowModal(false); setForm({ supplierId: "", invoiceNumber: "", paidAmount: "0", notes: "" }); setItems([{ ...emptyItem }]); }}>Cancel</Button>
+              <Button type="submit" loading={saving} disabled={saving || !form.supplierId || !form.invoiceNumber || suppliers.length === 0 || medicines.length === 0}>
                 <Package className="h-4 w-4" />
                 Save Purchase
               </Button>

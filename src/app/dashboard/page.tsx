@@ -152,14 +152,14 @@ export default function DashboardPage() {
       <Header title="Dashboard" subtitle="Overview of your medical store" />
       <div className="p-4 sm:p-6 space-y-5 sm:space-y-6">
         {/* Stat Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4 stagger-children">
+        <div className="grid grid-cols-1 min-[480px]:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4 stagger-children">
           {statCards.map((stat, idx) => {
             const Icon = stat.icon;
             const s = statCardStyles[idx];
             return (
               <div
                 key={stat.label}
-                className={`rounded-2xl ${s.bg} px-4 py-3.5 sm:px-4 sm:py-4 text-white shadow-lg ${s.shadow} card-hover min-h-[100px]`}
+                className={`rounded-xl sm:rounded-2xl ${s.bg} px-4 py-3.5 sm:px-5 sm:py-4 text-white shadow-lg ${s.shadow} card-hover min-h-[90px] sm:min-h-[100px] flex flex-col justify-between`}
               >
                 <div className="flex items-center justify-between mb-2">
                   <div className={`p-1.5 rounded-lg ${s.iconBg}`}>
@@ -175,11 +175,13 @@ export default function DashboardPage() {
                     </span>
                   )}
                 </div>
-                <p className="text-lg sm:text-xl font-extrabold tracking-tight leading-tight truncate">
-                  {stat.value}
-                </p>
-                <p className="text-[10px] sm:text-[11px] text-white/80 font-medium mt-0.5 truncate">{stat.label}</p>
-                <p className="text-[9px] sm:text-[10px] text-white/60 mt-0.5 truncate">{stat.sub}</p>
+                <div className="min-w-0">
+                  <p className="text-lg sm:text-xl font-extrabold tracking-tight leading-tight truncate">
+                    {stat.value}
+                  </p>
+                  <p className="text-[10px] sm:text-[11px] text-white/80 font-medium mt-0.5 truncate">{stat.label}</p>
+                  <p className="text-[9px] sm:text-[10px] text-white/60 mt-0.5 truncate">{stat.sub}</p>
+                </div>
               </div>
             );
           })}
