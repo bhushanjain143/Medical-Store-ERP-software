@@ -101,7 +101,7 @@ export function Sidebar() {
         )}
       </div>
 
-      <nav className="flex-1 px-3 py-2 space-y-0.5 overflow-y-auto">
+      <nav aria-label="Main navigation" className="flex-1 px-3 py-2 space-y-0.5 overflow-y-auto">
         {navSections.map((section) => {
           const visibleItems = section.items.filter((item) => canAccess(item.href, role));
           if (visibleItems.length === 0) return null;
@@ -172,6 +172,7 @@ export function Sidebar() {
       {/* Mobile toggle */}
       <button
         onClick={() => setMobileOpen(true)}
+        aria-label="Open navigation menu"
         className="lg:hidden fixed top-3 left-3 z-50 p-2.5 rounded-xl bg-[#1e1b4b] text-white shadow-lg shadow-indigo-900/30 hover:bg-[#312e81] transition-colors backdrop-blur-sm"
       >
         <Menu className="h-5 w-5" />
@@ -194,6 +195,7 @@ export function Sidebar() {
       >
         <button
           onClick={() => setMobileOpen(false)}
+          aria-label="Close navigation menu"
           className="absolute top-4 right-4 p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
         >
           <X className="h-5 w-5" />
@@ -212,6 +214,7 @@ export function Sidebar() {
           {sidebarContent}
           <button
             onClick={() => setCollapsed(!collapsed)}
+            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
             className="absolute -right-3 top-20 w-6 h-6 rounded-full bg-[var(--bg-card)] border border-[var(--border-default)] shadow-md flex items-center justify-center hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:scale-110 transition-all duration-200"
           >
             <ChevronLeft

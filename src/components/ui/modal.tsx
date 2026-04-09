@@ -49,6 +49,9 @@ export function Modal({
   return (
     <div
       ref={overlayRef}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={title ? "modal-title" : undefined}
       className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/50 dark:bg-black/70 backdrop-blur-sm animate-fade-in overflow-y-auto"
       onClick={(e) => {
         if (e.target === overlayRef.current) onClose();
@@ -64,13 +67,14 @@ export function Modal({
         {title && (
           <div className="flex items-start justify-between px-4 sm:px-6 py-3.5 sm:py-4 border-b border-[var(--border-default)] flex-shrink-0 bg-[var(--bg-muted)]">
             <div className="min-w-0 flex-1 mr-2">
-              <h2 className="text-base sm:text-lg font-bold text-[var(--text-primary)] truncate">{title}</h2>
+              <h2 id="modal-title" className="text-base sm:text-lg font-bold text-[var(--text-primary)] truncate">{title}</h2>
               {subtitle && (
                 <p className="text-xs sm:text-sm text-[var(--text-tertiary)] mt-0.5 truncate">{subtitle}</p>
               )}
             </div>
             <button
               onClick={onClose}
+              aria-label="Close dialog"
               className="p-1.5 rounded-xl text-[var(--text-tertiary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)] transition-all duration-200 flex-shrink-0"
             >
               <X className="h-5 w-5" />

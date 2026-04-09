@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { getSession } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -31,14 +32,22 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+
+    const session = await getSession();
+    if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+    if (!body.name || typeof body.name !== "string" || body.name.trim().length === 0) {
+      return NextResponse.json({ error: "Supplier name is required" }, { status: 400 });
+    }
+
     const supplier = await prisma.supplier.create({
       data: {
-        name: body.name,
-        phone: body.phone || null,
-        email: body.email || null,
-        address: body.address || null,
-        gstin: body.gstin || null,
-        drugLicense: body.drugLicense || null,
+        name: body.name.trim(),
+        phone: body.phone?.trim() || null,
+        email: body.email?.trim() || null,
+        address: body.address?.trim() || null,
+        gstin: body.gstin?.trim() || null,
+        drugLicense: body.drugLicense?.trim() || null,
       },
     });
     return NextResponse.json(supplier, { status: 201 });

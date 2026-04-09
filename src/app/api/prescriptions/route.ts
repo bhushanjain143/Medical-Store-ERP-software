@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { getSession } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -27,20 +28,28 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(prescriptions);
   } catch (error) {
     console.error("Prescriptions fetch error:", error);
-    return NextResponse.json([], { status: 200 });
+    return NextResponse.json({ error: "Failed to fetch prescriptions" }, { status: 500 });
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
+    const session = await getSession();
+    if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
     const body = await request.json();
+
+    if (!body.patientName || typeof body.patientName !== "string" || body.patientName.trim().length === 0) {
+      return NextResponse.json({ error: "Patient name is required" }, { status: 400 });
+    }
+
     const rx = await prisma.prescription.create({
       data: {
-        patientName: body.patientName,
-        doctorName: body.doctorName || null,
-        doctorPhone: body.doctorPhone || null,
-        diagnosis: body.diagnosis || null,
-        notes: body.notes || null,
+        patientName: body.patientName.trim(),
+        doctorName: body.doctorName?.trim() || null,
+        doctorPhone: body.doctorPhone?.trim() || null,
+        diagnosis: body.diagnosis?.trim() || null,
+        notes: body.notes?.trim() || null,
         customerId: body.customerId || null,
         status: "pending",
       },
@@ -54,7 +63,20 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
+    const session = await getSession();
+    if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
     const body = await request.json();
+
+    if (!body.id) {
+      return NextResponse.json({ error: "Prescription ID is required" }, { status: 400 });
+    }
+
+    const validStatuses = ["pending", "dispensed", "cancelled"];
+    if (body.status && !validStatuses.includes(body.status)) {
+      return NextResponse.json({ error: "Invalid status" }, { status: 400 });
+    }
+
     const rx = await prisma.prescription.update({
       where: { id: body.id },
       data: { status: body.status },

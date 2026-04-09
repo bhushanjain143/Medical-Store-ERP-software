@@ -167,27 +167,34 @@ export async function GET() {
 }
 
 async function getLast6MonthsSales() {
-  const data = [];
   const now = new Date();
-  for (let i = 5; i >= 0; i--) {
-    const start = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    const end = new Date(now.getFullYear(), now.getMonth() - i + 1, 1);
-    const sales = await prisma.sale.aggregate({
-      where: {
-        createdAt: { gte: start, lt: end },
-        status: "completed",
-      },
-      _sum: { totalAmount: true },
-    });
-    const purchases = await prisma.purchase.aggregate({
-      where: { purchaseDate: { gte: start, lt: end } },
-      _sum: { totalAmount: true },
-    });
-    data.push({
-      month: start.toLocaleDateString("en-IN", { month: "short" }),
-      sales: sales._sum.totalAmount || 0,
-      purchases: purchases._sum.totalAmount || 0,
-    });
-  }
-  return data;
+  const months = Array.from({ length: 6 }, (_, i) => {
+    const idx = 5 - i;
+    return {
+      start: new Date(now.getFullYear(), now.getMonth() - idx, 1),
+      end: new Date(now.getFullYear(), now.getMonth() - idx + 1, 1),
+    };
+  });
+
+  const results = await Promise.all(
+    months.map(async ({ start, end }) => {
+      const [sales, purchases] = await Promise.all([
+        prisma.sale.aggregate({
+          where: { createdAt: { gte: start, lt: end }, status: "completed" },
+          _sum: { totalAmount: true },
+        }),
+        prisma.purchase.aggregate({
+          where: { purchaseDate: { gte: start, lt: end } },
+          _sum: { totalAmount: true },
+        }),
+      ]);
+      return {
+        month: start.toLocaleDateString("en-IN", { month: "short" }),
+        sales: sales._sum.totalAmount || 0,
+        purchases: purchases._sum.totalAmount || 0,
+      };
+    })
+  );
+
+  return results;
 }

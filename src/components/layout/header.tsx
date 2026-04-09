@@ -38,6 +38,7 @@ export function Header({ title, subtitle }: HeaderProps) {
           <button
             onClick={toggleTheme}
             className="relative p-2 sm:p-2.5 rounded-xl hover:bg-indigo-500/10 transition-all duration-200 group"
+            aria-label={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} mode`}
             title={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} mode`}
           >
             {resolvedTheme === "dark" ? (
@@ -47,9 +48,9 @@ export function Header({ title, subtitle }: HeaderProps) {
             )}
           </button>
 
-          <button className="relative p-2 sm:p-2.5 rounded-xl hover:bg-indigo-500/10 transition-all duration-200 group">
+          <button aria-label="Notifications" className="relative p-2 sm:p-2.5 rounded-xl hover:bg-indigo-500/10 transition-all duration-200 group">
             <Bell className="h-4 w-4 sm:h-5 sm:w-5 text-[var(--text-secondary)] group-hover:text-indigo-600 transition-colors" />
-            <span className="absolute top-1.5 sm:top-2 right-1.5 sm:right-2 w-2 h-2 bg-red-500 rounded-full ring-2 ring-[var(--bg-card)]"></span>
+            <span className="absolute top-1.5 sm:top-2 right-1.5 sm:right-2 w-2 h-2 bg-red-500 rounded-full ring-2 ring-[var(--bg-card)]" aria-hidden="true"></span>
           </button>
 
           <div className="h-5 w-px bg-[var(--border-default)] mx-0.5 hidden sm:block" />

@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { getSession } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -39,6 +40,9 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { supplierId, invoiceNumber, items, paymentStatus, paidAmount, notes } = body;
+
+    const session = await getSession();
+    if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     if (!supplierId || !invoiceNumber || !items?.length) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });

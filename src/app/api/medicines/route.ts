@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { getSession } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -49,9 +50,17 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+
+    const session = await getSession();
+    if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+    if (!body.name || typeof body.name !== "string" || body.name.trim().length === 0) {
+      return NextResponse.json({ error: "Medicine name is required" }, { status: 400 });
+    }
+
     const medicine = await prisma.medicine.create({
       data: {
-        name: body.name,
+        name: body.name.trim(),
         genericName: body.genericName || null,
         composition: body.composition || null,
         category: body.category || "Tablet",
