@@ -2,8 +2,6 @@
 
 import { Header } from "@/components/layout/header";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Modal } from "@/components/ui/modal";
@@ -291,9 +289,8 @@ export default function BillingPage() {
     <div>
       <Header title="Billing / POS" subtitle="Create invoices and manage sales" />
       <div className="p-4 sm:p-6">
-        <div className="flex gap-2 sm:gap-3 mb-4 sm:mb-6 overflow-x-auto pb-0.5">
-          <Button
-            variant={!showSales ? "primary" : "outline"}
+        <div className="flex items-center gap-1 mb-5 sm:mb-6 bg-[var(--bg-muted)] p-1 rounded-xl w-fit border border-[var(--border-default)]">
+          <button
             onClick={() => {
               setShowSales(false);
               setCart([]);
@@ -308,20 +305,29 @@ export default function BillingPage() {
               loadData();
               setTimeout(() => searchRef.current?.focus(), 100);
             }}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
+              !showSales
+                ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md shadow-indigo-500/20"
+                : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card)]"
+            }`}
           >
-            <ShoppingCart className="h-4 w-4" />
-            New Bill
-          </Button>
-          <Button
-            variant={showSales ? "primary" : "outline"}
+            <ShoppingCart className="h-4 w-4 flex-shrink-0" />
+            <span>New Bill</span>
+          </button>
+          <button
             onClick={() => {
               setShowSales(true);
               loadSales();
             }}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
+              showSales
+                ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md shadow-indigo-500/20"
+                : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card)]"
+            }`}
           >
-            <Receipt className="h-4 w-4" />
-            Sales History ({salesTotal})
-          </Button>
+            <Receipt className="h-4 w-4 flex-shrink-0" />
+            <span>Sales History ({salesTotal})</span>
+          </button>
         </div>
 
         {!showSales ? (
@@ -481,92 +487,102 @@ export default function BillingPage() {
             <div className="space-y-4 min-w-0">
               <Card>
                 <CardHeader>
-                  <h3 className="text-sm font-semibold text-[var(--text-primary)]">
+                  <h3 className="text-sm font-bold text-[var(--text-primary)] tracking-tight">
                     Bill Summary
                   </h3>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <Select
-                    id="customer"
-                    label="Customer"
-                    options={[
-                      { value: "", label: "Walk-in Customer" },
-                      ...customers.map((c) => ({
-                        value: c.id,
-                        label: `${c.name}${c.phone ? ` (${c.phone})` : ""}`,
-                      })),
-                    ]}
-                    value={selectedCustomer}
-                    onChange={(e) => setSelectedCustomer(e.target.value)}
-                  />
-                  <Select
-                    id="paymentMode"
-                    label="Payment Mode"
-                    options={[
-                      { value: "cash", label: "Cash" },
-                      { value: "upi", label: "UPI" },
-                      { value: "card", label: "Debit/Credit Card" },
-                      { value: "net_banking", label: "Net Banking" },
-                      { value: "wallet", label: "Wallet" },
-                      { value: "credit", label: "Credit (Udhar)" },
-                    ]}
-                    value={paymentMode}
-                    onChange={(e) => setPaymentMode(e.target.value)}
-                  />
-                  <Input
-                    id="discount"
-                    label="Discount (₹)"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value={discount}
-                    onChange={(e) => setDiscount(e.target.value)}
-                  />
-                  <Input
-                    id="notes"
-                    label="Notes"
-                    placeholder="Optional notes..."
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
-                  />
+                <CardContent className="space-y-3.5">
+                  <div>
+                    <label htmlFor="customer" className="block text-xs font-semibold text-[var(--text-secondary)] mb-1.5">Customer</label>
+                    <select
+                      id="customer"
+                      value={selectedCustomer}
+                      onChange={(e) => setSelectedCustomer(e.target.value)}
+                      className="w-full rounded-xl border px-3 py-2.5 text-sm bg-[var(--bg-input)] border-[var(--border-default)] text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all appearance-none"
+                    >
+                      <option value="">Walk-in Customer</option>
+                      {customers.map((c) => (
+                        <option key={c.id} value={c.id}>{c.name}{c.phone ? ` (${c.phone})` : ""}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="paymentMode" className="block text-xs font-semibold text-[var(--text-secondary)] mb-1.5">Payment Mode</label>
+                    <select
+                      id="paymentMode"
+                      value={paymentMode}
+                      onChange={(e) => setPaymentMode(e.target.value)}
+                      className="w-full rounded-xl border px-3 py-2.5 text-sm bg-[var(--bg-input)] border-[var(--border-default)] text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all appearance-none"
+                    >
+                      <option value="cash">Cash</option>
+                      <option value="upi">UPI</option>
+                      <option value="card">Debit/Credit Card</option>
+                      <option value="net_banking">Net Banking</option>
+                      <option value="wallet">Wallet</option>
+                      <option value="credit">Credit (Udhar)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="discount" className="block text-xs font-semibold text-[var(--text-secondary)] mb-1.5">Discount (₹)</label>
+                    <input
+                      id="discount"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={discount}
+                      onChange={(e) => setDiscount(e.target.value)}
+                      className="w-full rounded-xl border px-3 py-2.5 text-sm bg-[var(--bg-input)] border-[var(--border-default)] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="notes" className="block text-xs font-semibold text-[var(--text-secondary)] mb-1.5">Notes</label>
+                    <input
+                      id="notes"
+                      type="text"
+                      placeholder="Optional notes..."
+                      value={notes}
+                      onChange={(e) => setNotes(e.target.value)}
+                      className="w-full rounded-xl border px-3 py-2.5 text-sm bg-[var(--bg-input)] border-[var(--border-default)] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all"
+                    />
+                  </div>
 
-                  <div className="border-t border-[var(--border-default)] pt-4 space-y-2">
-                    <div className="flex justify-between text-sm gap-2">
-                      <span className="text-[var(--text-tertiary)] flex-shrink-0">Subtotal</span>
-                      <span className="text-[var(--text-secondary)] truncate text-right">{formatCurrency(subtotal)}</span>
+                  <div className="border-t border-[var(--border-default)] pt-3.5 mt-1 space-y-2">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-[var(--text-tertiary)]">Subtotal</span>
+                      <span className="font-medium text-[var(--text-secondary)] tabular-nums">{formatCurrency(subtotal)}</span>
                     </div>
-                    <div className="flex justify-between text-sm gap-2">
-                      <span className="text-[var(--text-tertiary)] flex-shrink-0">CGST</span>
-                      <span className="text-[var(--text-secondary)] truncate text-right">{formatCurrency(gstAmount / 2)}</span>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-[var(--text-tertiary)]">CGST</span>
+                      <span className="font-medium text-[var(--text-secondary)] tabular-nums">{formatCurrency(gstAmount / 2)}</span>
                     </div>
-                    <div className="flex justify-between text-sm gap-2">
-                      <span className="text-[var(--text-tertiary)] flex-shrink-0">SGST</span>
-                      <span className="text-[var(--text-secondary)] truncate text-right">{formatCurrency(gstAmount / 2)}</span>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-[var(--text-tertiary)]">SGST</span>
+                      <span className="font-medium text-[var(--text-secondary)] tabular-nums">{formatCurrency(gstAmount / 2)}</span>
                     </div>
-                    <div className="flex justify-between text-xs text-[var(--text-tertiary)] gap-2">
-                      <span className="flex-shrink-0">Total GST (incl.)</span>
-                      <span className="truncate text-right">{formatCurrency(gstAmount)}</span>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-[var(--text-tertiary)]">Total GST (incl.)</span>
+                      <span className="text-[var(--text-tertiary)] tabular-nums">{formatCurrency(gstAmount)}</span>
                     </div>
                     {totalDiscount > 0 && (
-                      <div className="flex justify-between text-sm gap-2">
-                        <span className="text-[var(--text-tertiary)] flex-shrink-0">Discount</span>
-                        <span className="text-red-500 truncate text-right">-{formatCurrency(totalDiscount)}</span>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-[var(--text-tertiary)]">Discount</span>
+                        <span className="font-medium text-red-500 tabular-nums">-{formatCurrency(totalDiscount)}</span>
                       </div>
                     )}
-                    <div className="flex justify-between text-base sm:text-lg font-extrabold border-t border-[var(--border-default)] pt-3 gap-2">
-                      <span className="text-[var(--text-primary)] flex-shrink-0">Total</span>
-                      <span className="text-gradient truncate text-right">{formatCurrency(grandTotal)}</span>
+                    <div className="flex items-center justify-between text-base sm:text-lg font-extrabold border-t border-[var(--border-default)] pt-3 mt-1">
+                      <span className="text-[var(--text-primary)]">Total</span>
+                      <span className="text-gradient tabular-nums">{formatCurrency(grandTotal)}</span>
                     </div>
                   </div>
 
                   <Button
-                    className="w-full py-3.5"
+                    className="w-full py-3"
                     size="lg"
                     onClick={handleSubmit}
                     loading={loading}
                     disabled={loading || cart.length === 0}
                   >
-                    <Receipt className="h-4 w-4 flex-shrink-0" />
+                    {!loading && <Receipt className="h-4 w-4 flex-shrink-0" />}
                     <span className="truncate">
                       {loading
                         ? "Processing..."
@@ -576,11 +592,9 @@ export default function BillingPage() {
                     </span>
                   </Button>
                   {cart.length === 0 && (
-                    <div className="text-center p-3 rounded-xl bg-amber-500/10 border border-amber-500/20">
-                      <p className="text-xs text-amber-600 dark:text-amber-400 font-medium">
-                        Search and add medicines to the cart above, then click Generate Invoice to create the bill.
-                      </p>
-                    </div>
+                    <p className="text-center text-[11px] text-[var(--text-tertiary)] leading-relaxed px-2">
+                      Search and add medicines to the cart, then generate the invoice.
+                    </p>
                   )}
                 </CardContent>
               </Card>
