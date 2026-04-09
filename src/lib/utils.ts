@@ -36,10 +36,11 @@ export function generateInvoiceNumber(): string {
   const y = now.getFullYear().toString().slice(-2);
   const m = (now.getMonth() + 1).toString().padStart(2, "0");
   const d = now.getDate().toString().padStart(2, "0");
-  const rand = Math.floor(Math.random() * 10000)
-    .toString()
-    .padStart(4, "0");
-  return `INV-${y}${m}${d}-${rand}`;
+  const h = now.getHours().toString().padStart(2, "0");
+  const min = now.getMinutes().toString().padStart(2, "0");
+  const s = now.getSeconds().toString().padStart(2, "0");
+  const ms = now.getMilliseconds().toString().padStart(3, "0");
+  return `INV-${y}${m}${d}-${h}${min}${s}${ms}`;
 }
 
 export function getDaysUntilExpiry(expiryDate: Date | string): number {

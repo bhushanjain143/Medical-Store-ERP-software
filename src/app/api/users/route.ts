@@ -56,6 +56,7 @@ export async function POST(request: NextRequest) {
         email,
         password: hashedPassword,
         role: role || "salesperson",
+        active: true,
       },
       select: { id: true, name: true, email: true, role: true },
     });

@@ -170,21 +170,21 @@ export default function UsersPage() {
                           <RoleIcon className="h-5 w-5 text-white" />
                         </div>
                         <div>
-                          <h3 className="text-sm font-semibold text-slate-900">{u.name}</h3>
-                          <p className="text-xs text-slate-500">{u.email}</p>
+                          <h3 className="text-sm font-semibold text-[var(--text-primary)]">{u.name}</h3>
+                          <p className="text-xs text-[var(--text-tertiary)]">{u.email}</p>
                         </div>
                       </div>
                       <div className="flex gap-1">
-                        <button onClick={() => openEdit(u)} className="p-1.5 rounded text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"><Edit className="h-3.5 w-3.5" /></button>
-                        <button onClick={() => handleDelete(u.id)} className="p-1.5 rounded text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"><Trash2 className="h-3.5 w-3.5" /></button>
+                        <button onClick={() => openEdit(u)} className="p-1.5 rounded text-[var(--text-tertiary)] hover:text-blue-500 hover:bg-blue-500/10 transition-colors"><Edit className="h-3.5 w-3.5" /></button>
+                        <button onClick={() => handleDelete(u.id)} className="p-1.5 rounded text-[var(--text-tertiary)] hover:text-red-500 hover:bg-red-500/10 transition-colors"><Trash2 className="h-3.5 w-3.5" /></button>
                       </div>
                     </div>
                     <div className="flex items-center gap-2 mt-2">
                       <Badge variant={role.badge}>{role.label}</Badge>
                       <Badge variant={u.active ? "success" : "danger"} dot>{u.active ? "Active" : "Inactive"}</Badge>
                     </div>
-                    <p className="text-[10px] text-slate-400 mt-1">{role.desc}</p>
-                    <div className="mt-3 flex items-center justify-between text-xs text-slate-500 pt-3 border-t border-slate-100">
+                    <p className="text-[10px] text-[var(--text-tertiary)] mt-1">{role.desc}</p>
+                    <div className="mt-3 flex items-center justify-between text-xs text-[var(--text-tertiary)] pt-3 border-t border-[var(--border-default)]">
                       <span className="font-medium">{u._count.sales} sales</span>
                       <span>Since {formatDate(u.createdAt)}</span>
                     </div>
@@ -216,9 +216,9 @@ export default function UsersPage() {
               onChange={(e) => setForm({ ...form, role: e.target.value })}
             />
             {/* Role description */}
-            <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-              <p className="text-xs text-slate-500">
-                <strong className="text-slate-700">{getRoleConfig(form.role).label}:</strong>{" "}
+            <div className="p-3 rounded-xl bg-[var(--bg-muted)] border border-[var(--border-default)]">
+              <p className="text-xs text-[var(--text-secondary)]">
+                <strong className="text-[var(--text-primary)]">{getRoleConfig(form.role).label}:</strong>{" "}
                 {form.role === "admin" && "Full access to all modules, settings, and user management."}
                 {form.role === "manager" && "Manage inventory, view reports, handle purchases and sales."}
                 {form.role === "pharmacist" && "Dispense medicines, manage prescriptions, check interactions."}
@@ -229,7 +229,7 @@ export default function UsersPage() {
                 {form.role === "delivery" && "View delivery orders, update delivery status."}
               </p>
             </div>
-            <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
+            <div className="flex justify-end gap-3 pt-4 border-t border-[var(--border-default)]">
               <Button type="button" variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
               <Button type="submit" loading={saving}>{editingId ? "Update" : "Create"} User</Button>
             </div>

@@ -37,7 +37,7 @@ export async function GET() {
         purchases,
         purchaseItems,
         payments,
-        settings,
+        settings: settings.filter((s) => !s.key.startsWith("otp:")),
         prescriptions,
         notifications,
       },
