@@ -119,15 +119,17 @@ export default function ExpiryTrackerPage() {
             return (
               <div
                 key={card.label}
-                className={`rounded-xl sm:rounded-2xl bg-gradient-to-br ${card.gradient} px-4 py-3.5 sm:px-5 sm:py-4 text-white shadow-lg min-h-[90px] sm:min-h-[100px] flex flex-col justify-between overflow-hidden`}
+                className={`rounded-xl sm:rounded-2xl bg-gradient-to-br ${card.gradient} px-3 py-3 sm:px-4 sm:py-4 text-white shadow-lg min-h-[100px] sm:min-h-[110px] flex flex-col overflow-hidden`}
               >
-                <div className="flex items-start justify-between gap-2">
-                  <p className="text-[11px] sm:text-xs font-semibold text-white/80 leading-tight truncate">{card.label}</p>
-                  <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-white/25 flex-shrink-0" />
+                <div className="flex items-center gap-2 mb-auto">
+                  <div className="p-1.5 rounded-lg bg-white/20 flex-shrink-0">
+                    <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  </div>
+                  <p className="text-[10px] sm:text-[11px] font-semibold text-white/80 leading-tight truncate flex-1">{card.label}</p>
                 </div>
-                <div className="min-w-0">
-                  <p className="text-2xl sm:text-3xl font-extrabold leading-none mt-1">{card.value}</p>
-                  <p className="text-[10px] sm:text-[11px] text-white/60 mt-1 truncate">{card.sub}</p>
+                <div className="mt-2 min-w-0">
+                  <p className="text-2xl sm:text-3xl font-extrabold leading-none">{card.value}</p>
+                  <p className="text-[9px] sm:text-[10px] text-white/60 font-medium mt-1.5 truncate">{card.sub}</p>
                 </div>
               </div>
             );

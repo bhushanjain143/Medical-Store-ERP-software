@@ -159,14 +159,15 @@ export default function DashboardPage() {
             return (
               <div
                 key={stat.label}
-                className={`rounded-xl sm:rounded-2xl ${s.bg} px-4 py-3.5 sm:px-5 sm:py-4 text-white shadow-lg ${s.shadow} card-hover min-h-[90px] sm:min-h-[100px] flex flex-col justify-between`}
+                className={`rounded-xl sm:rounded-2xl ${s.bg} px-3 py-3 sm:px-4 sm:py-4 text-white shadow-lg ${s.shadow} card-hover min-h-[100px] sm:min-h-[110px] flex flex-col overflow-hidden`}
               >
-                <div className="flex items-center justify-between mb-2">
-                  <div className={`p-1.5 rounded-lg ${s.iconBg}`}>
-                    <Icon className="h-4 w-4" />
+                <div className="flex items-center gap-2 mb-auto">
+                  <div className={`p-1.5 rounded-lg ${s.iconBg} flex-shrink-0`}>
+                    <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                   </div>
+                  <p className="text-[10px] sm:text-[11px] text-white/80 font-semibold leading-tight truncate flex-1">{stat.label}</p>
                   {stat.trend && (
-                    <span className="flex items-center gap-0.5 text-[9px] font-semibold bg-white/20 px-1.5 py-0.5 rounded-md">
+                    <span className="flex-shrink-0 flex items-center bg-white/20 p-0.5 rounded">
                       {stat.trend === "up" ? (
                         <ArrowUpRight className="h-2.5 w-2.5" />
                       ) : (
@@ -175,12 +176,11 @@ export default function DashboardPage() {
                     </span>
                   )}
                 </div>
-                <div className="min-w-0">
-                  <p className="text-lg sm:text-xl font-extrabold tracking-tight leading-tight truncate">
+                <div className="mt-2 min-w-0">
+                  <p className="text-xl sm:text-2xl font-extrabold tracking-tight leading-none truncate">
                     {stat.value}
                   </p>
-                  <p className="text-[10px] sm:text-[11px] text-white/80 font-medium mt-0.5 truncate">{stat.label}</p>
-                  <p className="text-[9px] sm:text-[10px] text-white/60 mt-0.5 truncate">{stat.sub}</p>
+                  <p className="text-[9px] sm:text-[10px] text-white/60 font-medium mt-1.5 truncate">{stat.sub}</p>
                 </div>
               </div>
             );
