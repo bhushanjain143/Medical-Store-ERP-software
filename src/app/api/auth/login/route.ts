@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
-import { createToken } from "@/lib/auth";
 import { compare } from "bcryptjs";
+import { generateOTP, storeOTP, sendOTPEmail } from "@/lib/otp";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -60,35 +60,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    let token: string;
-    try {
-      token = await createToken({
-        userId: user.id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-      });
-    } catch (jwtError) {
-      console.error("Login JWT error:", jwtError);
-      return NextResponse.json(
-        { error: "Session creation failed" },
-        { status: 500 }
-      );
-    }
+    const otp = generateOTP();
+    await storeOTP(email, otp, "login");
+    await sendOTPEmail(email, otp, "login");
 
-    const response = NextResponse.json({
-      user: { id: user.id, name: user.name, email: user.email, role: user.role },
+    return NextResponse.json({
+      requireOtp: true,
+      email,
+      message: "Credentials verified. Please enter the OTP sent to your email.",
     });
-
-    response.cookies.set("auth-token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 60 * 60 * 24 * 7,
-      path: "/",
-    });
-
-    return response;
   } catch (error) {
     console.error("Login unexpected error:", error);
     return NextResponse.json(
