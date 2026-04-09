@@ -146,13 +146,13 @@ export default function CustomersPage() {
         {/* Toolbar */}
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="flex-1 relative group">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--text-tertiary)] group-focus-within:text-indigo-500 transition-colors" />
             <input
               type="text"
               placeholder="Search by name, phone, or email..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-white text-sm shadow-sm hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border text-sm shadow-sm transition-all bg-[var(--bg-input)] border-[var(--border-default)] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] hover:border-indigo-300/50 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400"
             />
           </div>
           <div className="flex flex-wrap gap-2">
@@ -161,7 +161,7 @@ export default function CustomersPage() {
                 key={f}
                 onClick={() => setFilter(f)}
                 className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all whitespace-nowrap ${
-                  filter === f ? "bg-slate-900 text-white" : "bg-white text-slate-600 border border-slate-200 hover:border-slate-300"
+                  filter === f ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md" : "bg-[var(--bg-card)] text-[var(--text-secondary)] border border-[var(--border-default)] hover:border-indigo-300/50"
                 }`}
               >
                 {f === "all" ? "All" : f === "due" ? "With Dues" : "Credit"}
@@ -194,37 +194,37 @@ export default function CustomersPage() {
                         <span className="text-sm font-bold text-white">{c.name.charAt(0).toUpperCase()}</span>
                       </div>
                       <div>
-                        <h3 className="text-sm font-semibold text-slate-900">{c.name}</h3>
+                        <h3 className="text-sm font-semibold text-[var(--text-primary)]">{c.name}</h3>
                         <div className="flex items-center gap-2 mt-0.5">
-                          <span className="text-xs text-slate-500">{c._count.sales} purchases</span>
+                          <span className="text-xs text-[var(--text-tertiary)]">{c._count.sales} purchases</span>
                           {c.gender && <Badge size="sm">{c.gender}</Badge>}
                         </div>
                       </div>
                     </div>
                     <div className="flex gap-1">
-                      <button onClick={() => openEdit(c)} className="p-1.5 rounded text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"><Edit className="h-3.5 w-3.5" /></button>
-                      <button onClick={() => handleDelete(c.id)} className="p-1.5 rounded text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"><Trash2 className="h-3.5 w-3.5" /></button>
+                      <button onClick={() => openEdit(c)} className="p-1.5 rounded text-[var(--text-tertiary)] hover:text-blue-500 hover:bg-blue-500/10 transition-colors"><Edit className="h-3.5 w-3.5" /></button>
+                      <button onClick={() => handleDelete(c.id)} className="p-1.5 rounded text-[var(--text-tertiary)] hover:text-red-500 hover:bg-red-500/10 transition-colors"><Trash2 className="h-3.5 w-3.5" /></button>
                     </div>
                   </div>
-                  <div className="space-y-1.5 text-xs text-slate-500">
+                  <div className="space-y-1.5 text-xs text-[var(--text-tertiary)]">
                     {c.phone && <div className="flex items-center gap-2"><Phone className="h-3 w-3 flex-shrink-0" />{c.phone}</div>}
                     {c.email && <div className="flex items-center gap-2"><Mail className="h-3 w-3 flex-shrink-0" /><span className="truncate">{c.email}</span></div>}
                     {c.address && <div className="flex items-center gap-2"><MapPin className="h-3 w-3 flex-shrink-0" /><span className="truncate">{c.address}</span></div>}
                     {c.gstin && <div className="flex items-center gap-2"><CreditCard className="h-3 w-3 flex-shrink-0" />GSTIN: {c.gstin}</div>}
                   </div>
-                  <div className="mt-3 pt-3 border-t border-slate-100 grid grid-cols-3 gap-1 text-center">
+                  <div className="mt-3 pt-3 border-t border-[var(--border-default)] grid grid-cols-3 gap-1 text-center">
                     <div className="min-w-0">
-                      <p className="text-[10px] text-slate-400">Balance</p>
-                      <p className={`text-[11px] sm:text-xs font-bold truncate ${c.balance > 0 ? "text-red-600" : "text-emerald-600"}`}>
+                      <p className="text-[10px] text-[var(--text-tertiary)]">Balance</p>
+                      <p className={`text-[11px] sm:text-xs font-bold truncate ${c.balance > 0 ? "text-red-500" : "text-emerald-500"}`}>
                         {c.balance > 0 ? formatCurrency(c.balance) : "₹0"}
                       </p>
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[10px] text-slate-400">Credit</p>
-                      <p className="text-[11px] sm:text-xs font-bold text-slate-700 truncate">{formatCurrency(c.creditLimit || 0)}</p>
+                      <p className="text-[10px] text-[var(--text-tertiary)]">Credit</p>
+                      <p className="text-[11px] sm:text-xs font-bold text-[var(--text-primary)] truncate">{formatCurrency(c.creditLimit || 0)}</p>
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[10px] text-slate-400">Points</p>
+                      <p className="text-[10px] text-[var(--text-tertiary)]">Points</p>
                       <p className="text-[11px] sm:text-xs font-bold text-amber-600">{c.loyaltyPoints || 0}</p>
                     </div>
                   </div>
@@ -254,7 +254,7 @@ export default function CustomersPage() {
               <Input id="gstin" label="GSTIN (for B2B)" value={form.gstin} onChange={(e) => setForm({ ...form, gstin: e.target.value })} placeholder="e.g., 29AABCU9603R1ZM" />
               <Input id="creditLimit" label="Credit Limit (₹)" type="number" min="0" value={form.creditLimit} onChange={(e) => setForm({ ...form, creditLimit: e.target.value })} placeholder="0" />
             </div>
-            <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
+            <div className="flex justify-end gap-3 pt-4 border-t border-[var(--border-default)]">
               <Button type="button" variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
               <Button type="submit" loading={saving}>{editingId ? "Update" : "Add"} Customer</Button>
             </div>

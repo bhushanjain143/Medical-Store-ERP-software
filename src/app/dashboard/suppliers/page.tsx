@@ -128,13 +128,13 @@ export default function SuppliersPage() {
         {/* Toolbar */}
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="flex-1 relative group">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--text-tertiary)] group-focus-within:text-indigo-500 transition-colors" />
             <input
               type="text"
               placeholder="Search by name, phone, or GSTIN..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-white text-sm shadow-sm hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border text-sm shadow-sm transition-all bg-[var(--bg-input)] border-[var(--border-default)] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] hover:border-indigo-300/50 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400"
             />
           </div>
           <Button onClick={() => { setEditingId(null); setForm(emptyForm); setShowModal(true); }}>
@@ -162,16 +162,16 @@ export default function SuppliersPage() {
                         <Truck className="h-5 w-5 text-white" />
                       </div>
                       <div>
-                        <h3 className="text-sm font-semibold text-slate-900">{s.name}</h3>
-                        <p className="text-xs text-slate-500">{s._count.purchases} purchases</p>
+                        <h3 className="text-sm font-semibold text-[var(--text-primary)]">{s.name}</h3>
+                        <p className="text-xs text-[var(--text-tertiary)]">{s._count.purchases} purchases</p>
                       </div>
                     </div>
                     <div className="flex gap-1">
-                      <button onClick={() => openEdit(s)} className="p-1.5 rounded text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"><Edit className="h-3.5 w-3.5" /></button>
-                      <button onClick={() => handleDelete(s.id)} className="p-1.5 rounded text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"><Trash2 className="h-3.5 w-3.5" /></button>
+                      <button onClick={() => openEdit(s)} className="p-1.5 rounded text-[var(--text-tertiary)] hover:text-blue-500 hover:bg-blue-500/10 transition-colors"><Edit className="h-3.5 w-3.5" /></button>
+                      <button onClick={() => handleDelete(s.id)} className="p-1.5 rounded text-[var(--text-tertiary)] hover:text-red-500 hover:bg-red-500/10 transition-colors"><Trash2 className="h-3.5 w-3.5" /></button>
                     </div>
                   </div>
-                  <div className="space-y-1.5 text-xs text-slate-500">
+                  <div className="space-y-1.5 text-xs text-[var(--text-tertiary)]">
                     {s.phone && <div className="flex items-center gap-2"><Phone className="h-3 w-3 flex-shrink-0" />{s.phone}</div>}
                     {s.email && <div className="flex items-center gap-2"><Mail className="h-3 w-3 flex-shrink-0" /><span className="truncate">{s.email}</span></div>}
                     {s.address && <div className="flex items-center gap-2"><MapPin className="h-3 w-3 flex-shrink-0" /><span className="truncate">{s.address}</span></div>}
@@ -179,13 +179,13 @@ export default function SuppliersPage() {
                     {s.drugLicense && <div className="flex items-center gap-2"><FileText className="h-3 w-3 flex-shrink-0" />DL: {s.drugLicense}</div>}
                   </div>
                   {s.balance > 0 ? (
-                    <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
-                      <span className="text-xs text-slate-500 flex-shrink-0">Amount Payable</span>
+                    <div className="mt-3 pt-3 border-t border-[var(--border-default)] flex items-center justify-between gap-2">
+                      <span className="text-xs text-[var(--text-tertiary)] flex-shrink-0">Amount Payable</span>
                       <Badge variant="danger"><span className="truncate max-w-[100px] inline-block">{formatCurrency(s.balance)}</span></Badge>
                     </div>
                   ) : (
-                    <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
-                      <span className="text-xs text-slate-500 flex-shrink-0">Payment Status</span>
+                    <div className="mt-3 pt-3 border-t border-[var(--border-default)] flex items-center justify-between gap-2">
+                      <span className="text-xs text-[var(--text-tertiary)] flex-shrink-0">Payment Status</span>
                       <Badge variant="success" dot>Settled</Badge>
                     </div>
                   )}
@@ -208,7 +208,7 @@ export default function SuppliersPage() {
               <Input id="gstin" label="GSTIN" value={form.gstin} onChange={(e) => setForm({ ...form, gstin: e.target.value })} placeholder="e.g., 29AABCU9603R1ZM" />
               <Input id="drugLicense" label="Drug License No." value={form.drugLicense} onChange={(e) => setForm({ ...form, drugLicense: e.target.value })} placeholder="e.g., DL-20B-12345" />
             </div>
-            <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
+            <div className="flex justify-end gap-3 pt-4 border-t border-[var(--border-default)]">
               <Button type="button" variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
               <Button type="submit" loading={saving}>{editingId ? "Update" : "Add"} Supplier</Button>
             </div>

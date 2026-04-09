@@ -111,12 +111,12 @@ export default function NotificationsPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center">
                     <AlertTriangle className="h-4 w-4 text-red-500" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-slate-900">Expiry Alerts</h3>
-                    <p className="text-xs text-slate-500">Medicines expiring within 30 days</p>
+                    <h3 className="text-sm font-bold text-[var(--text-primary)]">Expiry Alerts</h3>
+                    <p className="text-xs text-[var(--text-tertiary)]">Medicines expiring within 30 days</p>
                   </div>
                 </div>
                 <Link href="/dashboard/expiry" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700">
@@ -128,20 +128,20 @@ export default function NotificationsPage() {
               {data.expiryAlerts.length > 0 ? (
                 <div className="space-y-2">
                   {data.expiryAlerts.map((alert, i) => (
-                    <div key={i} className="flex items-center justify-between gap-2 p-3 rounded-lg bg-red-50/50 border border-red-100/50">
+                    <div key={i} className="flex items-center justify-between gap-2 p-3 rounded-lg bg-red-500/5 border border-red-500/10">
                       <div className="min-w-0 flex-1">
-                        <p className="text-sm font-medium text-slate-900 truncate">{alert.medicineName}</p>
-                        <p className="text-xs text-slate-500 truncate">Batch: {alert.batchNumber} • Qty: {alert.quantity}</p>
+                        <p className="text-sm font-medium text-[var(--text-primary)] truncate">{alert.medicineName}</p>
+                        <p className="text-xs text-[var(--text-tertiary)] truncate">Batch: {alert.batchNumber} • Qty: {alert.quantity}</p>
                       </div>
                       <div className="text-right flex-shrink-0">
                         <Badge variant={alert.daysLeft <= 7 ? "danger" : "warning"} size="sm">{alert.daysLeft}d</Badge>
-                        <p className="text-[10px] text-slate-400 mt-0.5">{formatDate(alert.expiryDate)}</p>
+                        <p className="text-[10px] text-[var(--text-tertiary)] mt-0.5">{formatDate(alert.expiryDate)}</p>
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-slate-500 text-center py-6">No expiry alerts</p>
+                <p className="text-sm text-[var(--text-tertiary)] text-center py-6">No expiry alerts</p>
               )}
             </CardContent>
           </Card>
@@ -151,12 +151,12 @@ export default function NotificationsPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center">
                     <Package className="h-4 w-4 text-amber-500" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-slate-900">Low Stock Alerts</h3>
-                    <p className="text-xs text-slate-500">Below reorder level</p>
+                    <h3 className="text-sm font-bold text-[var(--text-primary)]">Low Stock Alerts</h3>
+                    <p className="text-xs text-[var(--text-tertiary)]">Below reorder level</p>
                   </div>
                 </div>
                 <Link href="/dashboard/medicines" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700">
@@ -168,20 +168,20 @@ export default function NotificationsPage() {
               {data.lowStockAlerts.length > 0 ? (
                 <div className="space-y-2">
                   {data.lowStockAlerts.map((alert, i) => (
-                    <div key={i} className="flex items-center justify-between gap-2 p-3 rounded-lg bg-amber-50/50 border border-amber-100/50">
+                    <div key={i} className="flex items-center justify-between gap-2 p-3 rounded-lg bg-amber-500/5 border border-amber-500/10">
                       <div className="min-w-0 flex-1">
-                        <p className="text-sm font-medium text-slate-900 truncate">{alert.medicineName}</p>
-                        <p className="text-xs text-slate-500 truncate">Batch: {alert.batchNumber}</p>
+                        <p className="text-sm font-medium text-[var(--text-primary)] truncate">{alert.medicineName}</p>
+                        <p className="text-xs text-[var(--text-tertiary)] truncate">Batch: {alert.batchNumber}</p>
                       </div>
                       <div className="text-right flex-shrink-0">
-                        <p className="text-sm font-bold text-red-600">{alert.currentQty}</p>
-                        <p className="text-[10px] text-slate-400">Min: {alert.reorderLevel}</p>
+                        <p className="text-sm font-bold text-red-500">{alert.currentQty}</p>
+                        <p className="text-[10px] text-[var(--text-tertiary)]">Min: {alert.reorderLevel}</p>
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-slate-500 text-center py-6">All stock levels are healthy</p>
+                <p className="text-sm text-[var(--text-tertiary)] text-center py-6">All stock levels are healthy</p>
               )}
             </CardContent>
           </Card>
@@ -190,12 +190,12 @@ export default function NotificationsPage() {
           <Card>
             <CardHeader>
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
                   <IndianRupee className="h-4 w-4 text-blue-500" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900">Customer Outstanding</h3>
-                  <p className="text-xs text-slate-500">Pending customer payments</p>
+                  <h3 className="text-sm font-bold text-[var(--text-primary)]">Customer Outstanding</h3>
+                  <p className="text-xs text-[var(--text-tertiary)]">Pending customer payments</p>
                 </div>
               </div>
             </CardHeader>
@@ -203,17 +203,17 @@ export default function NotificationsPage() {
               {data.customerDues.length > 0 ? (
                 <div className="space-y-2">
                   {data.customerDues.map((c, i) => (
-                    <div key={i} className="flex items-center justify-between gap-2 p-3 rounded-lg bg-blue-50/50 border border-blue-100/50">
+                    <div key={i} className="flex items-center justify-between gap-2 p-3 rounded-lg bg-blue-500/5 border border-blue-500/10">
                       <div className="min-w-0 flex-1">
-                        <p className="text-sm font-medium text-slate-900 truncate">{c.name}</p>
-                        <p className="text-xs text-slate-500 truncate">{c.phone || "No phone"}</p>
+                        <p className="text-sm font-medium text-[var(--text-primary)] truncate">{c.name}</p>
+                        <p className="text-xs text-[var(--text-tertiary)] truncate">{c.phone || "No phone"}</p>
                       </div>
-                      <span className="text-xs sm:text-sm font-bold text-red-600 flex-shrink-0 whitespace-nowrap">{formatCurrency(c.balance)}</span>
+                      <span className="text-xs sm:text-sm font-bold text-red-500 flex-shrink-0 whitespace-nowrap">{formatCurrency(c.balance)}</span>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-slate-500 text-center py-6">No pending customer dues</p>
+                <p className="text-sm text-[var(--text-tertiary)] text-center py-6">No pending customer dues</p>
               )}
             </CardContent>
           </Card>
@@ -222,12 +222,12 @@ export default function NotificationsPage() {
           <Card>
             <CardHeader>
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-violet-50 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center">
                   <Clock className="h-4 w-4 text-violet-500" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900">Supplier Outstanding</h3>
-                  <p className="text-xs text-slate-500">Pending supplier payments</p>
+                  <h3 className="text-sm font-bold text-[var(--text-primary)]">Supplier Outstanding</h3>
+                  <p className="text-xs text-[var(--text-tertiary)]">Pending supplier payments</p>
                 </div>
               </div>
             </CardHeader>
@@ -235,17 +235,17 @@ export default function NotificationsPage() {
               {data.supplierDues.length > 0 ? (
                 <div className="space-y-2">
                   {data.supplierDues.map((s, i) => (
-                    <div key={i} className="flex items-center justify-between gap-2 p-3 rounded-lg bg-violet-50/50 border border-violet-100/50">
+                    <div key={i} className="flex items-center justify-between gap-2 p-3 rounded-lg bg-violet-500/5 border border-violet-500/10">
                       <div className="min-w-0 flex-1">
-                        <p className="text-sm font-medium text-slate-900 truncate">{s.name}</p>
-                        <p className="text-xs text-slate-500 truncate">{s.phone || "No phone"}</p>
+                        <p className="text-sm font-medium text-[var(--text-primary)] truncate">{s.name}</p>
+                        <p className="text-xs text-[var(--text-tertiary)] truncate">{s.phone || "No phone"}</p>
                       </div>
-                      <span className="text-xs sm:text-sm font-bold text-orange-600 flex-shrink-0 whitespace-nowrap">{formatCurrency(s.balance)}</span>
+                      <span className="text-xs sm:text-sm font-bold text-orange-500 flex-shrink-0 whitespace-nowrap">{formatCurrency(s.balance)}</span>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-slate-500 text-center py-6">No pending supplier dues</p>
+                <p className="text-sm text-[var(--text-tertiary)] text-center py-6">No pending supplier dues</p>
               )}
             </CardContent>
           </Card>

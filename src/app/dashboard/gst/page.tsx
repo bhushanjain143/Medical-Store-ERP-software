@@ -161,7 +161,7 @@ export default function GSTReportsPage() {
                   className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
                     tab === t.id
                       ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md"
-                      : "bg-white text-slate-600 border border-slate-200 hover:border-indigo-300"
+                      : "bg-[var(--bg-card)] text-[var(--text-secondary)] border border-[var(--border-default)] hover:border-indigo-300/50"
                   }`}
                 >
                   {t.label}
@@ -172,22 +172,22 @@ export default function GSTReportsPage() {
             {/* GST Rate Summary */}
             {tab === "summary" && data.gstSummary && (
               <Card>
-                <CardHeader><h3 className="text-sm font-bold text-slate-900">GST Rate Wise Summary</h3></CardHeader>
+                <CardHeader><h3 className="text-sm font-bold text-[var(--text-primary)]">GST Rate Wise Summary</h3></CardHeader>
                 <CardContent className="p-0">
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead>
-                        <tr className="bg-slate-50 border-b">
-                          <th className="text-left py-3 px-4 font-semibold text-slate-500 text-xs">GST Rate</th>
-                          <th className="text-right py-3 px-4 font-semibold text-slate-500 text-xs">Taxable Amount</th>
-                          <th className="text-right py-3 px-4 font-semibold text-slate-500 text-xs">CGST</th>
-                          <th className="text-right py-3 px-4 font-semibold text-slate-500 text-xs">SGST</th>
-                          <th className="text-right py-3 px-4 font-semibold text-slate-500 text-xs">Total GST</th>
+                        <tr className="bg-[var(--bg-muted)] border-b border-[var(--border-default)]">
+                          <th className="text-left py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">GST Rate</th>
+                          <th className="text-right py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Taxable Amount</th>
+                          <th className="text-right py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">CGST</th>
+                          <th className="text-right py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">SGST</th>
+                          <th className="text-right py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Total GST</th>
                         </tr>
                       </thead>
                       <tbody>
                         {Object.entries(data.gstSummary).map(([rate, vals]) => (
-                          <tr key={rate} className="border-b border-slate-50">
+                          <tr key={rate} className="border-b border-[var(--border-subtle)]">
                             <td className="py-3 px-4 font-semibold">{rate}%</td>
                             <td className="py-3 px-4 text-right">{formatCurrency(vals.taxable)}</td>
                             <td className="py-3 px-4 text-right">{formatCurrency(vals.cgst)}</td>
@@ -195,7 +195,7 @@ export default function GSTReportsPage() {
                             <td className="py-3 px-4 text-right font-semibold">{formatCurrency(vals.total)}</td>
                           </tr>
                         ))}
-                        <tr className="bg-slate-50 font-bold">
+                        <tr className="bg-[var(--bg-muted)] font-bold text-[var(--text-primary)]">
                           <td className="py-3 px-4">Total</td>
                           <td className="py-3 px-4 text-right">{formatCurrency(data.summary.totalTaxable)}</td>
                           <td className="py-3 px-4 text-right">{formatCurrency(data.summary.totalGst / 2)}</td>
@@ -212,27 +212,27 @@ export default function GSTReportsPage() {
             {/* Sales Register */}
             {tab === "sales_register" && data.salesRegister && (
               <Card>
-                <CardHeader><h3 className="text-sm font-bold text-slate-900">GST Sales Register</h3></CardHeader>
+                <CardHeader><h3 className="text-sm font-bold text-[var(--text-primary)]">GST Sales Register</h3></CardHeader>
                 <CardContent className="p-0">
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm min-w-[800px]">
                       <thead>
-                        <tr className="bg-slate-50 border-b">
-                          <th className="text-left py-3 px-4 font-semibold text-slate-500 text-xs">Invoice</th>
-                          <th className="text-left py-3 px-4 font-semibold text-slate-500 text-xs">Date</th>
-                          <th className="text-left py-3 px-4 font-semibold text-slate-500 text-xs">Customer</th>
-                          <th className="text-right py-3 px-4 font-semibold text-slate-500 text-xs">Taxable</th>
-                          <th className="text-right py-3 px-4 font-semibold text-slate-500 text-xs">CGST</th>
-                          <th className="text-right py-3 px-4 font-semibold text-slate-500 text-xs">SGST</th>
-                          <th className="text-right py-3 px-4 font-semibold text-slate-500 text-xs">Invoice Total</th>
+                        <tr className="bg-[var(--bg-muted)] border-b border-[var(--border-default)]">
+                          <th className="text-left py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Invoice</th>
+                          <th className="text-left py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Date</th>
+                          <th className="text-left py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Customer</th>
+                          <th className="text-right py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Taxable</th>
+                          <th className="text-right py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">CGST</th>
+                          <th className="text-right py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">SGST</th>
+                          <th className="text-right py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Invoice Total</th>
                         </tr>
                       </thead>
                       <tbody>
                         {data.salesRegister.map((r, i) => (
-                          <tr key={i} className="border-b border-slate-50 hover:bg-slate-50/50">
+                          <tr key={i} className="border-b border-[var(--border-subtle)] hover:bg-[var(--bg-muted)]">
                             <td className="py-3 px-4 font-medium">{r.invoiceNumber}</td>
-                            <td className="py-3 px-4 text-slate-600 text-xs">{r.date}</td>
-                            <td className="py-3 px-4 text-slate-600">{r.customerName}</td>
+                            <td className="py-3 px-4 text-[var(--text-secondary)] text-xs">{r.date}</td>
+                            <td className="py-3 px-4 text-[var(--text-secondary)]">{r.customerName}</td>
                             <td className="py-3 px-4 text-right">{formatCurrency(r.taxable)}</td>
                             <td className="py-3 px-4 text-right">{formatCurrency(r.cgst)}</td>
                             <td className="py-3 px-4 text-right">{formatCurrency(r.sgst)}</td>
@@ -249,29 +249,29 @@ export default function GSTReportsPage() {
             {/* Purchase Register */}
             {tab === "purchase_register" && data.purchaseRegister && (
               <Card>
-                <CardHeader><h3 className="text-sm font-bold text-slate-900">GST Purchase Register</h3></CardHeader>
+                <CardHeader><h3 className="text-sm font-bold text-[var(--text-primary)]">GST Purchase Register</h3></CardHeader>
                 <CardContent className="p-0">
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm min-w-[900px]">
                       <thead>
-                        <tr className="bg-slate-50 border-b">
-                          <th className="text-left py-3 px-4 font-semibold text-slate-500 text-xs">Invoice</th>
-                          <th className="text-left py-3 px-4 font-semibold text-slate-500 text-xs">Date</th>
-                          <th className="text-left py-3 px-4 font-semibold text-slate-500 text-xs">Supplier</th>
-                          <th className="text-left py-3 px-4 font-semibold text-slate-500 text-xs">GSTIN</th>
-                          <th className="text-right py-3 px-4 font-semibold text-slate-500 text-xs">Taxable</th>
-                          <th className="text-right py-3 px-4 font-semibold text-slate-500 text-xs">CGST</th>
-                          <th className="text-right py-3 px-4 font-semibold text-slate-500 text-xs">SGST</th>
-                          <th className="text-right py-3 px-4 font-semibold text-slate-500 text-xs">Total</th>
+                        <tr className="bg-[var(--bg-muted)] border-b border-[var(--border-default)]">
+                          <th className="text-left py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Invoice</th>
+                          <th className="text-left py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Date</th>
+                          <th className="text-left py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Supplier</th>
+                          <th className="text-left py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">GSTIN</th>
+                          <th className="text-right py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Taxable</th>
+                          <th className="text-right py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">CGST</th>
+                          <th className="text-right py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">SGST</th>
+                          <th className="text-right py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Total</th>
                         </tr>
                       </thead>
                       <tbody>
                         {data.purchaseRegister.map((r, i) => (
-                          <tr key={i} className="border-b border-slate-50 hover:bg-slate-50/50">
+                          <tr key={i} className="border-b border-[var(--border-subtle)] hover:bg-[var(--bg-muted)]">
                             <td className="py-3 px-4 font-medium">{r.invoiceNumber}</td>
-                            <td className="py-3 px-4 text-slate-600 text-xs">{r.date}</td>
-                            <td className="py-3 px-4 text-slate-600">{r.supplierName}</td>
-                            <td className="py-3 px-4 text-slate-500 text-xs">{r.gstin || "-"}</td>
+                            <td className="py-3 px-4 text-[var(--text-secondary)] text-xs">{r.date}</td>
+                            <td className="py-3 px-4 text-[var(--text-secondary)]">{r.supplierName}</td>
+                            <td className="py-3 px-4 text-[var(--text-tertiary)] text-xs">{r.gstin || "-"}</td>
                             <td className="py-3 px-4 text-right">{formatCurrency(r.taxable)}</td>
                             <td className="py-3 px-4 text-right">{formatCurrency(r.cgst)}</td>
                             <td className="py-3 px-4 text-right">{formatCurrency(r.sgst)}</td>
@@ -288,23 +288,23 @@ export default function GSTReportsPage() {
             {/* HSN Summary */}
             {tab === "hsn" && data.hsnSummary && (
               <Card>
-                <CardHeader><h3 className="text-sm font-bold text-slate-900">HSN Wise Summary</h3></CardHeader>
+                <CardHeader><h3 className="text-sm font-bold text-[var(--text-primary)]">HSN Wise Summary</h3></CardHeader>
                 <CardContent className="p-0">
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead>
-                        <tr className="bg-slate-50 border-b">
-                          <th className="text-left py-3 px-4 font-semibold text-slate-500 text-xs">HSN Code</th>
-                          <th className="text-right py-3 px-4 font-semibold text-slate-500 text-xs">Quantity</th>
-                          <th className="text-right py-3 px-4 font-semibold text-slate-500 text-xs">Taxable</th>
-                          <th className="text-right py-3 px-4 font-semibold text-slate-500 text-xs">CGST</th>
-                          <th className="text-right py-3 px-4 font-semibold text-slate-500 text-xs">SGST</th>
-                          <th className="text-right py-3 px-4 font-semibold text-slate-500 text-xs">Total Tax</th>
+                        <tr className="bg-[var(--bg-muted)] border-b border-[var(--border-default)]">
+                          <th className="text-left py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">HSN Code</th>
+                          <th className="text-right py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Quantity</th>
+                          <th className="text-right py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Taxable</th>
+                          <th className="text-right py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">CGST</th>
+                          <th className="text-right py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">SGST</th>
+                          <th className="text-right py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Total Tax</th>
                         </tr>
                       </thead>
                       <tbody>
                         {Object.entries(data.hsnSummary).map(([hsn, vals]) => (
-                          <tr key={hsn} className="border-b border-slate-50">
+                          <tr key={hsn} className="border-b border-[var(--border-subtle)]">
                             <td className="py-3 px-4 font-medium">{hsn || "N/A"}</td>
                             <td className="py-3 px-4 text-right">{vals.quantity}</td>
                             <td className="py-3 px-4 text-right">{formatCurrency(vals.taxable)}</td>
@@ -324,11 +324,11 @@ export default function GSTReportsPage() {
 
         {!data && !loading && (
           <div className="text-center py-20 animate-fade-in">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-50 to-indigo-50 border border-slate-100 mb-4">
-              <FileText className="h-8 w-8 text-slate-400" />
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 mb-4">
+              <FileText className="h-8 w-8 text-[var(--text-tertiary)]" />
             </div>
-            <h3 className="text-lg font-bold text-slate-800 mb-1">GST Tax Reports</h3>
-            <p className="text-sm text-slate-500">Select date range and generate to view CGST/SGST/HSN breakdown</p>
+            <h3 className="text-lg font-bold text-[var(--text-primary)] mb-1">GST Tax Reports</h3>
+            <p className="text-sm text-[var(--text-tertiary)]">Select date range and generate to view CGST/SGST/HSN breakdown</p>
           </div>
         )}
       </div>

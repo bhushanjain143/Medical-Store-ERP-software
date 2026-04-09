@@ -223,16 +223,16 @@ export default function ReportsPage() {
                 <CardContent className="p-0">
                   <div className="overflow-x-auto">
                   <table className="w-full text-sm min-w-[500px]">
-                    <thead><tr className="bg-slate-50 border-b">
-                      <th className="text-left py-3 px-4 font-medium text-slate-500">GST Rate</th>
-                      <th className="text-right py-3 px-4 font-medium text-slate-500">Taxable Amount</th>
-                      <th className="text-right py-3 px-4 font-medium text-slate-500">CGST</th>
-                      <th className="text-right py-3 px-4 font-medium text-slate-500">SGST</th>
-                      <th className="text-right py-3 px-4 font-medium text-slate-500">Total GST</th>
+                    <thead><tr className="bg-[var(--bg-muted)] border-b border-[var(--border-default)]">
+                      <th className="text-left py-3 px-4 font-medium text-[var(--text-tertiary)]">GST Rate</th>
+                      <th className="text-right py-3 px-4 font-medium text-[var(--text-tertiary)]">Taxable Amount</th>
+                      <th className="text-right py-3 px-4 font-medium text-[var(--text-tertiary)]">CGST</th>
+                      <th className="text-right py-3 px-4 font-medium text-[var(--text-tertiary)]">SGST</th>
+                      <th className="text-right py-3 px-4 font-medium text-[var(--text-tertiary)]">Total GST</th>
                     </tr></thead>
                     <tbody>
                       {Object.entries(data.gstSummary as Record<string, { taxable: number; cgst: number; sgst: number; total: number }>).map(([rate, vals]) => (
-                        <tr key={rate} className="border-b border-slate-50">
+                        <tr key={rate} className="border-b border-[var(--border-subtle)]">
                           <td className="py-3 px-4 font-medium">{rate}%</td>
                           <td className="py-3 px-4 text-right">{formatCurrency(vals.taxable)}</td>
                           <td className="py-3 px-4 text-right">{formatCurrency(vals.cgst)}</td>
@@ -252,19 +252,19 @@ export default function ReportsPage() {
                 <CardHeader><h3 className="text-sm font-semibold">Stock Details</h3></CardHeader>
                 <CardContent className="p-0 overflow-x-auto">
                   <table className="w-full text-sm min-w-[600px]">
-                    <thead><tr className="bg-slate-50 border-b">
-                      <th className="text-left py-3 px-4 font-medium text-slate-500">Medicine</th>
-                      <th className="text-left py-3 px-4 font-medium text-slate-500">Category</th>
-                      <th className="text-right py-3 px-4 font-medium text-slate-500">Qty</th>
-                      <th className="text-right py-3 px-4 font-medium text-slate-500">Stock Value</th>
-                      <th className="text-right py-3 px-4 font-medium text-slate-500">Retail Value</th>
-                      <th className="text-left py-3 px-4 font-medium text-slate-500">Status</th>
+                    <thead><tr className="bg-[var(--bg-muted)] border-b border-[var(--border-default)]">
+                      <th className="text-left py-3 px-4 font-medium text-[var(--text-tertiary)]">Medicine</th>
+                      <th className="text-left py-3 px-4 font-medium text-[var(--text-tertiary)]">Category</th>
+                      <th className="text-right py-3 px-4 font-medium text-[var(--text-tertiary)]">Qty</th>
+                      <th className="text-right py-3 px-4 font-medium text-[var(--text-tertiary)]">Stock Value</th>
+                      <th className="text-right py-3 px-4 font-medium text-[var(--text-tertiary)]">Retail Value</th>
+                      <th className="text-left py-3 px-4 font-medium text-[var(--text-tertiary)]">Status</th>
                     </tr></thead>
                     <tbody>
                       {((data.data || []) as Array<Record<string, unknown>>).map((m) => (
-                        <tr key={m.id as string} className="border-b border-slate-50 hover:bg-slate-50/50">
-                          <td className="py-3 px-4 font-medium text-slate-900">{m.name as string}</td>
-                          <td className="py-3 px-4 text-slate-600">{m.category as string}</td>
+                        <tr key={m.id as string} className="border-b border-[var(--border-subtle)] hover:bg-[var(--bg-muted)]">
+                          <td className="py-3 px-4 font-medium text-[var(--text-primary)]">{m.name as string}</td>
+                          <td className="py-3 px-4 text-[var(--text-secondary)]">{m.category as string}</td>
                           <td className="py-3 px-4 text-right font-medium">{m.totalQty as number}</td>
                           <td className="py-3 px-4 text-right">{formatCurrency(m.stockValue as number)}</td>
                           <td className="py-3 px-4 text-right">{formatCurrency(m.retailValue as number)}</td>
@@ -286,13 +286,13 @@ export default function ReportsPage() {
                 <CardHeader><h3 className="text-sm font-semibold">Expiring / Expired Medicines</h3></CardHeader>
                 <CardContent className="p-0 overflow-x-auto">
                   <table className="w-full text-sm min-w-[600px]">
-                    <thead><tr className="bg-slate-50 border-b">
-                      <th className="text-left py-3 px-4 font-medium text-slate-500">Medicine</th>
-                      <th className="text-left py-3 px-4 font-medium text-slate-500">Batch</th>
-                      <th className="text-right py-3 px-4 font-medium text-slate-500">Qty</th>
-                      <th className="text-right py-3 px-4 font-medium text-slate-500">Value</th>
-                      <th className="text-left py-3 px-4 font-medium text-slate-500">Expiry</th>
-                      <th className="text-left py-3 px-4 font-medium text-slate-500">Status</th>
+                    <thead><tr className="bg-[var(--bg-muted)] border-b border-[var(--border-default)]">
+                      <th className="text-left py-3 px-4 font-medium text-[var(--text-tertiary)]">Medicine</th>
+                      <th className="text-left py-3 px-4 font-medium text-[var(--text-tertiary)]">Batch</th>
+                      <th className="text-right py-3 px-4 font-medium text-[var(--text-tertiary)]">Qty</th>
+                      <th className="text-right py-3 px-4 font-medium text-[var(--text-tertiary)]">Value</th>
+                      <th className="text-left py-3 px-4 font-medium text-[var(--text-tertiary)]">Expiry</th>
+                      <th className="text-left py-3 px-4 font-medium text-[var(--text-tertiary)]">Status</th>
                     </tr></thead>
                     <tbody>
                       {((data.data || []) as Array<Record<string, unknown>>).map((b) => {
@@ -300,9 +300,9 @@ export default function ReportsPage() {
                         const isExpired = exp <= new Date();
                         const daysLeft = Math.ceil((exp.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
                         return (
-                          <tr key={b.id as string} className="border-b border-slate-50">
+                          <tr key={b.id as string} className="border-b border-[var(--border-subtle)]">
                             <td className="py-3 px-4 font-medium">{(b.medicine as Record<string, unknown>)?.name as string}</td>
-                            <td className="py-3 px-4 text-slate-600">{b.batchNumber as string}</td>
+                            <td className="py-3 px-4 text-[var(--text-secondary)]">{b.batchNumber as string}</td>
                             <td className="py-3 px-4 text-right">{b.quantity as number}</td>
                             <td className="py-3 px-4 text-right">{formatCurrency((b.purchasePrice as number) * (b.quantity as number))}</td>
                             <td className="py-3 px-4">{formatDate(b.expiryDate as string)}</td>
@@ -330,26 +330,26 @@ export default function ReportsPage() {
                 <CardContent className="p-0 overflow-x-auto">
                   <table className="w-full text-sm min-w-[500px]">
                     <thead>
-                      <tr className="bg-slate-50 border-b">
-                        <th className="text-left py-3 px-4 font-medium text-slate-500">Invoice</th>
-                        <th className="text-left py-3 px-4 font-medium text-slate-500">
+                      <tr className="bg-[var(--bg-muted)] border-b border-[var(--border-default)]">
+                        <th className="text-left py-3 px-4 font-medium text-[var(--text-tertiary)]">Invoice</th>
+                        <th className="text-left py-3 px-4 font-medium text-[var(--text-tertiary)]">
                           {activeTab === "sales" ? "Customer" : "Supplier"}
                         </th>
-                        <th className="text-right py-3 px-4 font-medium text-slate-500">Amount</th>
-                        <th className="text-left py-3 px-4 font-medium text-slate-500">Date</th>
+                        <th className="text-right py-3 px-4 font-medium text-[var(--text-tertiary)]">Amount</th>
+                        <th className="text-left py-3 px-4 font-medium text-[var(--text-tertiary)]">Date</th>
                       </tr>
                     </thead>
                     <tbody>
                       {((data.data || []) as Array<Record<string, unknown>>).map((r) => (
-                        <tr key={r.id as string} className="border-b border-slate-50 hover:bg-slate-50/50">
+                        <tr key={r.id as string} className="border-b border-[var(--border-subtle)] hover:bg-[var(--bg-muted)]">
                           <td className="py-3 px-4 font-medium">{r.invoiceNumber as string}</td>
-                          <td className="py-3 px-4 text-slate-600">
+                          <td className="py-3 px-4 text-[var(--text-secondary)]">
                             {activeTab === "sales"
                               ? (r.customer as Record<string, unknown>)?.name as string || "Walk-in"
                               : (r.supplier as Record<string, unknown>)?.name as string}
                           </td>
                           <td className="py-3 px-4 text-right font-medium">{formatCurrency(r.totalAmount as number)}</td>
-                          <td className="py-3 px-4 text-slate-500 text-xs">{formatDate(r.createdAt as string)}</td>
+                          <td className="py-3 px-4 text-[var(--text-tertiary)] text-xs">{formatDate(r.createdAt as string)}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -362,11 +362,11 @@ export default function ReportsPage() {
 
         {!data && !loading && (
           <div className="text-center py-20 animate-fade-in">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-50 to-indigo-50 border border-slate-100 mb-4">
-              <BarChart3 className="h-8 w-8 text-slate-400" />
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 mb-4">
+              <BarChart3 className="h-8 w-8 text-[var(--text-tertiary)]" />
             </div>
-            <h3 className="text-lg font-bold text-slate-800 mb-1">Generate a Report</h3>
-            <p className="text-sm text-slate-500">Select a report type, set date range, and click Generate</p>
+            <h3 className="text-lg font-bold text-[var(--text-primary)] mb-1">Generate a Report</h3>
+            <p className="text-sm text-[var(--text-tertiary)]">Select a report type, set date range, and click Generate</p>
           </div>
         )}
       </div>

@@ -161,13 +161,13 @@ export default function PurchasesPage() {
         {/* Toolbar */}
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="flex-1 relative group">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--text-tertiary)] group-focus-within:text-indigo-500 transition-colors" />
             <input
               type="text"
               placeholder="Search by invoice or supplier..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-white text-sm shadow-sm hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border text-sm shadow-sm transition-all bg-[var(--bg-input)] border-[var(--border-default)] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] hover:border-indigo-300/50 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400"
             />
           </div>
           <Button onClick={() => setShowModal(true)}>
@@ -190,40 +190,40 @@ export default function PurchasesPage() {
               <div className="overflow-x-auto">
                 <table className="w-full text-sm min-w-[750px]">
                   <thead>
-                    <tr className="bg-slate-50 border-b border-slate-200">
-                      <th className="text-left py-3 px-4 font-semibold text-slate-500 text-xs">Invoice</th>
-                      <th className="text-left py-3 px-4 font-semibold text-slate-500 text-xs">Supplier</th>
-                      <th className="text-right py-3 px-4 font-semibold text-slate-500 text-xs">Amount</th>
-                      <th className="text-right py-3 px-4 font-semibold text-slate-500 text-xs">Paid</th>
-                      <th className="text-left py-3 px-4 font-semibold text-slate-500 text-xs">Status</th>
-                      <th className="text-left py-3 px-4 font-semibold text-slate-500 text-xs">Items</th>
-                      <th className="text-left py-3 px-4 font-semibold text-slate-500 text-xs">Date</th>
-                      <th className="text-center py-3 px-4 font-semibold text-slate-500 text-xs">Action</th>
+                    <tr className="bg-[var(--bg-muted)] border-b border-[var(--border-default)]">
+                      <th className="text-left py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Invoice</th>
+                      <th className="text-left py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Supplier</th>
+                      <th className="text-right py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Amount</th>
+                      <th className="text-right py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Paid</th>
+                      <th className="text-left py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Status</th>
+                      <th className="text-left py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Items</th>
+                      <th className="text-left py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Date</th>
+                      <th className="text-center py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     {purchases.map((p) => (
-                      <tr key={p.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+                      <tr key={p.id} className="border-b border-[var(--border-subtle)] hover:bg-[var(--bg-muted)] transition-colors">
                         <td className="py-3 px-4">
                           <div className="flex items-center gap-2">
-                            <div className="w-7 h-7 rounded-lg bg-blue-50 flex items-center justify-center">
+                            <div className="w-7 h-7 rounded-lg bg-blue-500/10 flex items-center justify-center">
                               <Package className="h-3.5 w-3.5 text-blue-500" />
                             </div>
-                            <span className="font-semibold text-slate-900">{p.invoiceNumber}</span>
+                            <span className="font-semibold text-[var(--text-primary)]">{p.invoiceNumber}</span>
                           </div>
                         </td>
-                        <td className="py-3 px-4 text-slate-600">{p.supplier.name}</td>
-                        <td className="py-3 px-4 text-right font-semibold text-slate-900">{formatCurrency(p.totalAmount)}</td>
-                        <td className="py-3 px-4 text-right text-slate-600">{formatCurrency(p.paidAmount)}</td>
+                        <td className="py-3 px-4 text-[var(--text-secondary)]">{p.supplier.name}</td>
+                        <td className="py-3 px-4 text-right font-semibold text-[var(--text-primary)]">{formatCurrency(p.totalAmount)}</td>
+                        <td className="py-3 px-4 text-right text-[var(--text-secondary)]">{formatCurrency(p.paidAmount)}</td>
                         <td className="py-3 px-4">
                           <Badge variant={p.paymentStatus === "paid" ? "success" : p.paymentStatus === "partial" ? "warning" : "danger"} dot>
                             {p.paymentStatus}
                           </Badge>
                         </td>
-                        <td className="py-3 px-4 text-slate-600">{p.items.length} items</td>
-                        <td className="py-3 px-4 text-slate-500 text-xs">{formatDate(p.createdAt)}</td>
+                        <td className="py-3 px-4 text-[var(--text-secondary)]">{p.items.length} items</td>
+                        <td className="py-3 px-4 text-[var(--text-tertiary)] text-xs">{formatDate(p.createdAt)}</td>
                         <td className="py-3 px-4 text-center">
-                          <button onClick={() => setViewingPurchase(p)} className="p-1.5 rounded text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors">
+                          <button onClick={() => setViewingPurchase(p)} className="p-1.5 rounded text-[var(--text-tertiary)] hover:text-blue-500 hover:bg-blue-500/10 transition-colors">
                             <Eye className="h-4 w-4" />
                           </button>
                         </td>
@@ -240,17 +240,17 @@ export default function PurchasesPage() {
         <Modal open={!!viewingPurchase} onClose={() => setViewingPurchase(null)} title={`Purchase: ${viewingPurchase?.invoiceNumber || ""}`} size="lg">
           {viewingPurchase && (
             <div className="space-y-4">
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 bg-slate-50 p-4 rounded-xl">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 bg-[var(--bg-muted)] p-4 rounded-xl">
                 <div>
-                  <p className="text-[10px] text-slate-400 uppercase font-semibold">Supplier</p>
-                  <p className="text-sm font-semibold text-slate-900">{viewingPurchase.supplier.name}</p>
+                  <p className="text-[10px] text-[var(--text-tertiary)] uppercase font-semibold">Supplier</p>
+                  <p className="text-sm font-semibold text-[var(--text-primary)]">{viewingPurchase.supplier.name}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] text-slate-400 uppercase font-semibold">Date</p>
-                  <p className="text-sm font-medium">{formatDate(viewingPurchase.purchaseDate)}</p>
+                  <p className="text-[10px] text-[var(--text-tertiary)] uppercase font-semibold">Date</p>
+                  <p className="text-sm font-medium text-[var(--text-primary)]">{formatDate(viewingPurchase.purchaseDate)}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] text-slate-400 uppercase font-semibold">Status</p>
+                  <p className="text-[10px] text-[var(--text-tertiary)] uppercase font-semibold">Status</p>
                   <Badge variant={viewingPurchase.paymentStatus === "paid" ? "success" : "warning"} dot>
                     {viewingPurchase.paymentStatus}
                   </Badge>
@@ -259,43 +259,43 @@ export default function PurchasesPage() {
               <div className="overflow-x-auto -mx-4 sm:-mx-6 px-4 sm:px-6">
               <table className="w-full text-sm min-w-[500px]">
                 <thead>
-                  <tr className="bg-blue-50 border-b border-blue-100">
-                    <th className="text-left py-2.5 px-3 font-semibold text-blue-700 text-xs">#</th>
-                    <th className="text-left py-2.5 px-3 font-semibold text-blue-700 text-xs">Medicine</th>
-                    <th className="text-left py-2.5 px-3 font-semibold text-blue-700 text-xs">Batch</th>
-                    <th className="text-center py-2.5 px-3 font-semibold text-blue-700 text-xs">Qty</th>
-                    <th className="text-right py-2.5 px-3 font-semibold text-blue-700 text-xs">Rate</th>
-                    <th className="text-right py-2.5 px-3 font-semibold text-blue-700 text-xs">GST</th>
-                    <th className="text-right py-2.5 px-3 font-semibold text-blue-700 text-xs">Amount</th>
+                  <tr className="bg-indigo-500/10 border-b border-indigo-500/20">
+                    <th className="text-left py-2.5 px-3 font-semibold text-indigo-500 text-xs">#</th>
+                    <th className="text-left py-2.5 px-3 font-semibold text-indigo-500 text-xs">Medicine</th>
+                    <th className="text-left py-2.5 px-3 font-semibold text-indigo-500 text-xs">Batch</th>
+                    <th className="text-center py-2.5 px-3 font-semibold text-indigo-500 text-xs">Qty</th>
+                    <th className="text-right py-2.5 px-3 font-semibold text-indigo-500 text-xs">Rate</th>
+                    <th className="text-right py-2.5 px-3 font-semibold text-indigo-500 text-xs">GST</th>
+                    <th className="text-right py-2.5 px-3 font-semibold text-indigo-500 text-xs">Amount</th>
                   </tr>
                 </thead>
                 <tbody>
                   {viewingPurchase.items.map((item, i) => (
-                    <tr key={i} className="border-b border-slate-100">
-                      <td className="py-2 px-3 text-slate-400">{i + 1}</td>
-                      <td className="py-2 px-3 font-medium">{item.medicine.name}</td>
-                      <td className="py-2 px-3 text-slate-600">{item.batch.batchNumber}</td>
-                      <td className="py-2 px-3 text-center">{item.quantity}</td>
-                      <td className="py-2 px-3 text-right">{formatCurrency(item.unitPrice)}</td>
-                      <td className="py-2 px-3 text-right text-slate-500">{item.gstRate}%</td>
-                      <td className="py-2 px-3 text-right font-semibold">{formatCurrency(item.totalAmount)}</td>
+                    <tr key={i} className="border-b border-[var(--border-subtle)]">
+                      <td className="py-2 px-3 text-[var(--text-tertiary)]">{i + 1}</td>
+                      <td className="py-2 px-3 font-medium text-[var(--text-primary)]">{item.medicine.name}</td>
+                      <td className="py-2 px-3 text-[var(--text-secondary)]">{item.batch.batchNumber}</td>
+                      <td className="py-2 px-3 text-center text-[var(--text-primary)]">{item.quantity}</td>
+                      <td className="py-2 px-3 text-right text-[var(--text-secondary)]">{formatCurrency(item.unitPrice)}</td>
+                      <td className="py-2 px-3 text-right text-[var(--text-tertiary)]">{item.gstRate}%</td>
+                      <td className="py-2 px-3 text-right font-semibold text-[var(--text-primary)]">{formatCurrency(item.totalAmount)}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
               </div>
-              <div className="bg-slate-50 rounded-lg p-4 space-y-1.5 text-sm">
-                <div className="flex justify-between"><span className="text-slate-500">Subtotal</span><span>{formatCurrency(viewingPurchase.subtotal)}</span></div>
-                <div className="flex justify-between"><span className="text-slate-500">GST</span><span>{formatCurrency(viewingPurchase.gstAmount)}</span></div>
-                <div className="flex justify-between text-lg font-extrabold pt-2 border-t border-slate-200">
-                  <span>Total</span><span className="text-blue-600">{formatCurrency(viewingPurchase.totalAmount)}</span>
+              <div className="bg-[var(--bg-muted)] rounded-lg p-4 space-y-1.5 text-sm">
+                <div className="flex justify-between"><span className="text-[var(--text-tertiary)]">Subtotal</span><span className="text-[var(--text-primary)]">{formatCurrency(viewingPurchase.subtotal)}</span></div>
+                <div className="flex justify-between"><span className="text-[var(--text-tertiary)]">GST</span><span className="text-[var(--text-primary)]">{formatCurrency(viewingPurchase.gstAmount)}</span></div>
+                <div className="flex justify-between text-lg font-extrabold pt-2 border-t border-[var(--border-default)]">
+                  <span className="text-[var(--text-primary)]">Total</span><span className="text-indigo-500">{formatCurrency(viewingPurchase.totalAmount)}</span>
                 </div>
-                <div className="flex justify-between text-xs text-slate-400 pt-1">
+                <div className="flex justify-between text-xs text-[var(--text-tertiary)] pt-1">
                   <span>Paid: {formatCurrency(viewingPurchase.paidAmount)}</span>
                   <span>Due: {formatCurrency(viewingPurchase.totalAmount - viewingPurchase.paidAmount)}</span>
                 </div>
               </div>
-              {viewingPurchase.notes && <p className="text-xs text-slate-500 italic">Note: {viewingPurchase.notes}</p>}
+              {viewingPurchase.notes && <p className="text-xs text-[var(--text-tertiary)] italic">Note: {viewingPurchase.notes}</p>}
             </div>
           )}
         </Modal>
@@ -310,16 +310,16 @@ export default function PurchasesPage() {
             </div>
 
             {suppliers.length === 0 && (
-              <div className="text-center p-3 rounded-xl bg-amber-50 border border-amber-200">
-                <p className="text-xs text-amber-700 font-medium">
+              <div className="text-center p-3 rounded-xl bg-amber-500/10 border border-amber-500/20">
+                <p className="text-xs text-amber-600 dark:text-amber-400 font-medium">
                   No suppliers found. Please add a supplier first from the Suppliers page.
                 </p>
               </div>
             )}
 
             {medicines.length === 0 && (
-              <div className="text-center p-3 rounded-xl bg-amber-50 border border-amber-200">
-                <p className="text-xs text-amber-700 font-medium">
+              <div className="text-center p-3 rounded-xl bg-amber-500/10 border border-amber-500/20">
+                <p className="text-xs text-amber-600 dark:text-amber-400 font-medium">
                   No medicines found. Please add medicines first from the Medicines page.
                 </p>
               </div>
@@ -327,7 +327,7 @@ export default function PurchasesPage() {
 
             <div>
               <div className="flex items-center justify-between mb-3">
-                <label className="text-sm font-semibold text-slate-700">Purchase Items</label>
+                <label className="text-sm font-semibold text-[var(--text-primary)]">Purchase Items</label>
                 <Button type="button" size="sm" variant="outline" onClick={addItem}>
                   <Plus className="h-3 w-3" />
                   Add Item
@@ -335,11 +335,11 @@ export default function PurchasesPage() {
               </div>
               <div className="space-y-3 max-h-[40vh] overflow-y-auto pr-1">
                 {items.map((item, index) => (
-                  <div key={index} className="rounded-xl bg-slate-50 border border-slate-200 p-3 sm:p-4">
+                  <div key={index} className="rounded-xl bg-[var(--bg-muted)] border border-[var(--border-default)] p-3 sm:p-4">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-bold text-slate-500">Item #{index + 1}</span>
+                      <span className="text-xs font-bold text-[var(--text-tertiary)]">Item #{index + 1}</span>
                       {items.length > 1 && (
-                        <button type="button" onClick={() => removeItem(index)} className="p-1.5 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors">
+                        <button type="button" onClick={() => removeItem(index)} className="p-1.5 rounded-lg text-[var(--text-tertiary)] hover:text-red-500 hover:bg-red-500/10 transition-colors">
                           <Trash2 className="h-3.5 w-3.5" />
                         </button>
                       )}
@@ -361,7 +361,7 @@ export default function PurchasesPage() {
 
             <Input id="notes" label="Notes (optional)" placeholder="Notes about this purchase..." value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
 
-            <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-4 border-t border-slate-100">
+            <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-4 border-t border-[var(--border-default)]">
               <Button type="button" variant="secondary" onClick={() => { setShowModal(false); setForm({ supplierId: "", invoiceNumber: "", paidAmount: "0", notes: "" }); setItems([{ ...emptyItem }]); }}>Cancel</Button>
               <Button type="submit" loading={saving} disabled={saving || !form.supplierId || !form.invoiceNumber || suppliers.length === 0 || medicines.length === 0}>
                 <Package className="h-4 w-4" />

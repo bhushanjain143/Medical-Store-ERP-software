@@ -127,13 +127,13 @@ export default function PrescriptionsPage() {
         {/* Toolbar */}
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="flex-1 relative group">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--text-tertiary)] group-focus-within:text-indigo-500 transition-colors" />
             <input
               type="text"
               placeholder="Search by patient or doctor name..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-white text-sm shadow-sm hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border text-sm shadow-sm transition-all bg-[var(--bg-input)] border-[var(--border-default)] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] hover:border-indigo-300/50 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400"
             />
           </div>
           <Select
@@ -169,15 +169,15 @@ export default function PrescriptionsPage() {
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-3">
                       <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                        rx.status === "pending" ? "bg-amber-50" : rx.status === "dispensed" ? "bg-emerald-50" : "bg-red-50"
+                        rx.status === "pending" ? "bg-amber-500/10" : rx.status === "dispensed" ? "bg-emerald-500/10" : "bg-red-500/10"
                       }`}>
                         <FileText className={`h-5 w-5 ${
                           rx.status === "pending" ? "text-amber-500" : rx.status === "dispensed" ? "text-emerald-500" : "text-red-500"
                         }`} />
                       </div>
                       <div>
-                        <h3 className="text-sm font-semibold text-slate-900">{rx.patientName}</h3>
-                        <p className="text-xs text-slate-500">{rx.doctorName ? `Dr. ${rx.doctorName}` : "No doctor info"}</p>
+                        <h3 className="text-sm font-semibold text-[var(--text-primary)]">{rx.patientName}</h3>
+                        <p className="text-xs text-[var(--text-tertiary)]">{rx.doctorName ? `Dr. ${rx.doctorName}` : "No doctor info"}</p>
                       </div>
                     </div>
                     <Badge variant={rx.status === "pending" ? "warning" : rx.status === "dispensed" ? "success" : "danger"}>
@@ -186,21 +186,21 @@ export default function PrescriptionsPage() {
                   </div>
 
                   {rx.diagnosis && (
-                    <p className="text-xs text-slate-600 mb-2 line-clamp-2 bg-slate-50 p-2 rounded-lg">{rx.diagnosis}</p>
+                    <p className="text-xs text-[var(--text-secondary)] mb-2 line-clamp-2 bg-[var(--bg-muted)] p-2 rounded-lg">{rx.diagnosis}</p>
                   )}
 
-                  <div className="flex items-center justify-between text-xs text-slate-400 pt-2 border-t border-slate-100">
+                  <div className="flex items-center justify-between text-xs text-[var(--text-tertiary)] pt-2 border-t border-[var(--border-default)]">
                     <span>{formatDateTime(rx.createdAt)}</span>
                     <div className="flex gap-1">
-                      <button onClick={() => setViewingRx(rx)} className="p-1.5 rounded hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                      <button onClick={() => setViewingRx(rx)} className="p-1.5 rounded hover:bg-blue-500/10 hover:text-blue-500 transition-colors">
                         <Eye className="h-3.5 w-3.5" />
                       </button>
                       {rx.status === "pending" && (
                         <>
-                          <button onClick={() => updateStatus(rx.id, "dispensed")} className="p-1.5 rounded hover:bg-emerald-50 hover:text-emerald-600 transition-colors">
+                          <button onClick={() => updateStatus(rx.id, "dispensed")} className="p-1.5 rounded hover:bg-emerald-500/10 hover:text-emerald-500 transition-colors">
                             <CheckCircle className="h-3.5 w-3.5" />
                           </button>
-                          <button onClick={() => updateStatus(rx.id, "cancelled")} className="p-1.5 rounded hover:bg-red-50 hover:text-red-600 transition-colors">
+                          <button onClick={() => updateStatus(rx.id, "cancelled")} className="p-1.5 rounded hover:bg-red-500/10 hover:text-red-500 transition-colors">
                             <XCircle className="h-3.5 w-3.5" />
                           </button>
                         </>
@@ -230,16 +230,16 @@ export default function PrescriptionsPage() {
             </div>
             <Input id="diagnosis" label="Diagnosis" value={form.diagnosis} onChange={(e) => setForm({ ...form, diagnosis: e.target.value })} placeholder="Brief diagnosis or condition" />
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Prescription Notes / Medicines</label>
+              <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">Prescription Notes / Medicines</label>
               <textarea
                 value={form.notes}
                 onChange={(e) => setForm({ ...form, notes: e.target.value })}
                 placeholder="List prescribed medicines, dosage, frequency..."
                 rows={4}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all resize-none"
+                className="w-full px-4 py-3 rounded-xl border text-sm transition-all resize-none bg-[var(--bg-input)] border-[var(--border-default)] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400"
               />
             </div>
-            <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
+            <div className="flex justify-end gap-3 pt-4 border-t border-[var(--border-default)]">
               <Button type="button" variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
               <Button type="submit" loading={saving}>Save Prescription</Button>
             </div>
@@ -252,53 +252,53 @@ export default function PrescriptionsPage() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-xs text-slate-500">Patient</p>
-                  <p className="text-sm font-semibold">{viewingRx.patientName}</p>
+                  <p className="text-xs text-[var(--text-tertiary)]">Patient</p>
+                  <p className="text-sm font-semibold text-[var(--text-primary)]">{viewingRx.patientName}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-slate-500">Status</p>
+                  <p className="text-xs text-[var(--text-tertiary)]">Status</p>
                   <Badge variant={viewingRx.status === "pending" ? "warning" : viewingRx.status === "dispensed" ? "success" : "danger"}>
                     {viewingRx.status}
                   </Badge>
                 </div>
                 {viewingRx.doctorName && (
                   <div>
-                    <p className="text-xs text-slate-500">Doctor</p>
-                    <p className="text-sm font-medium">Dr. {viewingRx.doctorName}</p>
+                    <p className="text-xs text-[var(--text-tertiary)]">Doctor</p>
+                    <p className="text-sm font-medium text-[var(--text-primary)]">Dr. {viewingRx.doctorName}</p>
                   </div>
                 )}
                 {viewingRx.doctorPhone && (
                   <div>
-                    <p className="text-xs text-slate-500">Doctor Phone</p>
-                    <p className="text-sm font-medium">{viewingRx.doctorPhone}</p>
+                    <p className="text-xs text-[var(--text-tertiary)]">Doctor Phone</p>
+                    <p className="text-sm font-medium text-[var(--text-primary)]">{viewingRx.doctorPhone}</p>
                   </div>
                 )}
                 {viewingRx.customer && (
                   <div>
-                    <p className="text-xs text-slate-500">Linked Customer</p>
-                    <p className="text-sm font-medium">{viewingRx.customer.name}</p>
+                    <p className="text-xs text-[var(--text-tertiary)]">Linked Customer</p>
+                    <p className="text-sm font-medium text-[var(--text-primary)]">{viewingRx.customer.name}</p>
                   </div>
                 )}
                 {viewingRx.sale && (
                   <div>
-                    <p className="text-xs text-slate-500">Linked Invoice</p>
+                    <p className="text-xs text-[var(--text-tertiary)]">Linked Invoice</p>
                     <p className="text-sm font-medium text-indigo-600">{viewingRx.sale.invoiceNumber}</p>
                   </div>
                 )}
               </div>
               {viewingRx.diagnosis && (
                 <div>
-                  <p className="text-xs text-slate-500 mb-1">Diagnosis</p>
-                  <p className="text-sm bg-slate-50 p-3 rounded-lg">{viewingRx.diagnosis}</p>
+                  <p className="text-xs text-[var(--text-tertiary)] mb-1">Diagnosis</p>
+                  <p className="text-sm bg-[var(--bg-muted)] p-3 rounded-lg text-[var(--text-primary)]">{viewingRx.diagnosis}</p>
                 </div>
               )}
               {viewingRx.notes && (
                 <div>
-                  <p className="text-xs text-slate-500 mb-1">Prescription Notes</p>
-                  <p className="text-sm bg-slate-50 p-3 rounded-lg whitespace-pre-wrap">{viewingRx.notes}</p>
+                  <p className="text-xs text-[var(--text-tertiary)] mb-1">Prescription Notes</p>
+                  <p className="text-sm bg-[var(--bg-muted)] p-3 rounded-lg whitespace-pre-wrap text-[var(--text-primary)]">{viewingRx.notes}</p>
                 </div>
               )}
-              <p className="text-xs text-slate-400">Created: {formatDateTime(viewingRx.createdAt)}</p>
+              <p className="text-xs text-[var(--text-tertiary)]">Created: {formatDateTime(viewingRx.createdAt)}</p>
             </div>
           )}
         </Modal>
