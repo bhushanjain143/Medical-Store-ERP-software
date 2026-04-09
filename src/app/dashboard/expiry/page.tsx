@@ -108,28 +108,30 @@ export default function ExpiryTrackerPage() {
       <Header title="Expiry Tracker" subtitle="Monitor and manage medicine expiry dates" />
       <div className="p-4 sm:p-6 space-y-6">
         {/* Summary Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
-          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br from-red-500 to-rose-600 p-3 text-white shadow-lg min-w-0">
-            <XCircle className="absolute top-2 right-2 h-5 w-5 sm:h-7 sm:w-7 text-white/20" />
-            <p className="text-[11px] font-medium text-white/80">Expired</p>
-            <p className="text-lg sm:text-2xl font-extrabold">{expiredCount}</p>
-            <p className="text-[10px] text-white/60 truncate">Loss: {formatCurrency(totalLossValue)}</p>
-          </div>
-          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600 p-3 text-white shadow-lg min-w-0">
-            <Clock className="absolute top-2 right-2 h-5 w-5 sm:h-7 sm:w-7 text-white/20" />
-            <p className="text-[11px] font-medium text-white/80">Critical (7d)</p>
-            <p className="text-lg sm:text-2xl font-extrabold">{within7}</p>
-          </div>
-          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-600 p-3 text-white shadow-lg min-w-0">
-            <AlertTriangle className="absolute top-2 right-2 h-5 w-5 sm:h-7 sm:w-7 text-white/20" />
-            <p className="text-[11px] font-medium text-white/80">Warning (30d)</p>
-            <p className="text-lg sm:text-2xl font-extrabold">{within30}</p>
-          </div>
-          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 p-3 text-white shadow-lg min-w-0">
-            <Shield className="absolute top-2 right-2 h-5 w-5 sm:h-7 sm:w-7 text-white/20" />
-            <p className="text-[11px] font-medium text-white/80">Watchlist (90d)</p>
-            <p className="text-lg sm:text-2xl font-extrabold">{within90}</p>
-          </div>
+        <div className="stat-card-grid">
+          {[
+            { label: "Expired", value: expiredCount, sub: `Loss: ${formatCurrency(totalLossValue)}`, icon: XCircle, gradient: "from-red-500 to-rose-600" },
+            { label: "Critical (7d)", value: within7, sub: "Needs immediate action", icon: Clock, gradient: "from-orange-500 to-amber-600" },
+            { label: "Warning (30d)", value: within30, sub: "Expiring soon", icon: AlertTriangle, gradient: "from-amber-500 to-yellow-600" },
+            { label: "Watchlist (90d)", value: within90, sub: "Monitor closely", icon: Shield, gradient: "from-emerald-500 to-green-600" },
+          ].map((card) => {
+            const Icon = card.icon;
+            return (
+              <div
+                key={card.label}
+                className={`rounded-xl sm:rounded-2xl bg-gradient-to-br ${card.gradient} px-4 py-3.5 sm:px-5 sm:py-4 text-white shadow-lg min-h-[90px] sm:min-h-[100px] flex flex-col justify-between`}
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <p className="text-[11px] sm:text-xs font-semibold text-white/80 leading-tight">{card.label}</p>
+                  <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-white/25 flex-shrink-0" />
+                </div>
+                <div>
+                  <p className="text-2xl sm:text-3xl font-extrabold leading-none mt-1">{card.value}</p>
+                  <p className="text-[10px] sm:text-[11px] text-white/60 mt-1 truncate">{card.sub}</p>
+                </div>
+              </div>
+            );
+          })}
         </div>
 
         {/* Filter Tabs */}

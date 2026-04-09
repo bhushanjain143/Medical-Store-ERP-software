@@ -132,23 +132,23 @@ export default function GSTReportsPage() {
         {data && (
           <>
             {/* Summary Cards */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
-              <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 p-2.5 sm:p-3.5 text-white shadow-lg overflow-hidden min-w-0">
-                <IndianRupee className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white/50 mb-1" />
+            <div className="stat-card-grid">
+              <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 px-4 py-3.5 sm:px-5 sm:py-4 text-white shadow-lg min-h-[88px]">
+                <IndianRupee className="h-4 w-4 text-white/40 mb-1.5" />
                 <p className="text-[10px] sm:text-xs text-white/80">Total Taxable</p>
-                <p className="text-base sm:text-lg font-extrabold truncate">{formatCurrency(data.summary.totalTaxable)}</p>
+                <p className="text-xl sm:text-2xl font-extrabold truncate">{formatCurrency(data.summary.totalTaxable)}</p>
               </div>
-              <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 p-2.5 sm:p-3.5 text-white shadow-lg overflow-hidden min-w-0">
+              <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 px-4 py-3.5 sm:px-5 sm:py-4 text-white shadow-lg min-h-[88px]">
                 <p className="text-[10px] sm:text-xs text-white/80">CGST</p>
-                <p className="text-base sm:text-lg font-extrabold truncate">{formatCurrency(data.summary.totalGst / 2)}</p>
+                <p className="text-xl sm:text-2xl font-extrabold truncate">{formatCurrency(data.summary.totalGst / 2)}</p>
               </div>
-              <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 p-2.5 sm:p-3.5 text-white shadow-lg overflow-hidden min-w-0">
+              <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 px-4 py-3.5 sm:px-5 sm:py-4 text-white shadow-lg min-h-[88px]">
                 <p className="text-[10px] sm:text-xs text-white/80">SGST</p>
-                <p className="text-base sm:text-lg font-extrabold truncate">{formatCurrency(data.summary.totalGst / 2)}</p>
+                <p className="text-xl sm:text-2xl font-extrabold truncate">{formatCurrency(data.summary.totalGst / 2)}</p>
               </div>
-              <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 p-2.5 sm:p-3.5 text-white shadow-lg overflow-hidden min-w-0">
+              <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 px-4 py-3.5 sm:px-5 sm:py-4 text-white shadow-lg min-h-[88px]">
                 <p className="text-[10px] sm:text-xs text-white/80">Total GST</p>
-                <p className="text-base sm:text-lg font-extrabold truncate">{formatCurrency(data.summary.totalGst)}</p>
+                <p className="text-xl sm:text-2xl font-extrabold truncate">{formatCurrency(data.summary.totalGst)}</p>
               </div>
             </div>
 

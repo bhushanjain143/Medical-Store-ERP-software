@@ -120,25 +120,25 @@ export default function CustomersPage() {
       <Header title="Customers" subtitle={`${customers.length} customers registered`} />
       <div className="p-4 sm:p-6 space-y-6">
         {/* Stats Row */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
-          <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 p-2.5 sm:p-3.5 text-white shadow-lg overflow-hidden min-w-0">
-            <Users className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white/50 mb-1" />
-            <p className="text-base sm:text-xl font-extrabold">{customers.length}</p>
+        <div className="stat-card-grid">
+          <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 px-4 py-3.5 sm:px-5 sm:py-4 text-white shadow-lg min-h-[88px]">
+            <Users className="h-4 w-4 text-white/40 mb-1.5" />
+            <p className="text-xl sm:text-2xl font-extrabold">{customers.length}</p>
             <p className="text-[10px] sm:text-xs text-white/80">Total Customers</p>
           </div>
-          <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-red-500 to-rose-600 p-2.5 sm:p-3.5 text-white shadow-lg overflow-hidden min-w-0">
-            <IndianRupee className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white/50 mb-1" />
-            <p className="text-base sm:text-xl font-extrabold truncate">{formatCurrency(totalDues)}</p>
+          <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-red-500 to-rose-600 px-4 py-3.5 sm:px-5 sm:py-4 text-white shadow-lg min-h-[88px]">
+            <IndianRupee className="h-4 w-4 text-white/40 mb-1.5" />
+            <p className="text-xl sm:text-2xl font-extrabold truncate">{formatCurrency(totalDues)}</p>
             <p className="text-[10px] sm:text-xs text-white/80 truncate">Dues ({dueCustomers.length})</p>
           </div>
-          <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 p-2.5 sm:p-3.5 text-white shadow-lg overflow-hidden min-w-0">
-            <CreditCard className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white/50 mb-1" />
-            <p className="text-base sm:text-xl font-extrabold">{customers.filter((c) => (c.creditLimit || 0) > 0).length}</p>
+          <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 px-4 py-3.5 sm:px-5 sm:py-4 text-white shadow-lg min-h-[88px]">
+            <CreditCard className="h-4 w-4 text-white/40 mb-1.5" />
+            <p className="text-xl sm:text-2xl font-extrabold">{customers.filter((c) => (c.creditLimit || 0) > 0).length}</p>
             <p className="text-[10px] sm:text-xs text-white/80">Credit Accounts</p>
           </div>
-          <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 p-2.5 sm:p-3.5 text-white shadow-lg overflow-hidden min-w-0">
-            <ShoppingCart className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white/50 mb-1" />
-            <p className="text-base sm:text-xl font-extrabold truncate">{totalLoyalty}</p>
+          <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 px-4 py-3.5 sm:px-5 sm:py-4 text-white shadow-lg min-h-[88px]">
+            <ShoppingCart className="h-4 w-4 text-white/40 mb-1.5" />
+            <p className="text-xl sm:text-2xl font-extrabold truncate">{totalLoyalty}</p>
             <p className="text-[10px] sm:text-xs text-white/80">Loyalty Points</p>
           </div>
         </div>

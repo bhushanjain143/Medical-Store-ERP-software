@@ -152,37 +152,34 @@ export default function DashboardPage() {
       <Header title="Dashboard" subtitle="Overview of your medical store" />
       <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
         {/* Stat Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-2 sm:gap-3 stagger-children">
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 stagger-children">
           {statCards.map((stat, idx) => {
             const Icon = stat.icon;
             const g = gradientCards[idx];
             return (
               <div
                 key={stat.label}
-                className={`relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br ${g.from} ${g.to} p-2.5 sm:p-4 text-white shadow-lg ${g.shadow} card-hover min-w-0`}
+                className={`rounded-xl sm:rounded-2xl bg-gradient-to-br ${g.from} ${g.to} px-3.5 py-3 sm:px-4 sm:py-3.5 text-white shadow-lg ${g.shadow} card-hover min-h-[88px] sm:min-h-[96px]`}
               >
-                <div className="absolute top-0 right-0 w-12 sm:w-16 h-12 sm:h-16 rounded-full bg-white/10 -mr-2 sm:-mr-4 -mt-2 sm:-mt-4 blur-sm" />
-                <div className="relative min-w-0">
-                  <div className="flex items-center justify-between mb-1 sm:mb-2">
-                    <div className={`p-1 sm:p-1.5 rounded-lg ${g.iconBg}`}>
-                      <Icon className="h-3 w-3 sm:h-4 sm:w-4" />
-                    </div>
-                    {stat.trend && (
-                      <span className="flex items-center gap-0.5 text-[9px] font-semibold bg-white/20 px-1 py-0.5 rounded-md">
-                        {stat.trend === "up" ? (
-                          <ArrowUpRight className="h-2.5 w-2.5" />
-                        ) : (
-                          <ArrowDownRight className="h-2.5 w-2.5" />
-                        )}
-                      </span>
-                    )}
+                <div className="flex items-center justify-between mb-1.5 sm:mb-2">
+                  <div className={`p-1 sm:p-1.5 rounded-lg ${g.iconBg}`}>
+                    <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                   </div>
-                  <p className="text-xs sm:text-xl font-extrabold tracking-tight leading-tight truncate">
-                    {stat.value}
-                  </p>
-                  <p className="text-[9px] sm:text-[11px] text-white/80 font-medium mt-0.5 truncate">{stat.label}</p>
-                  <p className="text-[8px] sm:text-[10px] text-white/60 mt-0.5 truncate">{stat.sub}</p>
+                  {stat.trend && (
+                    <span className="flex items-center gap-0.5 text-[9px] font-semibold bg-white/20 px-1 py-0.5 rounded-md">
+                      {stat.trend === "up" ? (
+                        <ArrowUpRight className="h-2.5 w-2.5" />
+                      ) : (
+                        <ArrowDownRight className="h-2.5 w-2.5" />
+                      )}
+                    </span>
+                  )}
                 </div>
+                <p className="text-sm sm:text-xl font-extrabold tracking-tight leading-tight truncate">
+                  {stat.value}
+                </p>
+                <p className="text-[10px] sm:text-[11px] text-white/80 font-medium mt-0.5 truncate">{stat.label}</p>
+                <p className="text-[9px] sm:text-[10px] text-white/60 mt-0.5 truncate">{stat.sub}</p>
               </div>
             );
           })}
