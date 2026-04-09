@@ -39,6 +39,7 @@ const emptyForm = {
   doctorPhone: "",
   diagnosis: "",
   notes: "",
+  prescriptionImageUrl: "",
   customerId: "",
   status: "pending",
 };
@@ -229,6 +230,14 @@ export default function PrescriptionsPage() {
               <Input id="doctorPhone" label="Doctor Phone" value={form.doctorPhone} onChange={(e) => setForm({ ...form, doctorPhone: e.target.value })} placeholder="Phone number" />
             </div>
             <Input id="diagnosis" label="Diagnosis" value={form.diagnosis} onChange={(e) => setForm({ ...form, diagnosis: e.target.value })} placeholder="Brief diagnosis or condition" />
+            <Input
+              id="prescriptionImageUrl"
+              label="Prescription Image URL"
+              value={form.prescriptionImageUrl}
+              onChange={(e) => setForm({ ...form, prescriptionImageUrl: e.target.value })}
+              placeholder="https://example.com/prescription.jpg"
+              hint="Paste a link to the scanned prescription image (optional)"
+            />
             <div>
               <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">Prescription Notes / Medicines</label>
               <textarea

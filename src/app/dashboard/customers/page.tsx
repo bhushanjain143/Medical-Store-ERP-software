@@ -12,7 +12,7 @@ import { PageLoading } from "@/components/ui/loading";
 import { formatCurrency } from "@/lib/utils";
 import {
   Plus, Search, Users, Edit, Trash2, Phone, Mail, MapPin,
-  IndianRupee, CreditCard, ShoppingCart, UserPlus,
+  IndianRupee, CreditCard, ShoppingCart, UserPlus, MessageCircle, Star,
 } from "lucide-react";
 import { useEffect, useState, useCallback } from "react";
 import toast from "react-hot-toast";
@@ -207,7 +207,22 @@ export default function CustomersPage() {
                     </div>
                   </div>
                   <div className="space-y-1.5 text-xs text-[var(--text-tertiary)]">
-                    {c.phone && <div className="flex items-center gap-2"><Phone className="h-3 w-3 flex-shrink-0" />{c.phone}</div>}
+                    {c.phone && (
+                      <div className="flex items-center gap-2">
+                        <Phone className="h-3 w-3 flex-shrink-0" />
+                        <span>{c.phone}</span>
+                        <a
+                          href={`https://wa.me/${c.phone.replace(/[^0-9]/g, "")}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20 transition-colors text-[10px] font-medium"
+                          title="Chat on WhatsApp"
+                        >
+                          <MessageCircle className="h-2.5 w-2.5" />
+                          WhatsApp
+                        </a>
+                      </div>
+                    )}
                     {c.email && <div className="flex items-center gap-2"><Mail className="h-3 w-3 flex-shrink-0" /><span className="truncate">{c.email}</span></div>}
                     {c.address && <div className="flex items-center gap-2"><MapPin className="h-3 w-3 flex-shrink-0" /><span className="truncate">{c.address}</span></div>}
                     {c.gstin && <div className="flex items-center gap-2"><CreditCard className="h-3 w-3 flex-shrink-0" />GSTIN: {c.gstin}</div>}
@@ -224,7 +239,7 @@ export default function CustomersPage() {
                       <p className="text-[11px] sm:text-xs font-bold text-[var(--text-primary)] truncate">{formatCurrency(c.creditLimit || 0)}</p>
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[10px] text-[var(--text-tertiary)]">Points</p>
+                      <p className="text-[10px] text-[var(--text-tertiary)] flex items-center justify-center gap-0.5"><Star className="h-2.5 w-2.5" />Points</p>
                       <p className="text-[11px] sm:text-xs font-bold text-amber-600">{c.loyaltyPoints || 0}</p>
                     </div>
                   </div>

@@ -6,7 +6,9 @@ export async function GET() {
     const now = new Date();
     const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    const sevenDaysFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
     const thirtyDaysFromNow = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+    const ninetyDaysFromNow = new Date(now.getTime() + 90 * 24 * 60 * 60 * 1000);
 
     const [
       todaySales,
@@ -86,7 +88,7 @@ export async function GET() {
       }),
     ]);
 
-    const [todayPurchases, monthPurchases, expiryAlerts, lowStockAlerts, supplierDues] =
+    const [todayPurchases, monthPurchases, expiryAlerts, lowStockAlerts, supplierDues, expiredCount, critical7d, warning30d, watchlist90d] =
       await Promise.all([
         prisma.purchase.aggregate({
           where: { createdAt: { gte: todayStart } },
@@ -125,6 +127,18 @@ export async function GET() {
           orderBy: { balance: "desc" },
           take: 5,
         }),
+        prisma.batch.count({
+          where: { quantity: { gt: 0 }, expiryDate: { lte: now } },
+        }),
+        prisma.batch.count({
+          where: { quantity: { gt: 0 }, expiryDate: { gt: now, lte: sevenDaysFromNow } },
+        }),
+        prisma.batch.count({
+          where: { quantity: { gt: 0 }, expiryDate: { gt: sevenDaysFromNow, lte: thirtyDaysFromNow } },
+        }),
+        prisma.batch.count({
+          where: { quantity: { gt: 0 }, expiryDate: { gt: thirtyDaysFromNow, lte: ninetyDaysFromNow } },
+        }),
       ]);
 
     return NextResponse.json({
@@ -141,6 +155,10 @@ export async function GET() {
         lowStockCount,
         expiringCount,
         totalCustomers,
+        expiredCount,
+        critical7d,
+        warning30d,
+        watchlist90d,
       },
       recentSales,
       monthlySalesData,

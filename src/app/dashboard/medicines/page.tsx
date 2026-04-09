@@ -75,6 +75,7 @@ const emptyForm = {
   prescriptionReq: false,
   rackLocation: "",
   reorderLevel: "10",
+  imageUrl: "",
 };
 
 const emptyBatchForm = {
@@ -211,6 +212,7 @@ export default function MedicinesPage() {
       prescriptionReq: med.prescriptionReq,
       rackLocation: med.rackLocation || "",
       reorderLevel: med.reorderLevel.toString(),
+      imageUrl: (med as unknown as Record<string, string>).imageUrl || "",
     });
     if (!isKnown) {
       setShowCustomCategory(true);
@@ -616,6 +618,16 @@ export default function MedicinesPage() {
                 onChange={(e) =>
                   setForm({ ...form, reorderLevel: e.target.value })
                 }
+              />
+              <Input
+                id="imageUrl"
+                label="Image URL"
+                placeholder="https://example.com/medicine.jpg"
+                value={form.imageUrl}
+                onChange={(e) =>
+                  setForm({ ...form, imageUrl: e.target.value })
+                }
+                hint="Paste a URL to a medicine image (optional)"
               />
               <div className="flex items-center gap-2 pt-6">
                 <input

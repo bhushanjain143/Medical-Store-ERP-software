@@ -95,6 +95,90 @@ export default function ReportsPage() {
     toast.success("Report exported!");
   };
 
+  const exportExcel = () => {
+    if (!data) return;
+    const items = (data.data || []) as Record<string, unknown>[];
+    if (items.length === 0) {
+      toast.error("No data to export");
+      return;
+    }
+
+    let headers: string[] = [];
+    let rows: string[][] = [];
+
+    switch (activeTab) {
+      case "sales":
+        headers = ["Invoice", "Customer", "Amount", "GST", "Discount", "Payment", "Date"];
+        rows = (items as Array<Record<string, unknown>>).map((s) => [
+          String(s.invoiceNumber || ""),
+          String((s.customer as Record<string, unknown>)?.name || "Walk-in"),
+          String(s.totalAmount || 0),
+          String(s.gstAmount || 0),
+          String(s.discount || 0),
+          String(s.paymentMode || ""),
+          formatDate(s.createdAt as string),
+        ]);
+        break;
+      case "stock":
+        headers = ["Medicine", "Category", "Quantity", "Stock Value", "Retail Value", "Low Stock"];
+        rows = (items as Array<Record<string, unknown>>).map((m) => [
+          String(m.name || ""),
+          String(m.category || ""),
+          String(m.totalQty || 0),
+          String(m.stockValue || 0),
+          String(m.retailValue || 0),
+          m.isLowStock ? "Yes" : "No",
+        ]);
+        break;
+      case "expiry":
+        headers = ["Medicine", "Batch", "Quantity", "Purchase Price", "Expiry Date"];
+        rows = (items as Array<Record<string, unknown>>).map((b) => [
+          String((b.medicine as Record<string, unknown>)?.name || ""),
+          String(b.batchNumber || ""),
+          String(b.quantity || 0),
+          String(b.purchasePrice || 0),
+          formatDate(b.expiryDate as string),
+        ]);
+        break;
+      case "purchases":
+        headers = ["Invoice", "Supplier", "Amount", "GST", "Paid", "Status", "Date"];
+        rows = (items as Array<Record<string, unknown>>).map((p) => [
+          String(p.invoiceNumber || ""),
+          String((p.supplier as Record<string, unknown>)?.name || ""),
+          String(p.totalAmount || 0),
+          String(p.gstAmount || 0),
+          String(p.paidAmount || 0),
+          String(p.paymentStatus || ""),
+          formatDate(p.purchaseDate as string),
+        ]);
+        break;
+      default:
+        headers = Object.keys(items[0] || {});
+        rows = items.map((item) => headers.map((h) => String(item[h] ?? "")));
+    }
+
+    const xmlHeader = '<?xml version="1.0" encoding="UTF-8"?>\n<?mso-application progid="Excel.Sheet"?>\n';
+    const workbookStart = '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"><Worksheet ss:Name="Report"><Table>';
+    const headerRow = "<Row>" + headers.map((h) => `<Cell><Data ss:Type="String">${h}</Data></Cell>`).join("") + "</Row>";
+    const dataRows = rows.map((row) => "<Row>" + row.map((cell) => {
+      const num = Number(cell);
+      if (!isNaN(num) && cell.trim() !== "") {
+        return `<Cell><Data ss:Type="Number">${num}</Data></Cell>`;
+      }
+      return `<Cell><Data ss:Type="String">${cell.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</Data></Cell>`;
+    }).join("") + "</Row>").join("");
+    const workbookEnd = "</Table></Worksheet></Workbook>";
+
+    const blob = new Blob([xmlHeader + workbookStart + headerRow + dataRows + workbookEnd], { type: "application/vnd.ms-excel" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${activeTab}-report-${new Date().toISOString().split("T")[0]}.xls`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+    toast.success("Excel report exported!");
+  };
+
   const summary = data?.summary as Record<string, unknown> | undefined;
 
   return (
@@ -147,10 +231,14 @@ export default function ReportsPage() {
                 </Button>
               </div>
               {data && (
-                <div className="flex items-end">
+                <div className="flex items-end gap-2 flex-wrap">
                   <Button variant="outline" onClick={exportCSV} className="w-full sm:w-auto">
                     <Download className="h-4 w-4" />
-                    Export CSV
+                    CSV
+                  </Button>
+                  <Button variant="outline" onClick={exportExcel} className="w-full sm:w-auto">
+                    <FileText className="h-4 w-4" />
+                    Excel
                   </Button>
                 </div>
               )}

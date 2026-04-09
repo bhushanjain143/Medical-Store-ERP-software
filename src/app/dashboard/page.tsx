@@ -44,6 +44,10 @@ interface DashboardData {
     lowStockCount: number;
     expiringCount: number;
     totalCustomers: number;
+    expiredCount: number;
+    critical7d: number;
+    warning30d: number;
+    watchlist90d: number;
   };
   recentSales: Array<{
     id: string;
@@ -185,6 +189,36 @@ export default function DashboardPage() {
               </div>
             );
           })}
+        </div>
+
+        {/* Expiry Breakdown Cards */}
+        <div className="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          {[
+            { label: "Expired", count: stats.expiredCount, color: "from-red-600 to-rose-700", iconBg: "bg-red-400/20", textBg: "bg-red-500/15", textColor: "text-red-200" },
+            { label: "Critical (7d)", count: stats.critical7d, color: "from-orange-500 to-red-600", iconBg: "bg-orange-400/20", textBg: "bg-orange-500/15", textColor: "text-orange-200" },
+            { label: "Warning (30d)", count: stats.warning30d, color: "from-amber-500 to-orange-600", iconBg: "bg-amber-400/20", textBg: "bg-amber-500/15", textColor: "text-amber-200" },
+            { label: "Watchlist (90d)", count: stats.watchlist90d, color: "from-sky-500 to-blue-600", iconBg: "bg-sky-400/20", textBg: "bg-sky-500/15", textColor: "text-sky-200" },
+          ].map((card) => (
+            <div
+              key={card.label}
+              className={`rounded-xl sm:rounded-2xl bg-gradient-to-br ${card.color} p-3 sm:p-4 text-white shadow-lg card-hover overflow-hidden`}
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div className={`p-2 rounded-lg ${card.iconBg}`}>
+                    <AlertTriangle className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] sm:text-xs text-white/70 font-semibold">{card.label}</p>
+                    <p className="text-xl sm:text-2xl font-extrabold tracking-tight">{card.count}</p>
+                  </div>
+                </div>
+                <span className={`${card.textBg} ${card.textColor} text-[10px] font-bold px-2 py-1 rounded-lg`}>
+                  {card.count === 0 ? "Clear" : "batches"}
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">

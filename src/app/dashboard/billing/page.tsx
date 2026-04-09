@@ -340,7 +340,7 @@ export default function BillingPage() {
                     <input
                       ref={searchRef}
                       type="text"
-                      placeholder="Search medicines by name, generic name, or batch number..."
+                      placeholder="Search by name, generic name, batch number, or barcode..."
                       value={searchQuery}
                       onChange={(e) => handleSearch(e.target.value)}
                       className="w-full pl-10 pr-4 py-3 rounded-xl border text-sm shadow-sm transition-all bg-[var(--bg-input)] border-[var(--border-default)] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] hover:border-indigo-300/50 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400"
