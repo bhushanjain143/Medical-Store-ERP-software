@@ -565,12 +565,16 @@ export default function BillingPage() {
                     disabled={cart.length === 0}
                   >
                     <Receipt className="h-4 w-4 flex-shrink-0" />
-                    <span className="truncate">Generate Invoice</span>
+                    <span className="truncate">
+                      {cart.length === 0 ? "Add Items to Cart First" : "Generate Invoice"}
+                    </span>
                   </Button>
                   {cart.length === 0 && (
-                    <p className="text-xs text-slate-400 text-center">
-                      Search &amp; add medicines above to enable billing
-                    </p>
+                    <div className="text-center p-3 rounded-xl bg-amber-50 border border-amber-200">
+                      <p className="text-xs text-amber-700 font-medium">
+                        Use the search box above to find medicines and add them to the cart before generating an invoice.
+                      </p>
+                    </div>
                   )}
                 </CardContent>
               </Card>

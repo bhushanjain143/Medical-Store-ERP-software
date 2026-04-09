@@ -303,9 +303,9 @@ export default function PurchasesPage() {
         {/* New Purchase Modal */}
         <Modal open={showModal} onClose={() => setShowModal(false)} title="New Purchase Entry" subtitle="Record a new purchase from supplier" size="xl">
           <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              <Select id="supplierId" label="Supplier *" options={suppliers.map((s) => ({ value: s.id, label: s.name }))} value={form.supplierId} onChange={(e) => setForm({ ...form, supplierId: e.target.value })} placeholder="Select supplier" />
-              <Input id="invoiceNumber" label="Supplier Invoice No. *" value={form.invoiceNumber} onChange={(e) => setForm({ ...form, invoiceNumber: e.target.value })} placeholder="e.g., SUP-INV-001" required />
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <Select id="supplierId" label="Supplier *" options={[{ value: "", label: "-- Select Supplier --" }, ...suppliers.map((s) => ({ value: s.id, label: s.name }))]} value={form.supplierId} onChange={(e) => setForm({ ...form, supplierId: e.target.value })} />
+              <Input id="invoiceNumber" label="Invoice No. *" value={form.invoiceNumber} onChange={(e) => setForm({ ...form, invoiceNumber: e.target.value })} placeholder="e.g., SUP-INV-001" required />
               <Input id="paidAmount" label="Amount Paid (₹)" type="number" min="0" step="0.01" value={form.paidAmount} onChange={(e) => setForm({ ...form, paidAmount: e.target.value })} />
             </div>
 
@@ -317,41 +317,37 @@ export default function PurchasesPage() {
                   Add Item
                 </Button>
               </div>
-              <div className="space-y-3 max-h-[45vh] overflow-y-auto pr-1">
+              <div className="space-y-3 max-h-[40vh] overflow-y-auto">
                 {items.map((item, index) => (
-                  <Card key={index} className="bg-slate-50/80 border-slate-200">
-                    <CardContent className="py-3 px-3 sm:px-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs font-bold text-slate-400">Item #{index + 1}</span>
-                        {items.length > 1 && (
-                          <button type="button" onClick={() => removeItem(index)} className="p-1 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors">
-                            <Trash2 className="h-3.5 w-3.5" />
-                          </button>
-                        )}
-                      </div>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5">
-                        <div className="col-span-2 sm:col-span-1">
-                          <Select options={medicines.map((m) => ({ value: m.id, label: m.name }))} value={item.medicineId} onChange={(e) => updateItem(index, "medicineId", e.target.value)} placeholder="Select Medicine *" />
-                        </div>
-                        <Input placeholder="Batch No. *" value={item.batchNumber} onChange={(e) => updateItem(index, "batchNumber", e.target.value)} />
-                        <Input type="number" placeholder="Qty *" min="1" value={item.quantity} onChange={(e) => updateItem(index, "quantity", e.target.value)} />
-                        <Input type="number" placeholder="Purchase ₹ *" step="0.01" min="0" value={item.purchasePrice} onChange={(e) => updateItem(index, "purchasePrice", e.target.value)} />
-                        <Input type="number" placeholder="Selling ₹ *" step="0.01" min="0" value={item.sellingPrice} onChange={(e) => updateItem(index, "sellingPrice", e.target.value)} />
-                        <Input type="number" placeholder="MRP ₹ *" step="0.01" min="0" value={item.mrp} onChange={(e) => updateItem(index, "mrp", e.target.value)} />
-                        <Input label="Expiry Date *" type="date" value={item.expiryDate} onChange={(e) => updateItem(index, "expiryDate", e.target.value)} />
-                        <Input label="Mfg Date" type="date" value={item.mfgDate} onChange={(e) => updateItem(index, "mfgDate", e.target.value)} />
-                      </div>
-                    </CardContent>
-                  </Card>
+                  <div key={index} className="rounded-xl bg-slate-50 border border-slate-200 p-3 sm:p-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-xs font-bold text-slate-500">Item #{index + 1}</span>
+                      {items.length > 1 && (
+                        <button type="button" onClick={() => removeItem(index)} className="p-1.5 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors">
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
+                      )}
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                      <Select label="Medicine *" options={[{ value: "", label: "-- Select --" }, ...medicines.map((m) => ({ value: m.id, label: m.name }))]} value={item.medicineId} onChange={(e) => updateItem(index, "medicineId", e.target.value)} />
+                      <Input label="Batch No. *" placeholder="BT-2026-001" value={item.batchNumber} onChange={(e) => updateItem(index, "batchNumber", e.target.value)} />
+                      <Input label="Quantity *" type="number" placeholder="100" min="1" value={item.quantity} onChange={(e) => updateItem(index, "quantity", e.target.value)} />
+                      <Input label="Purchase ₹ *" type="number" placeholder="5.50" step="0.01" min="0" value={item.purchasePrice} onChange={(e) => updateItem(index, "purchasePrice", e.target.value)} />
+                      <Input label="Selling ₹ *" type="number" placeholder="8.00" step="0.01" min="0" value={item.sellingPrice} onChange={(e) => updateItem(index, "sellingPrice", e.target.value)} />
+                      <Input label="MRP ₹ *" type="number" placeholder="10.00" step="0.01" min="0" value={item.mrp} onChange={(e) => updateItem(index, "mrp", e.target.value)} />
+                      <Input label="Expiry Date *" type="date" value={item.expiryDate} onChange={(e) => updateItem(index, "expiryDate", e.target.value)} />
+                      <Input label="Mfg Date" type="date" value={item.mfgDate} onChange={(e) => updateItem(index, "mfgDate", e.target.value)} />
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
 
-            <Input id="notes" label="Notes" placeholder="Optional notes about this purchase..." value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
+            <Input id="notes" label="Notes (optional)" placeholder="Notes about this purchase..." value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
 
             <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-4 border-t border-slate-100">
               <Button type="button" variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
-              <Button type="submit" loading={saving}>
+              <Button type="submit" loading={saving} disabled={!form.supplierId || !form.invoiceNumber}>
                 <Package className="h-4 w-4" />
                 Save Purchase
               </Button>

@@ -49,14 +49,14 @@ export function Modal({
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/50 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/50 backdrop-blur-sm animate-fade-in overflow-y-auto"
       onClick={(e) => {
         if (e.target === overlayRef.current) onClose();
       }}
     >
       <div
         className={cn(
-          "bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl shadow-slate-900/15 w-full animate-fade-in-scale border border-slate-200/80 max-h-[92vh] sm:max-h-[88vh] flex flex-col",
+          "bg-white rounded-2xl shadow-2xl shadow-slate-900/15 w-full animate-fade-in-scale border border-slate-200/80 max-h-[90vh] flex flex-col my-auto",
           sizes[size]
         )}
       >

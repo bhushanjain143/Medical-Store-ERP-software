@@ -38,13 +38,19 @@ table {
 /* Stat card grid — prevent collapse and overlap */
 .stat-card-grid {
   display: grid;
-  gap: 0.75rem;
+  gap: 1rem;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 @media (min-width: 640px) {
   .stat-card-grid {
+    gap: 1rem;
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
+}
+
+/* Ensure main content has proper containment */
+main > div {
+  min-width: 0;
 }
 
 body {

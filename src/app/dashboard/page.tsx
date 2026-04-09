@@ -152,7 +152,7 @@ export default function DashboardPage() {
       <Header title="Dashboard" subtitle="Overview of your medical store" />
       <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
         {/* Stat Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 stagger-children">
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4 stagger-children">
           {statCards.map((stat, idx) => {
             const Icon = stat.icon;
             const g = gradientCards[idx];

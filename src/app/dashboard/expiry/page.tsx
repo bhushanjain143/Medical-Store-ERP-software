@@ -170,7 +170,7 @@ export default function ExpiryTrackerPage() {
           <Card>
             <CardContent className="p-0">
               <div className="overflow-x-auto">
-                <table className="w-full text-sm min-w-[800px]">
+                <table className="w-full text-sm min-w-[700px]">
                   <thead>
                     <tr className="bg-slate-50 border-b border-slate-200">
                       <th className="text-left py-3 px-4 font-semibold text-slate-500 text-xs">Medicine</th>
