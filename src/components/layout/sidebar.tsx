@@ -24,6 +24,8 @@ import {
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import { useAuth } from "@/lib/use-auth";
+import { canAccess } from "@/lib/roles";
 
 const navSections = [
   {
@@ -69,8 +71,10 @@ const navSections = [
 export function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
+  const { user } = useAuth();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const role = user?.role || "admin";
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
@@ -100,7 +104,10 @@ export function Sidebar() {
       </div>
 
       <nav className="flex-1 px-3 py-2 space-y-1 overflow-y-auto">
-        {navSections.map((section) => (
+        {navSections.map((section) => {
+          const visibleItems = section.items.filter((item) => canAccess(item.href, role));
+          if (visibleItems.length === 0) return null;
+          return (
           <div key={section.label}>
             {!collapsed && (
               <div className="px-3 pt-4 pb-1.5">
@@ -109,7 +116,7 @@ export function Sidebar() {
             )}
             {collapsed && <div className="pt-2" />}
             <div className="space-y-0.5">
-              {section.items.map((item) => {
+              {visibleItems.map((item) => {
                 const Icon = item.icon;
                 const active = isActive(item.href);
                 return (
@@ -134,7 +141,8 @@ export function Sidebar() {
               })}
             </div>
           </div>
-        ))}
+          );
+        })}
       </nav>
 
       {/* Logout */}

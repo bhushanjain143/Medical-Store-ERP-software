@@ -291,7 +291,20 @@ export default function BillingPage() {
         <div className="flex gap-2 sm:gap-3 mb-4 sm:mb-6 overflow-x-auto pb-0.5">
           <Button
             variant={!showSales ? "primary" : "outline"}
-            onClick={() => setShowSales(false)}
+            onClick={() => {
+              setShowSales(false);
+              setCart([]);
+              setDiscount("0");
+              setNotes("");
+              setSelectedCustomer("");
+              setPaymentMode("cash");
+              setSearchQuery("");
+              setSearchResults([]);
+              setShowSearch(false);
+              setViewingSale(null);
+              loadData();
+              searchRef.current?.focus();
+            }}
           >
             <ShoppingCart className="h-4 w-4" />
             New Bill

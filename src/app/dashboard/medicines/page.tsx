@@ -57,20 +57,9 @@ interface Medicine {
   nearestExpiry: string | null;
 }
 
-const CATEGORIES = [
-  "Tablet",
-  "Capsule",
-  "Syrup",
-  "Injection",
-  "Ointment",
-  "Drops",
-  "Inhaler",
-  "Powder",
-  "Cream",
-  "Gel",
-  "Spray",
-  "Suppository",
-  "Other",
+const DEFAULT_CATEGORIES = [
+  "Tablet", "Capsule", "Syrup", "Injection", "Ointment",
+  "Drops", "Inhaler", "Powder", "Cream", "Gel", "Spray", "Suppository",
 ];
 
 const GST_RATES = ["0", "5", "12", "18", "28"];
@@ -111,6 +100,19 @@ export default function MedicinesPage() {
   const [form, setForm] = useState(emptyForm);
   const [batchForm, setBatchForm] = useState(emptyBatchForm);
   const [saving, setSaving] = useState(false);
+  const [categories, setCategories] = useState<string[]>(DEFAULT_CATEGORIES);
+  const [customCategory, setCustomCategory] = useState("");
+  const [showCustomCategory, setShowCustomCategory] = useState(false);
+
+  const fetchCategories = useCallback(async () => {
+    try {
+      const res = await fetch("/api/categories");
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) setCategories(data);
+    } catch { /* keep defaults */ }
+  }, []);
+
+  useEffect(() => { fetchCategories(); }, [fetchCategories]);
 
   const fetchMedicines = useCallback(async () => {
     try {
@@ -135,19 +137,27 @@ export default function MedicinesPage() {
     e.preventDefault();
     setSaving(true);
     try {
+      const finalCategory =
+        showCustomCategory && customCategory.trim()
+          ? customCategory.trim()
+          : form.category;
+
       const url = editingId ? `/api/medicines/${editingId}` : "/api/medicines";
       const method = editingId ? "PUT" : "POST";
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, category: finalCategory }),
       });
       if (!res.ok) throw new Error();
       toast.success(editingId ? "Medicine updated" : "Medicine added");
       setShowModal(false);
       setEditingId(null);
       setForm(emptyForm);
+      setCustomCategory("");
+      setShowCustomCategory(false);
       fetchMedicines();
+      fetchCategories();
     } catch {
       toast.error("Failed to save medicine");
     } finally {
@@ -189,11 +199,12 @@ export default function MedicinesPage() {
 
   const openEdit = (med: Medicine) => {
     setEditingId(med.id);
+    const isKnown = categories.includes(med.category);
     setForm({
       name: med.name,
       genericName: med.genericName || "",
       composition: med.composition || "",
-      category: med.category,
+      category: isKnown ? med.category : "Tablet",
       manufacturer: med.manufacturer || "",
       hsnCode: med.hsnCode || "",
       gstRate: med.gstRate.toString(),
@@ -201,6 +212,13 @@ export default function MedicinesPage() {
       rackLocation: med.rackLocation || "",
       reorderLevel: med.reorderLevel.toString(),
     });
+    if (!isKnown) {
+      setShowCustomCategory(true);
+      setCustomCategory(med.category);
+    } else {
+      setShowCustomCategory(false);
+      setCustomCategory("");
+    }
     setShowModal(true);
   };
 
@@ -233,7 +251,7 @@ export default function MedicinesPage() {
           <Select
             options={[
               { value: "", label: "All Categories" },
-              ...CATEGORIES.map((c) => ({ value: c, label: c })),
+              ...categories.map((c) => ({ value: c, label: c })),
             ]}
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
@@ -525,13 +543,38 @@ export default function MedicinesPage() {
                   setForm({ ...form, composition: e.target.value })
                 }
               />
-              <Select
-                id="category"
-                label="Category"
-                options={CATEGORIES.map((c) => ({ value: c, label: c }))}
-                value={form.category}
-                onChange={(e) => setForm({ ...form, category: e.target.value })}
-              />
+              <div className="space-y-2">
+                <Select
+                  id="category"
+                  label="Category"
+                  options={[
+                    ...categories.map((c) => ({ value: c, label: c })),
+                    { value: "__other__", label: "➕ Other (add new)" },
+                  ]}
+                  value={showCustomCategory ? "__other__" : form.category}
+                  onChange={(e) => {
+                    if (e.target.value === "__other__") {
+                      setShowCustomCategory(true);
+                      setCustomCategory("");
+                    } else {
+                      setShowCustomCategory(false);
+                      setCustomCategory("");
+                      setForm({ ...form, category: e.target.value });
+                    }
+                  }}
+                />
+                {showCustomCategory && (
+                  <Input
+                    id="customCategory"
+                    label="New Category Name *"
+                    placeholder="e.g., Lozenges, Sachets..."
+                    value={customCategory}
+                    onChange={(e) => setCustomCategory(e.target.value)}
+                    required
+                    autoFocus
+                  />
+                )}
+              </div>
               <Input
                 id="manufacturer"
                 label="Manufacturer"

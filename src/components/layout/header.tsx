@@ -1,7 +1,7 @@
 "use client";
 
 import { Bell, Search, User, Sparkles } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useAuth } from "@/lib/use-auth";
 
 interface HeaderProps {
   title: string;
@@ -9,16 +9,7 @@ interface HeaderProps {
 }
 
 export function Header({ title, subtitle }: HeaderProps) {
-  const [user, setUser] = useState<{ name: string; role: string } | null>(null);
-
-  useEffect(() => {
-    fetch("/api/auth/me")
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.user) setUser(data.user);
-      })
-      .catch(() => {});
-  }, []);
+  const { user } = useAuth();
 
   return (
     <header className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 px-4 sm:px-6 py-3 sm:py-4 sticky top-0 z-30">

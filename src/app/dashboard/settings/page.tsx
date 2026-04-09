@@ -153,25 +153,52 @@ export default function SettingsPage() {
               <Input id="expiryAlertDays" label="Expiry Alert (Days Before)" type="number" min="1" value={settings.expiryAlertDays || ""} onChange={(e) => u("expiryAlertDays", e.target.value)} placeholder="30" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
-                <input
-                  type="checkbox"
-                  id="enableSMS"
-                  checked={settings.enableSMS === "true"}
-                  onChange={(e) => u("enableSMS", e.target.checked ? "true" : "false")}
-                  className="rounded border-slate-300 text-teal-600 focus:ring-teal-500 h-4 w-4"
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-3">
+                <div className="flex items-center gap-3">
+                  <input
+                    type="checkbox"
+                    id="enableSMS"
+                    checked={settings.enableSMS === "true"}
+                    onChange={(e) => u("enableSMS", e.target.checked ? "true" : "false")}
+                    className="rounded border-slate-300 text-teal-600 focus:ring-teal-500 h-4 w-4"
+                  />
+                  <label htmlFor="enableSMS" className="text-sm text-slate-700 font-medium">Enable SMS Notifications</label>
+                </div>
+                <Input
+                  id="smsPhone"
+                  label="SMS Phone Number"
+                  placeholder="e.g., +91 98765 43210"
+                  value={settings.smsPhone || settings.storePhone || ""}
+                  onChange={(e) => u("smsPhone", e.target.value)}
+                  disabled={settings.enableSMS !== "true"}
                 />
-                <label htmlFor="enableSMS" className="text-sm text-slate-700 font-medium">Enable SMS Notifications</label>
+                {settings.enableSMS === "true" && !(settings.smsPhone || settings.storePhone) && (
+                  <p className="text-[11px] text-amber-600">Set a phone number above to receive SMS alerts.</p>
+                )}
               </div>
-              <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
-                <input
-                  type="checkbox"
-                  id="enableEmail"
-                  checked={settings.enableEmail === "true"}
-                  onChange={(e) => u("enableEmail", e.target.checked ? "true" : "false")}
-                  className="rounded border-slate-300 text-teal-600 focus:ring-teal-500 h-4 w-4"
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-3">
+                <div className="flex items-center gap-3">
+                  <input
+                    type="checkbox"
+                    id="enableEmail"
+                    checked={settings.enableEmail === "true"}
+                    onChange={(e) => u("enableEmail", e.target.checked ? "true" : "false")}
+                    className="rounded border-slate-300 text-teal-600 focus:ring-teal-500 h-4 w-4"
+                  />
+                  <label htmlFor="enableEmail" className="text-sm text-slate-700 font-medium">Enable Email Notifications</label>
+                </div>
+                <Input
+                  id="emailAddress"
+                  label="Notification Email"
+                  type="email"
+                  placeholder="e.g., alerts@yourstore.com"
+                  value={settings.emailAddress || settings.storeEmail || ""}
+                  onChange={(e) => u("emailAddress", e.target.value)}
+                  disabled={settings.enableEmail !== "true"}
                 />
-                <label htmlFor="enableEmail" className="text-sm text-slate-700 font-medium">Enable Email Notifications</label>
+                {settings.enableEmail === "true" && !(settings.emailAddress || settings.storeEmail) && (
+                  <p className="text-[11px] text-amber-600">Set an email address above to receive email alerts.</p>
+                )}
               </div>
             </div>
           </CardContent>
