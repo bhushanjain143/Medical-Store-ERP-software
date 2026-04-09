@@ -306,9 +306,9 @@ export default function BillingPage() {
         </div>
 
         {!showSales ? (
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] xl:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] xl:grid-cols-3 gap-4">
             {/* Medicine Search & Cart */}
-            <div className="xl:col-span-2 space-y-3 sm:space-y-4 order-2 lg:order-1 min-w-0">
+            <div className="xl:col-span-2 space-y-3 sm:space-y-4 min-w-0">
               {/* Search */}
               <Card>
                 <CardContent className="py-3">
@@ -463,7 +463,7 @@ export default function BillingPage() {
             </div>
 
             {/* Bill Summary */}
-            <div className="space-y-4 order-1 lg:order-2 min-w-0">
+            <div className="space-y-4 min-w-0">
               <Card>
                 <CardHeader>
                   <h3 className="text-sm font-semibold text-slate-900">
@@ -545,7 +545,8 @@ export default function BillingPage() {
                   </div>
 
                   <Button
-                    className="w-full py-3"
+                    className="w-full py-3.5"
+                    size="lg"
                     onClick={handleSubmit}
                     loading={loading}
                     disabled={cart.length === 0}
@@ -553,6 +554,11 @@ export default function BillingPage() {
                     <Receipt className="h-4 w-4 flex-shrink-0" />
                     <span className="truncate">Generate Invoice</span>
                   </Button>
+                  {cart.length === 0 && (
+                    <p className="text-xs text-slate-400 text-center">
+                      Search &amp; add medicines above to enable billing
+                    </p>
+                  )}
                 </CardContent>
               </Card>
             </div>

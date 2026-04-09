@@ -24,7 +24,7 @@ html, body {
 }
 
 /* Prevent long text from breaking layouts */
-h1, h2, h3, h4, h5, h6, p, span, td, th {
+h1, h2, h3, h4, h5, h6, p, span, td, th, label {
   overflow-wrap: break-word;
   word-wrap: break-word;
 }
@@ -38,6 +38,11 @@ table {
 /* Prevent main content from overflowing its flex-allocated width */
 main {
   contain: inline-size;
+}
+
+/* Ensure flex/grid children don't overflow */
+.min-w-0 {
+  min-width: 0 !important;
 }
 
 body {

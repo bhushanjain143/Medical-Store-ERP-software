@@ -49,19 +49,19 @@ export function Modal({
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/40 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/50 backdrop-blur-sm animate-fade-in"
       onClick={(e) => {
         if (e.target === overlayRef.current) onClose();
       }}
     >
       <div
         className={cn(
-          "bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl shadow-slate-900/10 w-full animate-fade-in-scale border border-slate-100 max-h-[92vh] sm:max-h-[90vh] flex flex-col",
+          "bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl shadow-slate-900/15 w-full animate-fade-in-scale border border-slate-200/80 max-h-[92vh] sm:max-h-[88vh] flex flex-col",
           sizes[size]
         )}
       >
         {title && (
-          <div className="flex items-start justify-between px-4 sm:px-6 py-3.5 sm:py-5 border-b border-slate-100 flex-shrink-0">
+          <div className="flex items-start justify-between px-4 sm:px-6 py-3.5 sm:py-4 border-b border-slate-100 flex-shrink-0 bg-slate-50/50">
             <div className="min-w-0 flex-1 mr-2">
               <h2 className="text-base sm:text-lg font-bold text-slate-900 truncate">{title}</h2>
               {subtitle && (
@@ -70,7 +70,7 @@ export function Modal({
             </div>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-all duration-200 flex-shrink-0"
+              className="p-1.5 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-200/80 transition-all duration-200 flex-shrink-0"
             >
               <X className="h-5 w-5" />
             </button>

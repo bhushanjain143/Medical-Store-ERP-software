@@ -10,7 +10,7 @@ export function Card({ className, hover, glass, children, ...props }: CardProps)
   return (
     <div
       className={cn(
-        "bg-white/80 backdrop-blur-sm rounded-2xl border border-white/60 shadow-sm shadow-slate-200/50 min-w-0",
+        "bg-white/90 backdrop-blur-sm rounded-2xl border border-slate-200/60 shadow-sm shadow-slate-200/40 min-w-0 overflow-hidden",
         hover && "card-hover cursor-default",
         glass && "glass",
         className

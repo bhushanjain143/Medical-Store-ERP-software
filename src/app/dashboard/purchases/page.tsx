@@ -301,41 +301,45 @@ export default function PurchasesPage() {
         </Modal>
 
         {/* New Purchase Modal */}
-        <Modal open={showModal} onClose={() => setShowModal(false)} title="New Purchase Entry" size="xl">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Modal open={showModal} onClose={() => setShowModal(false)} title="New Purchase Entry" subtitle="Record a new purchase from supplier" size="xl">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <Select id="supplierId" label="Supplier *" options={suppliers.map((s) => ({ value: s.id, label: s.name }))} value={form.supplierId} onChange={(e) => setForm({ ...form, supplierId: e.target.value })} placeholder="Select supplier" />
-              <Input id="invoiceNumber" label="Supplier Invoice No. *" value={form.invoiceNumber} onChange={(e) => setForm({ ...form, invoiceNumber: e.target.value })} placeholder="e.g., INV-001" required />
+              <Input id="invoiceNumber" label="Supplier Invoice No. *" value={form.invoiceNumber} onChange={(e) => setForm({ ...form, invoiceNumber: e.target.value })} placeholder="e.g., SUP-INV-001" required />
               <Input id="paidAmount" label="Amount Paid (₹)" type="number" min="0" step="0.01" value={form.paidAmount} onChange={(e) => setForm({ ...form, paidAmount: e.target.value })} />
             </div>
 
             <div>
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center justify-between mb-3">
                 <label className="text-sm font-semibold text-slate-700">Purchase Items</label>
                 <Button type="button" size="sm" variant="outline" onClick={addItem}>
                   <Plus className="h-3 w-3" />
                   Add Item
                 </Button>
               </div>
-              <div className="space-y-3 max-h-[40vh] overflow-y-auto">
+              <div className="space-y-3 max-h-[45vh] overflow-y-auto pr-1">
                 {items.map((item, index) => (
-                  <Card key={index} className="bg-slate-50/80">
-                    <CardContent className="py-3 px-4">
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                        <Select options={medicines.map((m) => ({ value: m.id, label: m.name }))} value={item.medicineId} onChange={(e) => updateItem(index, "medicineId", e.target.value)} placeholder="Medicine *" />
+                  <Card key={index} className="bg-slate-50/80 border-slate-200">
+                    <CardContent className="py-3 px-3 sm:px-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs font-bold text-slate-400">Item #{index + 1}</span>
+                        {items.length > 1 && (
+                          <button type="button" onClick={() => removeItem(index)} className="p-1 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors">
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        )}
+                      </div>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5">
+                        <div className="col-span-2 sm:col-span-1">
+                          <Select options={medicines.map((m) => ({ value: m.id, label: m.name }))} value={item.medicineId} onChange={(e) => updateItem(index, "medicineId", e.target.value)} placeholder="Select Medicine *" />
+                        </div>
                         <Input placeholder="Batch No. *" value={item.batchNumber} onChange={(e) => updateItem(index, "batchNumber", e.target.value)} />
                         <Input type="number" placeholder="Qty *" min="1" value={item.quantity} onChange={(e) => updateItem(index, "quantity", e.target.value)} />
                         <Input type="number" placeholder="Purchase ₹ *" step="0.01" min="0" value={item.purchasePrice} onChange={(e) => updateItem(index, "purchasePrice", e.target.value)} />
                         <Input type="number" placeholder="Selling ₹ *" step="0.01" min="0" value={item.sellingPrice} onChange={(e) => updateItem(index, "sellingPrice", e.target.value)} />
                         <Input type="number" placeholder="MRP ₹ *" step="0.01" min="0" value={item.mrp} onChange={(e) => updateItem(index, "mrp", e.target.value)} />
-                        <Input type="date" value={item.expiryDate} onChange={(e) => updateItem(index, "expiryDate", e.target.value)} />
-                        <div className="flex items-center">
-                          {items.length > 1 && (
-                            <Button type="button" variant="ghost" size="sm" onClick={() => removeItem(index)}>
-                              <Trash2 className="h-4 w-4 text-red-500" />
-                            </Button>
-                          )}
-                        </div>
+                        <Input label="Expiry Date *" type="date" value={item.expiryDate} onChange={(e) => updateItem(index, "expiryDate", e.target.value)} />
+                        <Input label="Mfg Date" type="date" value={item.mfgDate} onChange={(e) => updateItem(index, "mfgDate", e.target.value)} />
                       </div>
                     </CardContent>
                   </Card>
@@ -343,11 +347,14 @@ export default function PurchasesPage() {
               </div>
             </div>
 
-            <Input id="notes" label="Notes" placeholder="Optional notes..." value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
+            <Input id="notes" label="Notes" placeholder="Optional notes about this purchase..." value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
 
-            <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
+            <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-4 border-t border-slate-100">
               <Button type="button" variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
-              <Button type="submit" loading={saving}>Save Purchase</Button>
+              <Button type="submit" loading={saving}>
+                <Package className="h-4 w-4" />
+                Save Purchase
+              </Button>
             </div>
           </form>
         </Modal>

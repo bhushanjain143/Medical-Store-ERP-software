@@ -21,12 +21,12 @@ export function Header({ title, subtitle }: HeaderProps) {
   }, []);
 
   return (
-    <header className="bg-white/70 backdrop-blur-md border-b border-slate-200/60 px-4 sm:px-6 py-3 sm:py-4 sticky top-0 z-30">
+    <header className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 px-4 sm:px-6 py-3 sm:py-4 sticky top-0 z-30">
       <div className="flex items-center justify-between gap-3">
-        <div className="pl-12 lg:pl-0 min-w-0 flex-1">
+        <div className="pl-10 lg:pl-0 min-w-0 flex-1">
           <div className="flex items-center gap-2">
             <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight truncate">{title}</h1>
-            <Sparkles className="h-4 w-4 text-teal-500 animate-pulse flex-shrink-0 hidden sm:block" />
+            <Sparkles className="h-4 w-4 text-teal-500/70 flex-shrink-0 hidden sm:block" />
           </div>
           {subtitle && (
             <p className="text-xs sm:text-sm text-slate-500 mt-0.5 truncate">{subtitle}</p>
