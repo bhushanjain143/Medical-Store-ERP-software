@@ -133,7 +133,7 @@ export default function GSTReportsPage() {
           <>
             {/* Summary Cards */}
             <div className="stat-card-grid">
-              <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 px-4 py-3.5 sm:px-5 sm:py-4 text-white shadow-lg min-h-[88px]">
+              <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 px-4 py-3.5 sm:px-5 sm:py-4 text-white shadow-lg min-h-[88px]">
                 <IndianRupee className="h-4 w-4 text-white/40 mb-1.5" />
                 <p className="text-[10px] sm:text-xs text-white/80">Total Taxable</p>
                 <p className="text-xl sm:text-2xl font-extrabold truncate">{formatCurrency(data.summary.totalTaxable)}</p>
@@ -160,8 +160,8 @@ export default function GSTReportsPage() {
                   onClick={() => setTab(t.id)}
                   className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
                     tab === t.id
-                      ? "bg-gradient-to-r from-teal-600 to-emerald-600 text-white shadow-md"
-                      : "bg-white text-slate-600 border border-slate-200 hover:border-teal-300"
+                      ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md"
+                      : "bg-white text-slate-600 border border-slate-200 hover:border-indigo-300"
                   }`}
                 >
                   {t.label}
@@ -324,7 +324,7 @@ export default function GSTReportsPage() {
 
         {!data && !loading && (
           <div className="text-center py-20 animate-fade-in">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-50 to-teal-50 border border-slate-100 mb-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-50 to-indigo-50 border border-slate-100 mb-4">
               <FileText className="h-8 w-8 text-slate-400" />
             </div>
             <h3 className="text-lg font-bold text-slate-800 mb-1">GST Tax Reports</h3>

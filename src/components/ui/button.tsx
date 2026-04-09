@@ -28,7 +28,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variants = {
       primary:
-        "bg-gradient-to-r from-teal-600 to-emerald-600 text-white hover:from-teal-700 hover:to-emerald-700 focus-visible:ring-teal-500/50 shadow-md shadow-teal-600/20 hover:shadow-lg hover:shadow-teal-600/30",
+        "bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:from-indigo-700 hover:to-violet-700 focus-visible:ring-indigo-500/50 shadow-md shadow-indigo-600/20 hover:shadow-lg hover:shadow-indigo-600/30",
       secondary:
         "bg-slate-100 text-slate-700 hover:bg-slate-200 focus-visible:ring-slate-400 border border-slate-200/50",
       danger:
@@ -36,9 +36,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       ghost:
         "text-slate-600 hover:bg-slate-100 hover:text-slate-900",
       outline:
-        "border-2 border-slate-200 text-slate-700 hover:border-teal-300 hover:text-teal-700 hover:bg-teal-50/50 focus-visible:ring-teal-500/50",
+        "border-2 border-slate-200 text-slate-700 hover:border-indigo-300 hover:text-indigo-700 hover:bg-indigo-50/50 focus-visible:ring-indigo-500/50",
       success:
-        "bg-gradient-to-r from-emerald-500 to-green-600 text-white hover:from-emerald-600 hover:to-green-700 focus-visible:ring-emerald-500/50 shadow-md shadow-emerald-500/20",
+        "bg-gradient-to-r from-emerald-500 to-teal-600 text-white hover:from-emerald-600 hover:to-teal-700 focus-visible:ring-emerald-500/50 shadow-md shadow-emerald-500/20",
     };
 
     const sizes = {

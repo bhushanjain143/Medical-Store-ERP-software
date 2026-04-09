@@ -127,13 +127,13 @@ export default function PrescriptionsPage() {
         {/* Toolbar */}
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="flex-1 relative group">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-teal-500 transition-colors" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
             <input
               type="text"
               placeholder="Search by patient or doctor name..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-white text-sm shadow-sm hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 transition-all"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-white text-sm shadow-sm hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all"
             />
           </div>
           <Select
@@ -236,7 +236,7 @@ export default function PrescriptionsPage() {
                 onChange={(e) => setForm({ ...form, notes: e.target.value })}
                 placeholder="List prescribed medicines, dosage, frequency..."
                 rows={4}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 transition-all resize-none"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all resize-none"
               />
             </div>
             <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
@@ -282,7 +282,7 @@ export default function PrescriptionsPage() {
                 {viewingRx.sale && (
                   <div>
                     <p className="text-xs text-slate-500">Linked Invoice</p>
-                    <p className="text-sm font-medium text-teal-600">{viewingRx.sale.invoiceNumber}</p>
+                    <p className="text-sm font-medium text-indigo-600">{viewingRx.sale.invoiceNumber}</p>
                   </div>
                 )}
               </div>

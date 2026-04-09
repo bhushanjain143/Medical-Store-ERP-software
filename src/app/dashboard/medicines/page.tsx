@@ -239,13 +239,13 @@ export default function MedicinesPage() {
         {/* Toolbar */}
         <div className="flex flex-col sm:flex-row gap-3 mb-4 sm:mb-6">
           <div className="flex-1 relative group">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-teal-500 transition-colors" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
             <input
               type="text"
               placeholder="Search by name, generic name, composition..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-white text-sm shadow-sm hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 transition-all"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-white text-sm shadow-sm hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all"
             />
           </div>
           <Select
@@ -300,8 +300,8 @@ export default function MedicinesPage() {
                 <Card key={med.id} className="overflow-hidden card-hover">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between px-3 sm:px-5 py-3 sm:py-4 gap-2 sm:gap-0">
                     <div className="flex items-center gap-2.5 sm:gap-4 flex-1 min-w-0">
-                      <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-teal-50 to-emerald-50 border border-teal-100/50 flex-shrink-0">
-                        <Pill className="h-3.5 w-3.5 sm:h-5 sm:w-5 text-teal-600" />
+                      <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-indigo-50 to-violet-50 border border-indigo-100/50 flex-shrink-0">
+                        <Pill className="h-3.5 w-3.5 sm:h-5 sm:w-5 text-indigo-600" />
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-1 sm:gap-2 flex-wrap">

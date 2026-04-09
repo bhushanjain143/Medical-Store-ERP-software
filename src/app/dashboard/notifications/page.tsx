@@ -119,7 +119,7 @@ export default function NotificationsPage() {
                     <p className="text-xs text-slate-500">Medicines expiring within 30 days</p>
                   </div>
                 </div>
-                <Link href="/dashboard/expiry" className="text-xs font-semibold text-teal-600 hover:text-teal-700">
+                <Link href="/dashboard/expiry" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700">
                   View All →
                 </Link>
               </div>
@@ -159,7 +159,7 @@ export default function NotificationsPage() {
                     <p className="text-xs text-slate-500">Below reorder level</p>
                   </div>
                 </div>
-                <Link href="/dashboard/medicines" className="text-xs font-semibold text-teal-600 hover:text-teal-700">
+                <Link href="/dashboard/medicines" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700">
                   View All →
                 </Link>
               </div>

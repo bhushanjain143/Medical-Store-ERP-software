@@ -70,7 +70,7 @@ export default function SettingsPage() {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 shadow-sm">
+              <div className="p-2.5 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 shadow-sm">
                 <Store className="h-5 w-5 text-white" />
               </div>
               <div>
@@ -160,7 +160,7 @@ export default function SettingsPage() {
                     id="enableSMS"
                     checked={settings.enableSMS === "true"}
                     onChange={(e) => u("enableSMS", e.target.checked ? "true" : "false")}
-                    className="rounded border-slate-300 text-teal-600 focus:ring-teal-500 h-4 w-4"
+                    className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 h-4 w-4"
                   />
                   <label htmlFor="enableSMS" className="text-sm text-slate-700 font-medium">Enable SMS Notifications</label>
                 </div>
@@ -183,7 +183,7 @@ export default function SettingsPage() {
                     id="enableEmail"
                     checked={settings.enableEmail === "true"}
                     onChange={(e) => u("enableEmail", e.target.checked ? "true" : "false")}
-                    className="rounded border-slate-300 text-teal-600 focus:ring-teal-500 h-4 w-4"
+                    className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 h-4 w-4"
                   />
                   <label htmlFor="enableEmail" className="text-sm text-slate-700 font-medium">Enable Email Notifications</label>
                 </div>

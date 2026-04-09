@@ -22,7 +22,7 @@ export function Badge({
     danger: "bg-red-50 text-red-700 border-red-200/50",
     error: "bg-red-50 text-red-700 border-red-200/50",
     info: "bg-blue-50 text-blue-700 border-blue-200/50",
-    primary: "bg-teal-50 text-teal-700 border-teal-200/50",
+    primary: "bg-indigo-50 text-indigo-700 border-indigo-200/50",
   };
 
   const dotColors = {
@@ -32,7 +32,7 @@ export function Badge({
     danger: "bg-red-500",
     error: "bg-red-500",
     info: "bg-blue-500",
-    primary: "bg-teal-500",
+    primary: "bg-indigo-500",
   };
 
   const sizes = {

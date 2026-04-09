@@ -1,4 +1,5 @@
 import { LucideIcon } from "lucide-react";
+import { EmptyStateIllustration } from "./illustrations";
 
 interface EmptyStateProps {
   icon: LucideIcon;
@@ -15,10 +16,12 @@ export function EmptyState({
 }: EmptyStateProps) {
   return (
     <div className="flex flex-col items-center justify-center py-16 text-center animate-fade-in">
-      <div className="relative mb-5">
-        <div className="absolute inset-0 rounded-full bg-teal-100 blur-lg scale-125 opacity-50" />
-        <div className="relative rounded-2xl bg-gradient-to-br from-slate-50 to-teal-50 p-5 border border-slate-100">
-          <Icon className="h-8 w-8 text-slate-400" />
+      <div className="relative mb-4">
+        <EmptyStateIllustration className="w-40 h-32 mx-auto" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="p-3 rounded-2xl bg-white shadow-lg shadow-indigo-100/50 border border-slate-100">
+            <Icon className="h-6 w-6 text-indigo-500" />
+          </div>
         </div>
       </div>
       <h3 className="text-lg font-bold text-slate-900 mb-1">{title}</h3>

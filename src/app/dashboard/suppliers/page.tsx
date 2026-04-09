@@ -108,7 +108,7 @@ export default function SuppliersPage() {
             <p className="text-xl sm:text-2xl font-extrabold">{suppliers.length}</p>
             <p className="text-[10px] sm:text-xs text-white/80">Total Suppliers</p>
           </div>
-          <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 px-4 py-3.5 sm:px-5 sm:py-4 text-white shadow-lg min-h-[88px]">
+          <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 px-4 py-3.5 sm:px-5 sm:py-4 text-white shadow-lg min-h-[88px]">
             <Package className="h-4 w-4 text-white/40 mb-1.5" />
             <p className="text-xl sm:text-2xl font-extrabold">{totalPurchases}</p>
             <p className="text-[10px] sm:text-xs text-white/80">Total Purchases</p>
@@ -128,13 +128,13 @@ export default function SuppliersPage() {
         {/* Toolbar */}
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="flex-1 relative group">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-teal-500 transition-colors" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
             <input
               type="text"
               placeholder="Search by name, phone, or GSTIN..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-white text-sm shadow-sm hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 transition-all"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-white text-sm shadow-sm hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all"
             />
           </div>
           <Button onClick={() => { setEditingId(null); setForm(emptyForm); setShowModal(true); }}>

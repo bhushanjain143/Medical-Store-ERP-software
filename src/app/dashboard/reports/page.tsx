@@ -111,8 +111,8 @@ export default function ReportsPage() {
                 onClick={() => { setActiveTab(tab.id); setData(null); }}
                 className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 ${
                   activeTab === tab.id
-                    ? "bg-gradient-to-r from-teal-600 to-emerald-600 text-white shadow-md shadow-teal-600/20"
-                    : "bg-white text-slate-600 border border-slate-200 hover:border-teal-300 hover:text-teal-700 hover:bg-teal-50/50"
+                    ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md shadow-indigo-600/20"
+                    : "bg-white text-slate-600 border border-slate-200 hover:border-indigo-300 hover:text-indigo-700 hover:bg-indigo-50/50"
                 }`}
               >
                 <Icon className="h-4 w-4" />
@@ -362,7 +362,7 @@ export default function ReportsPage() {
 
         {!data && !loading && (
           <div className="text-center py-20 animate-fade-in">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-50 to-teal-50 border border-slate-100 mb-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-50 to-indigo-50 border border-slate-100 mb-4">
               <BarChart3 className="h-8 w-8 text-slate-400" />
             </div>
             <h3 className="text-lg font-bold text-slate-800 mb-1">Generate a Report</h3>

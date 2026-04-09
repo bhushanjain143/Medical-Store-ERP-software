@@ -333,7 +333,7 @@ export default function BillingPage() {
                       placeholder="Search medicines by name, generic name, or batch number..."
                       value={searchQuery}
                       onChange={(e) => handleSearch(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white text-sm shadow-sm hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 transition-all"
+                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white text-sm shadow-sm hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all"
                       autoFocus
                     />
                     {showSearch && searchResults.length > 0 && (
@@ -633,7 +633,7 @@ export default function BillingPage() {
                             </button>
                             <button
                               onClick={() => generateInvoicePDF(sale)}
-                              className="p-1.5 rounded text-slate-400 hover:text-teal-600 hover:bg-teal-50 transition-colors"
+                              className="p-1.5 rounded text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
                               title="Download PDF"
                             >
                               <Download className="h-4 w-4" />
@@ -674,7 +674,7 @@ export default function BillingPage() {
         >
           {viewingSale && (
             <div id="invoice-print">
-              <div className="text-center mb-6 border-b-2 border-teal-500 pb-4">
+              <div className="text-center mb-6 border-b-2 border-indigo-500 pb-4">
                 <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">MedStore ERP</h2>
                 <p className="text-sm text-slate-500">Medical Store - GST Tax Invoice</p>
                 <div className="flex flex-wrap justify-center gap-3 sm:gap-6 mt-2 text-xs text-slate-400">
@@ -701,15 +701,15 @@ export default function BillingPage() {
               <div className="overflow-x-auto -mx-4 sm:-mx-6 px-4 sm:px-6">
               <table className="w-full text-sm mb-4 min-w-[600px]">
                 <thead>
-                  <tr className="bg-teal-50 border-b border-teal-100">
-                    <th className="text-left py-2.5 px-2 sm:px-3 font-semibold text-teal-700 text-xs">#</th>
-                    <th className="text-left py-2.5 px-2 sm:px-3 font-semibold text-teal-700 text-xs">Medicine</th>
-                    <th className="text-center py-2.5 px-2 sm:px-3 font-semibold text-teal-700 text-xs">Qty</th>
-                    <th className="text-right py-2.5 px-2 sm:px-3 font-semibold text-teal-700 text-xs">Rate</th>
-                    <th className="text-right py-2.5 px-2 sm:px-3 font-semibold text-teal-700 text-xs">GST%</th>
-                    <th className="text-right py-2.5 px-2 sm:px-3 font-semibold text-teal-700 text-xs">CGST</th>
-                    <th className="text-right py-2.5 px-2 sm:px-3 font-semibold text-teal-700 text-xs">SGST</th>
-                    <th className="text-right py-2.5 px-2 sm:px-3 font-semibold text-teal-700 text-xs">Amount</th>
+                  <tr className="bg-indigo-50 border-b border-indigo-100">
+                    <th className="text-left py-2.5 px-2 sm:px-3 font-semibold text-indigo-700 text-xs">#</th>
+                    <th className="text-left py-2.5 px-2 sm:px-3 font-semibold text-indigo-700 text-xs">Medicine</th>
+                    <th className="text-center py-2.5 px-2 sm:px-3 font-semibold text-indigo-700 text-xs">Qty</th>
+                    <th className="text-right py-2.5 px-2 sm:px-3 font-semibold text-indigo-700 text-xs">Rate</th>
+                    <th className="text-right py-2.5 px-2 sm:px-3 font-semibold text-indigo-700 text-xs">GST%</th>
+                    <th className="text-right py-2.5 px-2 sm:px-3 font-semibold text-indigo-700 text-xs">CGST</th>
+                    <th className="text-right py-2.5 px-2 sm:px-3 font-semibold text-indigo-700 text-xs">SGST</th>
+                    <th className="text-right py-2.5 px-2 sm:px-3 font-semibold text-indigo-700 text-xs">Amount</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -760,7 +760,7 @@ export default function BillingPage() {
                 )}
                 <div className="flex justify-between text-lg font-extrabold pt-2 border-t border-slate-200">
                   <span>Grand Total</span>
-                  <span className="text-teal-600">{formatCurrency(viewingSale.totalAmount)}</span>
+                  <span className="text-indigo-600">{formatCurrency(viewingSale.totalAmount)}</span>
                 </div>
               </div>
 

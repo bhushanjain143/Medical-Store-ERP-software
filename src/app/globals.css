@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-primary: #0d9488;
-  --color-primary-dark: #0f766e;
-  --color-primary-light: #99f6e4;
-  --color-primary-50: #f0fdfa;
-  --color-sidebar: #0f172a;
-  --color-sidebar-hover: #1e293b;
-  --color-sidebar-active: #0d9488;
+  --color-primary: #6366f1;
+  --color-primary-dark: #4f46e5;
+  --color-primary-light: #c7d2fe;
+  --color-primary-50: #eef2ff;
+  --color-sidebar: #0f0d2e;
+  --color-sidebar-hover: #1a1748;
+  --color-sidebar-active: #6366f1;
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
 }
 
@@ -23,19 +23,17 @@ html, body {
   width: 100%;
 }
 
-/* Prevent long text from breaking layouts */
 h1, h2, h3, h4, h5, h6, p, span, td, th, label {
   overflow-wrap: break-word;
   word-wrap: break-word;
 }
 
-/* Ensure tables don't force parent overflow */
 table {
   table-layout: auto;
   word-break: break-word;
 }
 
-/* Stat card grid — prevent collapse and overlap */
+/* Stat card grid */
 .stat-card-grid {
   display: grid;
   gap: 1rem;
@@ -48,14 +46,13 @@ table {
   }
 }
 
-/* Ensure main content has proper containment */
 main > div {
   min-width: 0;
 }
 
 body {
   font-family: var(--font-sans);
-  background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 50%, #f0fdfa 100%);
+  background: #f8fafc;
   background-attachment: fixed;
   color: #1e293b;
   -webkit-font-smoothing: antialiased;
@@ -121,13 +118,13 @@ input[type="number"] {
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.3); }
-  50% { box-shadow: 0 0 0 8px rgba(13, 148, 136, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.3); }
+  50% { box-shadow: 0 0 0 8px rgba(99, 102, 241, 0); }
 }
 
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
+  50% { transform: translateY(-8px); }
 }
 
 @keyframes gradientShift {
@@ -136,12 +133,17 @@ input[type="number"] {
   100% { background-position: 0% 50%; }
 }
 
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 .animate-fade-in {
-  animation: fadeIn 0.3s ease-out;
+  animation: fadeIn 0.35s ease-out;
 }
 
 .animate-fade-in-scale {
-  animation: fadeInScale 0.3s ease-out;
+  animation: fadeInScale 0.35s ease-out;
 }
 
 .animate-slide-in {
@@ -163,7 +165,7 @@ input[type="number"] {
 }
 
 .animate-float {
-  animation: float 3s ease-in-out infinite;
+  animation: float 4s ease-in-out infinite;
 }
 
 .animate-gradient {
@@ -171,16 +173,20 @@ input[type="number"] {
   animation: gradientShift 4s ease infinite;
 }
 
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
 /* Glass effect */
 .glass {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .glass-dark {
-  background: rgba(15, 23, 42, 0.8);
+  background: rgba(15, 13, 46, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -188,7 +194,7 @@ input[type="number"] {
 
 /* Gradient text */
 .text-gradient {
-  background: linear-gradient(135deg, #0d9488 0%, #06b6d4 100%);
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -199,8 +205,8 @@ input[type="number"] {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px -8px rgba(0, 0, 0, 0.12), 0 4px 12px -2px rgba(0, 0, 0, 0.06);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px -12px rgba(99, 102, 241, 0.15), 0 4px 12px -2px rgba(0, 0, 0, 0.06);
 }
 
 /* Stagger children animation */
