@@ -14,14 +14,14 @@ export function RoleGate({ children }: { children: React.ReactNode }) {
   if (!canAccess(pathname, user.role)) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] px-6 text-center">
-        <div className="w-16 h-16 rounded-2xl bg-red-50 flex items-center justify-center mb-4">
+        <div className="w-16 h-16 rounded-2xl bg-red-500/10 flex items-center justify-center mb-4">
           <ShieldOff className="h-8 w-8 text-red-500" />
         </div>
-        <h2 className="text-xl font-bold text-slate-900 mb-2">Access Denied</h2>
-        <p className="text-sm text-slate-500 max-w-sm">
+        <h2 className="text-xl font-bold text-[var(--text-primary)] mb-2">Access Denied</h2>
+        <p className="text-sm text-[var(--text-secondary)] max-w-sm">
           You don&apos;t have permission to access this page. Contact your administrator if you believe this is an error.
         </p>
-        <p className="text-xs text-slate-400 mt-3">
+        <p className="text-xs text-[var(--text-tertiary)] mt-3">
           Signed in as <span className="font-semibold capitalize">{user.role}</span>
         </p>
       </div>
@@ -33,8 +33,8 @@ export function RoleGate({ children }: { children: React.ReactNode }) {
   if (readOnly) {
     return (
       <>
-        <div className="bg-amber-50 border-b border-amber-200 px-4 py-2 text-center">
-          <p className="text-xs text-amber-700 font-medium">
+        <div className="bg-amber-500/10 border-b border-amber-500/20 px-4 py-2 text-center">
+          <p className="text-xs text-amber-600 dark:text-amber-400 font-medium">
             View-only mode — You have read access to this page. Editing is restricted to admins.
           </p>
         </div>

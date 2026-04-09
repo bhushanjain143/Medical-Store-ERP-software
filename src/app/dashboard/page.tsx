@@ -101,7 +101,7 @@ export default function DashboardPage() {
   }, []);
 
   if (loading) return <PageLoading />;
-  if (!data) return <div className="p-6">Failed to load dashboard</div>;
+  if (!data) return <div className="p-6 text-[var(--text-secondary)]">Failed to load dashboard</div>;
 
   const { stats } = data;
 
@@ -193,19 +193,19 @@ export default function DashboardPage() {
             <CardHeader>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900">
+                  <h3 className="text-sm font-bold text-[var(--text-primary)]">
                     Revenue Overview
                   </h3>
-                  <p className="text-xs text-slate-500 mt-0.5">Sales vs Purchases - Last 6 months</p>
+                  <p className="text-xs text-[var(--text-tertiary)] mt-0.5">Sales vs Purchases - Last 6 months</p>
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-1.5">
                     <div className="w-2.5 h-2.5 rounded-full bg-indigo-500" />
-                    <span className="text-xs text-slate-500">Sales</span>
+                    <span className="text-xs text-[var(--text-tertiary)]">Sales</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-slate-300" />
-                    <span className="text-xs text-slate-500">Purchases</span>
+                    <div className="w-2.5 h-2.5 rounded-full bg-slate-400 dark:bg-slate-500" />
+                    <span className="text-xs text-[var(--text-tertiary)]">Purchases</span>
                   </div>
                 </div>
               </div>
@@ -223,16 +223,18 @@ export default function DashboardPage() {
                       <stop offset="95%" stopColor="#94a3b8" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
-                  <XAxis dataKey="month" fontSize={12} stroke="#94a3b8" tickLine={false} axisLine={false} />
-                  <YAxis fontSize={12} stroke="#94a3b8" tickLine={false} axisLine={false} tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" vertical={false} />
+                  <XAxis dataKey="month" fontSize={12} stroke="var(--text-tertiary)" tickLine={false} axisLine={false} />
+                  <YAxis fontSize={12} stroke="var(--text-tertiary)" tickLine={false} axisLine={false} tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`} />
                   <Tooltip
                     formatter={(value) => formatCurrency(Number(value))}
                     contentStyle={{
                       borderRadius: "12px",
-                      border: "1px solid #e2e8f0",
+                      border: "1px solid var(--border-default)",
                       fontSize: "12px",
                       boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+                      background: "var(--bg-card)",
+                      color: "var(--text-primary)",
                     }}
                   />
                   <Area type="monotone" dataKey="sales" stroke="#6366f1" strokeWidth={2.5} fill="url(#salesGradient)" name="Sales" />
@@ -245,10 +247,10 @@ export default function DashboardPage() {
           {/* Top Medicines */}
           <Card>
             <CardHeader>
-              <h3 className="text-sm font-bold text-slate-900">
+              <h3 className="text-sm font-bold text-[var(--text-primary)]">
                 Top Selling Medicines
               </h3>
-              <p className="text-xs text-slate-500 mt-0.5">By units sold</p>
+              <p className="text-xs text-[var(--text-tertiary)] mt-0.5">By units sold</p>
             </CardHeader>
             <CardContent>
               {data.topMedicines.length > 0 ? (
@@ -264,13 +266,21 @@ export default function DashboardPage() {
                         dataKey="quantity"
                         nameKey="name"
                         strokeWidth={3}
-                        stroke="#fff"
+                        stroke="var(--bg-card)"
                       >
                         {data.topMedicines.map((_, index) => (
                           <Cell key={index} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>
-                      <Tooltip />
+                      <Tooltip
+                        contentStyle={{
+                          borderRadius: "12px",
+                          border: "1px solid var(--border-default)",
+                          fontSize: "12px",
+                          background: "var(--bg-card)",
+                          color: "var(--text-primary)",
+                        }}
+                      />
                     </PieChart>
                   </ResponsiveContainer>
                   <div className="space-y-2.5 mt-4">
@@ -281,11 +291,11 @@ export default function DashboardPage() {
                             className="w-3 h-3 rounded-md"
                             style={{ backgroundColor: COLORS[i % COLORS.length] }}
                           />
-                          <span className="text-sm text-slate-700 font-medium truncate max-w-[130px]">
+                          <span className="text-sm text-[var(--text-secondary)] font-medium truncate max-w-[130px]">
                             {med.name}
                           </span>
                         </div>
-                        <span className="text-xs text-slate-500 font-semibold bg-slate-50 px-2 py-0.5 rounded-md">
+                        <span className="text-xs text-[var(--text-tertiary)] font-semibold bg-[var(--bg-muted)] px-2 py-0.5 rounded-md">
                           {med.quantity} units
                         </span>
                       </div>
@@ -293,7 +303,7 @@ export default function DashboardPage() {
                   </div>
                 </>
               ) : (
-                <p className="text-sm text-slate-500 text-center py-8">
+                <p className="text-sm text-[var(--text-tertiary)] text-center py-8">
                   No sales data yet
                 </p>
               )}
@@ -307,12 +317,12 @@ export default function DashboardPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900">Recent Sales</h3>
-                  <p className="text-xs text-slate-500 mt-0.5">Latest transactions</p>
+                  <h3 className="text-sm font-bold text-[var(--text-primary)]">Recent Sales</h3>
+                  <p className="text-xs text-[var(--text-tertiary)] mt-0.5">Latest transactions</p>
                 </div>
                 <a
                   href="/dashboard/billing"
-                  className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:text-indigo-700 transition-colors"
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-500 hover:text-indigo-400 transition-colors"
                 >
                   View all <ArrowRight className="h-3 w-3" />
                 </a>
@@ -322,37 +332,37 @@ export default function DashboardPage() {
               <div className="overflow-x-auto">
                 <table className="w-full text-sm min-w-[500px]">
                   <thead>
-                    <tr className="border-b border-slate-100">
-                      <th className="text-left py-3 px-3 sm:px-5 font-semibold text-slate-500 text-xs uppercase tracking-wider">Invoice</th>
-                      <th className="text-left py-3 px-3 sm:px-5 font-semibold text-slate-500 text-xs uppercase tracking-wider">Customer</th>
-                      <th className="text-left py-3 px-3 sm:px-5 font-semibold text-slate-500 text-xs uppercase tracking-wider">Amount</th>
-                      <th className="text-left py-3 px-3 sm:px-5 font-semibold text-slate-500 text-xs uppercase tracking-wider">Payment</th>
-                      <th className="text-left py-3 px-3 sm:px-5 font-semibold text-slate-500 text-xs uppercase tracking-wider">Time</th>
+                    <tr className="border-b border-[var(--border-default)] bg-[var(--table-header-bg)]">
+                      <th className="text-left py-3 px-3 sm:px-5 font-semibold text-[var(--text-tertiary)] text-xs uppercase tracking-wider">Invoice</th>
+                      <th className="text-left py-3 px-3 sm:px-5 font-semibold text-[var(--text-tertiary)] text-xs uppercase tracking-wider">Customer</th>
+                      <th className="text-left py-3 px-3 sm:px-5 font-semibold text-[var(--text-tertiary)] text-xs uppercase tracking-wider">Amount</th>
+                      <th className="text-left py-3 px-3 sm:px-5 font-semibold text-[var(--text-tertiary)] text-xs uppercase tracking-wider">Payment</th>
+                      <th className="text-left py-3 px-3 sm:px-5 font-semibold text-[var(--text-tertiary)] text-xs uppercase tracking-wider">Time</th>
                     </tr>
                   </thead>
                   <tbody>
                     {data.recentSales.length > 0 ? (
                       data.recentSales.map((sale) => (
-                        <tr key={sale.id} className="border-b border-slate-50 hover:bg-indigo-50/30 transition-colors">
+                        <tr key={sale.id} className="border-b border-[var(--border-subtle)] hover:bg-[var(--table-row-hover)] transition-colors">
                           <td className="py-3 px-3 sm:px-5">
                             <div className="flex items-center gap-2">
-                              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-indigo-50 flex items-center justify-center flex-shrink-0">
-                                <ShoppingCart className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-indigo-600" />
+                              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center flex-shrink-0">
+                                <ShoppingCart className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-indigo-500" />
                               </div>
-                              <span className="font-semibold text-slate-900 text-xs sm:text-sm">{sale.invoiceNumber}</span>
+                              <span className="font-semibold text-[var(--text-primary)] text-xs sm:text-sm">{sale.invoiceNumber}</span>
                             </div>
                           </td>
-                          <td className="py-3 px-3 sm:px-5 text-slate-600 text-xs sm:text-sm">{sale.customer?.name || "Walk-in"}</td>
-                          <td className="py-3 px-3 sm:px-5 font-bold text-slate-900 text-xs sm:text-sm">{formatCurrency(sale.totalAmount)}</td>
+                          <td className="py-3 px-3 sm:px-5 text-[var(--text-secondary)] text-xs sm:text-sm">{sale.customer?.name || "Walk-in"}</td>
+                          <td className="py-3 px-3 sm:px-5 font-bold text-[var(--text-primary)] text-xs sm:text-sm">{formatCurrency(sale.totalAmount)}</td>
                           <td className="py-3 px-3 sm:px-5">
                             <Badge variant={sale.paymentMode === "credit" ? "warning" : "success"} dot>{sale.paymentMode}</Badge>
                           </td>
-                          <td className="py-3 px-3 sm:px-5 text-slate-500 text-xs font-medium">{formatDateTime(sale.createdAt)}</td>
+                          <td className="py-3 px-3 sm:px-5 text-[var(--text-tertiary)] text-xs font-medium">{formatDateTime(sale.createdAt)}</td>
                         </tr>
                       ))
                     ) : (
                       <tr>
-                        <td colSpan={5} className="py-10 text-center text-slate-500">
+                        <td colSpan={5} className="py-10 text-center text-[var(--text-tertiary)]">
                           No sales yet. Start billing to see data here.
                         </td>
                       </tr>
@@ -366,24 +376,24 @@ export default function DashboardPage() {
           {/* Customer Dues */}
           <Card>
             <CardHeader>
-              <h3 className="text-sm font-bold text-slate-900">Pending Dues</h3>
-              <p className="text-xs text-slate-500 mt-0.5">Outstanding customer balances</p>
+              <h3 className="text-sm font-bold text-[var(--text-primary)]">Pending Dues</h3>
+              <p className="text-xs text-[var(--text-tertiary)] mt-0.5">Outstanding customer balances</p>
             </CardHeader>
             <CardContent>
               {data.customerDues.length > 0 ? (
                 <div className="space-y-3">
                   {data.customerDues.map((customer, i) => (
-                    <div key={i} className="flex items-center justify-between gap-2 p-3 sm:p-3.5 bg-gradient-to-r from-slate-50 to-red-50/30 rounded-xl border border-slate-100/80">
+                    <div key={i} className="flex items-center justify-between gap-2 p-3 sm:p-3.5 bg-[var(--bg-muted)] rounded-xl border border-[var(--border-default)]">
                       <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
-                        <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0">
+                        <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-red-500/10 flex items-center justify-center flex-shrink-0">
                           <Users className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-red-500" />
                         </div>
                         <div className="min-w-0">
-                          <p className="text-sm font-semibold text-slate-900 truncate">{customer.name}</p>
-                          <p className="text-xs text-slate-500 truncate">{customer.phone || "No phone"}</p>
+                          <p className="text-sm font-semibold text-[var(--text-primary)] truncate">{customer.name}</p>
+                          <p className="text-xs text-[var(--text-tertiary)] truncate">{customer.phone || "No phone"}</p>
                         </div>
                       </div>
-                      <span className="text-xs sm:text-sm font-bold text-red-600 bg-red-50 px-2 sm:px-2.5 py-1 rounded-lg flex-shrink-0 whitespace-nowrap">
+                      <span className="text-xs sm:text-sm font-bold text-red-500 bg-red-500/10 px-2 sm:px-2.5 py-1 rounded-lg flex-shrink-0 whitespace-nowrap">
                         {formatCurrency(customer.balance)}
                       </span>
                     </div>
@@ -391,11 +401,11 @@ export default function DashboardPage() {
                 </div>
               ) : (
                 <div className="text-center py-10">
-                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-slate-50 mb-3">
-                    <Clock className="h-6 w-6 text-slate-300" />
+                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[var(--bg-muted)] mb-3">
+                    <Clock className="h-6 w-6 text-[var(--text-tertiary)]" />
                   </div>
-                  <p className="text-sm font-medium text-slate-500">No pending dues</p>
-                  <p className="text-xs text-slate-400 mt-1">All accounts are settled</p>
+                  <p className="text-sm font-medium text-[var(--text-secondary)]">No pending dues</p>
+                  <p className="text-xs text-[var(--text-tertiary)] mt-1">All accounts are settled</p>
                 </div>
               )}
             </CardContent>
@@ -408,12 +418,12 @@ export default function DashboardPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center">
                     <AlertTriangle className="h-4 w-4 text-red-500" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-slate-900">Expiry Alerts</h3>
-                    <p className="text-xs text-slate-500">Medicines expiring within 30 days</p>
+                    <h3 className="text-sm font-bold text-[var(--text-primary)]">Expiry Alerts</h3>
+                    <p className="text-xs text-[var(--text-tertiary)]">Medicines expiring within 30 days</p>
                   </div>
                 </div>
                 <Badge variant="error">{data.expiryAlerts?.length || 0}</Badge>
@@ -424,22 +434,22 @@ export default function DashboardPage() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b border-slate-100">
-                        <th className="text-left py-2.5 px-4 text-xs font-semibold text-slate-500 uppercase">Medicine</th>
-                        <th className="text-left py-2.5 px-4 text-xs font-semibold text-slate-500 uppercase">Batch</th>
-                        <th className="text-right py-2.5 px-4 text-xs font-semibold text-slate-500 uppercase">Qty</th>
-                        <th className="text-right py-2.5 px-4 text-xs font-semibold text-slate-500 uppercase">Days Left</th>
+                      <tr className="border-b border-[var(--border-default)] bg-[var(--table-header-bg)]">
+                        <th className="text-left py-2.5 px-4 text-xs font-semibold text-[var(--text-tertiary)] uppercase">Medicine</th>
+                        <th className="text-left py-2.5 px-4 text-xs font-semibold text-[var(--text-tertiary)] uppercase">Batch</th>
+                        <th className="text-right py-2.5 px-4 text-xs font-semibold text-[var(--text-tertiary)] uppercase">Qty</th>
+                        <th className="text-right py-2.5 px-4 text-xs font-semibold text-[var(--text-tertiary)] uppercase">Days Left</th>
                       </tr>
                     </thead>
                     <tbody>
                       {data.expiryAlerts.map((alert, i) => (
-                        <tr key={i} className="border-b border-slate-50 hover:bg-red-50/30">
+                        <tr key={i} className="border-b border-[var(--border-subtle)] hover:bg-[var(--table-row-hover)]">
                           <td className="py-2.5 px-4">
-                            <p className="font-medium text-slate-900 text-xs">{alert.medicineName}</p>
-                            <p className="text-[10px] text-slate-400">{alert.category}</p>
+                            <p className="font-medium text-[var(--text-primary)] text-xs">{alert.medicineName}</p>
+                            <p className="text-[10px] text-[var(--text-tertiary)]">{alert.category}</p>
                           </td>
-                          <td className="py-2.5 px-4 text-xs text-slate-600">{alert.batchNumber}</td>
-                          <td className="py-2.5 px-4 text-xs text-right font-medium">{alert.quantity}</td>
+                          <td className="py-2.5 px-4 text-xs text-[var(--text-secondary)]">{alert.batchNumber}</td>
+                          <td className="py-2.5 px-4 text-xs text-right font-medium text-[var(--text-primary)]">{alert.quantity}</td>
                           <td className="py-2.5 px-4 text-right">
                             <Badge variant={alert.daysLeft <= 7 ? "error" : "warning"} size="sm">{alert.daysLeft}d</Badge>
                           </td>
@@ -450,7 +460,7 @@ export default function DashboardPage() {
                 </div>
               ) : (
                 <div className="text-center py-8 px-4">
-                  <p className="text-sm text-slate-500">No medicines expiring soon</p>
+                  <p className="text-sm text-[var(--text-tertiary)]">No medicines expiring soon</p>
                 </div>
               )}
             </CardContent>
@@ -460,12 +470,12 @@ export default function DashboardPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center">
                     <Package className="h-4 w-4 text-amber-500" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-slate-900">Low Stock Alerts</h3>
-                    <p className="text-xs text-slate-500">Below reorder level</p>
+                    <h3 className="text-sm font-bold text-[var(--text-primary)]">Low Stock Alerts</h3>
+                    <p className="text-xs text-[var(--text-tertiary)]">Below reorder level</p>
                   </div>
                 </div>
                 <Badge variant="warning">{data.lowStockAlerts?.length || 0}</Badge>
@@ -476,25 +486,25 @@ export default function DashboardPage() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b border-slate-100">
-                        <th className="text-left py-2.5 px-4 text-xs font-semibold text-slate-500 uppercase">Medicine</th>
-                        <th className="text-left py-2.5 px-4 text-xs font-semibold text-slate-500 uppercase">Batch</th>
-                        <th className="text-right py-2.5 px-4 text-xs font-semibold text-slate-500 uppercase">Current</th>
-                        <th className="text-right py-2.5 px-4 text-xs font-semibold text-slate-500 uppercase">Reorder</th>
+                      <tr className="border-b border-[var(--border-default)] bg-[var(--table-header-bg)]">
+                        <th className="text-left py-2.5 px-4 text-xs font-semibold text-[var(--text-tertiary)] uppercase">Medicine</th>
+                        <th className="text-left py-2.5 px-4 text-xs font-semibold text-[var(--text-tertiary)] uppercase">Batch</th>
+                        <th className="text-right py-2.5 px-4 text-xs font-semibold text-[var(--text-tertiary)] uppercase">Current</th>
+                        <th className="text-right py-2.5 px-4 text-xs font-semibold text-[var(--text-tertiary)] uppercase">Reorder</th>
                       </tr>
                     </thead>
                     <tbody>
                       {data.lowStockAlerts.map((alert, i) => (
-                        <tr key={i} className="border-b border-slate-50 hover:bg-amber-50/30">
+                        <tr key={i} className="border-b border-[var(--border-subtle)] hover:bg-[var(--table-row-hover)]">
                           <td className="py-2.5 px-4">
-                            <p className="font-medium text-slate-900 text-xs">{alert.medicineName}</p>
-                            <p className="text-[10px] text-slate-400">{alert.category}</p>
+                            <p className="font-medium text-[var(--text-primary)] text-xs">{alert.medicineName}</p>
+                            <p className="text-[10px] text-[var(--text-tertiary)]">{alert.category}</p>
                           </td>
-                          <td className="py-2.5 px-4 text-xs text-slate-600">{alert.batchNumber}</td>
+                          <td className="py-2.5 px-4 text-xs text-[var(--text-secondary)]">{alert.batchNumber}</td>
                           <td className="py-2.5 px-4 text-right">
-                            <span className="text-xs font-bold text-red-600">{alert.currentQty}</span>
+                            <span className="text-xs font-bold text-red-500">{alert.currentQty}</span>
                           </td>
-                          <td className="py-2.5 px-4 text-right text-xs text-slate-500">{alert.reorderLevel}</td>
+                          <td className="py-2.5 px-4 text-right text-xs text-[var(--text-tertiary)]">{alert.reorderLevel}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -502,7 +512,7 @@ export default function DashboardPage() {
                 </div>
               ) : (
                 <div className="text-center py-8 px-4">
-                  <p className="text-sm text-slate-500">All stock levels are healthy</p>
+                  <p className="text-sm text-[var(--text-tertiary)]">All stock levels are healthy</p>
                 </div>
               )}
             </CardContent>
@@ -514,24 +524,24 @@ export default function DashboardPage() {
           <Card>
             <CardHeader>
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-orange-500/10 flex items-center justify-center">
                   <IndianRupee className="h-4 w-4 text-orange-500" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900">Supplier Outstanding</h3>
-                  <p className="text-xs text-slate-500">Pending supplier payments</p>
+                  <h3 className="text-sm font-bold text-[var(--text-primary)]">Supplier Outstanding</h3>
+                  <p className="text-xs text-[var(--text-tertiary)]">Pending supplier payments</p>
                 </div>
               </div>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {data.supplierDues.map((supplier, i) => (
-                  <div key={i} className="flex items-center justify-between gap-2 p-3 sm:p-3.5 bg-gradient-to-r from-slate-50 to-orange-50/30 rounded-xl border border-slate-100/80">
+                  <div key={i} className="flex items-center justify-between gap-2 p-3 sm:p-3.5 bg-[var(--bg-muted)] rounded-xl border border-[var(--border-default)]">
                     <div className="min-w-0">
-                      <p className="text-sm font-semibold text-slate-900 truncate">{supplier.name}</p>
-                      <p className="text-xs text-slate-500 truncate">{supplier.phone || "No phone"}</p>
+                      <p className="text-sm font-semibold text-[var(--text-primary)] truncate">{supplier.name}</p>
+                      <p className="text-xs text-[var(--text-tertiary)] truncate">{supplier.phone || "No phone"}</p>
                     </div>
-                    <span className="text-xs sm:text-sm font-bold text-orange-600 bg-orange-50 px-2 sm:px-2.5 py-1 rounded-lg flex-shrink-0 whitespace-nowrap">
+                    <span className="text-xs sm:text-sm font-bold text-orange-500 bg-orange-500/10 px-2 sm:px-2.5 py-1 rounded-lg flex-shrink-0 whitespace-nowrap">
                       {formatCurrency(supplier.balance)}
                     </span>
                   </div>

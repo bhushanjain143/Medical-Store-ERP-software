@@ -112,7 +112,7 @@ export default function ReportsPage() {
                 className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 ${
                   activeTab === tab.id
                     ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md shadow-indigo-600/20"
-                    : "bg-white text-slate-600 border border-slate-200 hover:border-indigo-300 hover:text-indigo-700 hover:bg-indigo-50/50"
+                    : "bg-[var(--bg-card)] text-[var(--text-secondary)] border border-[var(--border-default)] hover:border-indigo-400 hover:text-indigo-500 hover:bg-indigo-500/5"
                 }`}
               >
                 <Icon className="h-4 w-4" />

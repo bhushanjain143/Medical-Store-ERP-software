@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Toaster } from "react-hot-toast";
+import { ThemeProvider } from "@/lib/theme";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -38,14 +39,26 @@ export const viewport: Viewport = {
   themeColor: "#6366f1",
 };
 
+const themeScript = `
+(function(){
+  try {
+    var t = localStorage.getItem('medstore-theme') || 'light';
+    if (t === 'system') t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.classList.add(t);
+    document.documentElement.style.colorScheme = t;
+  } catch(e) {}
+})();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="h-full" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -58,28 +71,31 @@ export default function RootLayout({
         />
       </head>
       <body className="h-full antialiased">
-        {children}
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            duration: 3000,
-            style: {
-              background: "#0f172a",
-              color: "#f8fafc",
-              borderRadius: "12px",
-              fontSize: "13px",
-              fontWeight: "500",
-              padding: "12px 16px",
-              boxShadow: "0 20px 60px -12px rgba(0, 0, 0, 0.25)",
-            },
-            success: {
-              iconTheme: { primary: "#10b981", secondary: "#fff" },
-            },
-            error: {
-              iconTheme: { primary: "#ef4444", secondary: "#fff" },
-            },
-          }}
-        />
+        <ThemeProvider>
+          {children}
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              duration: 3000,
+              style: {
+                background: "var(--toast-bg)",
+                color: "var(--toast-text)",
+                borderRadius: "12px",
+                fontSize: "13px",
+                fontWeight: "500",
+                padding: "12px 16px",
+                boxShadow: "0 20px 60px -12px rgba(0, 0, 0, 0.25)",
+                border: "1px solid var(--border-default)",
+              },
+              success: {
+                iconTheme: { primary: "#10b981", secondary: "#fff" },
+              },
+              error: {
+                iconTheme: { primary: "#ef4444", secondary: "#fff" },
+              },
+            }}
+          />
+        </ThemeProvider>
       </body>
     </html>
   );

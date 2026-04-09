@@ -180,7 +180,7 @@ export function Sidebar() {
       {/* Mobile overlay */}
       {mobileOpen && (
         <div
-          className="lg:hidden fixed inset-0 z-40 bg-slate-900/60 backdrop-blur-sm animate-fade-in"
+          className="lg:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-sm animate-fade-in"
           onClick={() => setMobileOpen(false)}
         />
       )}
@@ -212,11 +212,11 @@ export function Sidebar() {
           {sidebarContent}
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="absolute -right-3 top-20 w-6 h-6 rounded-full bg-white border border-slate-200 shadow-md flex items-center justify-center hover:bg-indigo-50 hover:scale-110 transition-all duration-200"
+            className="absolute -right-3 top-20 w-6 h-6 rounded-full bg-[var(--bg-card)] border border-[var(--border-default)] shadow-md flex items-center justify-center hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:scale-110 transition-all duration-200"
           >
             <ChevronLeft
               className={cn(
-                "h-3.5 w-3.5 text-slate-600 transition-transform duration-300",
+                "h-3.5 w-3.5 text-[var(--text-secondary)] transition-transform duration-300",
                 collapsed && "rotate-180"
               )}
             />

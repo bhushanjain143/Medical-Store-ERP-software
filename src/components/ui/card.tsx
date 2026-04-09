@@ -10,7 +10,8 @@ export function Card({ className, hover, glass, children, ...props }: CardProps)
   return (
     <div
       className={cn(
-        "bg-white rounded-2xl border border-slate-200/70 shadow-sm shadow-slate-100 min-w-0 overflow-hidden",
+        "rounded-2xl border min-w-0 overflow-hidden transition-all duration-300",
+        "bg-[var(--bg-card)] border-[var(--border-default)] shadow-[var(--shadow-card)]",
         hover && "card-hover cursor-default",
         glass && "glass",
         className
@@ -29,7 +30,7 @@ export function CardHeader({
 }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn("px-4 sm:px-6 py-3.5 sm:py-4 border-b border-slate-100", className)}
+      className={cn("px-4 sm:px-6 py-3.5 sm:py-4 border-b border-[var(--border-default)]", className)}
       {...props}
     >
       {children}

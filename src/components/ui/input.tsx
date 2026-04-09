@@ -16,7 +16,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={id}
-            className="block text-sm font-semibold text-slate-700 mb-1.5"
+            className="block text-sm font-semibold text-[var(--text-primary)] mb-1.5"
           >
             {label}
           </label>
@@ -25,18 +25,19 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           id={id}
           className={cn(
-            "w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400",
+            "w-full rounded-xl border px-3.5 py-2.5 text-sm",
+            "bg-[var(--bg-input)] border-[var(--border-default)] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)]",
             "focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400",
-            "disabled:bg-slate-50 disabled:text-slate-500 disabled:cursor-not-allowed",
-            "transition-all duration-200 shadow-sm hover:border-slate-300",
+            "disabled:opacity-60 disabled:cursor-not-allowed",
+            "transition-all duration-200 shadow-sm hover:border-indigo-300/50",
             error && "border-red-400 focus:ring-red-500/30 focus:border-red-500",
             className
           )}
           {...props}
         />
-        {error && <p className="mt-1.5 text-xs text-red-600 font-medium">{error}</p>}
+        {error && <p className="mt-1.5 text-xs text-red-500 font-medium">{error}</p>}
         {hint && !error && (
-          <p className="mt-1.5 text-xs text-slate-500">{hint}</p>
+          <p className="mt-1.5 text-xs text-[var(--text-tertiary)]">{hint}</p>
         )}
       </div>
     );

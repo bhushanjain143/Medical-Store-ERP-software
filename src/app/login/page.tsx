@@ -46,21 +46,18 @@ export default function LoginPage() {
     <div className="min-h-screen flex">
       {/* Left panel - hero */}
       <div className="hidden lg:flex lg:w-[55%] relative overflow-hidden bg-gradient-to-br from-[#1e1b4b] via-[#312e81] to-[#1e1b4b]">
-        {/* Animated background blobs */}
         <div className="absolute inset-0">
           <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full bg-indigo-500/15 blur-[120px] animate-float" />
           <div className="absolute bottom-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-violet-500/10 blur-[120px] animate-float" style={{ animationDelay: "2s" }} />
           <div className="absolute top-[40%] left-[40%] w-[300px] h-[300px] rounded-full bg-blue-500/10 blur-[80px] animate-float" style={{ animationDelay: "4s" }} />
         </div>
 
-        {/* Grid dot pattern */}
         <div className="absolute inset-0 opacity-[0.04]" style={{
           backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
           backgroundSize: "32px 32px",
         }} />
 
         <div className="relative z-10 flex flex-col justify-between px-12 xl:px-16 py-10 w-full">
-          {/* Logo */}
           <div className="flex items-center gap-3">
             <MedicalLogo size={44} />
             <div>
@@ -69,7 +66,6 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Center illustration + content */}
           <div className="flex-1 flex flex-col justify-center -mt-8">
             <PharmacyHeroIllustration className="w-full max-w-[380px] mx-auto mb-6" />
 
@@ -109,7 +105,6 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Bottom stats */}
           <div className="flex items-center gap-8">
             {[
               { value: "500+", label: "Medicines" },
@@ -126,23 +121,22 @@ export default function LoginPage() {
       </div>
 
       {/* Right panel - login form */}
-      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 py-6 sm:py-12 bg-white relative overflow-hidden">
+      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 py-6 sm:py-12 bg-[var(--bg-body)] relative overflow-hidden transition-colors">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-indigo-500/[0.03] blur-[100px]" />
         <div className="absolute bottom-0 left-0 w-[300px] h-[300px] rounded-full bg-violet-500/[0.03] blur-[80px]" />
 
         <div className="w-full max-w-[420px] relative z-10 animate-fade-in-scale">
-          {/* Mobile logo */}
           <div className="lg:hidden flex items-center gap-3 mb-10 justify-center">
             <MedicalLogo size={40} />
-            <h1 className="text-xl font-bold text-slate-900">MedStore ERP</h1>
+            <h1 className="text-xl font-bold text-[var(--text-primary)]">MedStore ERP</h1>
           </div>
 
-          <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl shadow-slate-200/60 border border-slate-100 p-6 sm:p-8 xl:p-10">
+          <div className="bg-[var(--bg-card)] rounded-2xl sm:rounded-3xl shadow-xl border border-[var(--border-default)] p-6 sm:p-8 xl:p-10 transition-colors">
             <div className="mb-8">
-              <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+              <h2 className="text-2xl font-extrabold text-[var(--text-primary)] tracking-tight">
                 Welcome back
               </h2>
-              <p className="text-sm text-slate-500 mt-1.5">
+              <p className="text-sm text-[var(--text-tertiary)] mt-1.5">
                 Sign in to your pharmacy dashboard
               </p>
             </div>
@@ -177,29 +171,29 @@ export default function LoginPage() {
               </Button>
             </form>
 
-            <div className="mt-8 p-4 rounded-2xl bg-gradient-to-r from-indigo-50 to-violet-50 border border-indigo-100/80">
+            <div className="mt-8 p-4 rounded-2xl bg-indigo-500/5 border border-indigo-500/10">
               <div className="flex items-center gap-2 mb-2.5">
-                <div className="w-5 h-5 rounded-md bg-indigo-100 flex items-center justify-center">
-                  <Shield className="h-3 w-3 text-indigo-600" />
+                <div className="w-5 h-5 rounded-md bg-indigo-500/10 flex items-center justify-center">
+                  <Shield className="h-3 w-3 text-indigo-500" />
                 </div>
-                <p className="text-xs font-semibold text-slate-700">
+                <p className="text-xs font-semibold text-[var(--text-primary)]">
                   Demo Credentials
                 </p>
               </div>
               <div className="space-y-1.5">
-                <p className="text-xs text-slate-500">
-                  Email: <code className="px-1.5 py-0.5 rounded bg-white text-indigo-700 font-semibold border border-indigo-100">admin@medstore.com</code>
+                <p className="text-xs text-[var(--text-tertiary)]">
+                  Email: <code className="px-1.5 py-0.5 rounded bg-[var(--bg-muted)] text-indigo-500 font-semibold border border-[var(--border-default)]">admin@medstore.com</code>
                 </p>
-                <p className="text-xs text-slate-500">
-                  Password: <code className="px-1.5 py-0.5 rounded bg-white text-indigo-700 font-semibold border border-indigo-100">admin123</code>
+                <p className="text-xs text-[var(--text-tertiary)]">
+                  Password: <code className="px-1.5 py-0.5 rounded bg-[var(--bg-muted)] text-indigo-500 font-semibold border border-[var(--border-default)]">admin123</code>
                 </p>
               </div>
             </div>
           </div>
 
-          <p className="text-center text-sm text-slate-500 mt-6">
+          <p className="text-center text-sm text-[var(--text-tertiary)] mt-6">
             Don&apos;t have an account?{" "}
-            <Link href="/register" className="text-indigo-600 font-semibold hover:text-indigo-700 transition-colors">
+            <Link href="/register" className="text-indigo-500 font-semibold hover:text-indigo-400 transition-colors">
               Create one
             </Link>
           </p>

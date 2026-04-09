@@ -33,7 +33,63 @@ table {
   word-break: break-word;
 }
 
-/* Stat card grid — 1 col mobile, 2 col tablet, 4 col desktop */
+/* ── Light theme (default) ── */
+:root, .light {
+  --bg-body: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8fafc;
+  --bg-elevated: #ffffff;
+  --bg-muted: #f1f5f9;
+  --bg-input: #ffffff;
+  --bg-header: rgba(255, 255, 255, 0.85);
+  --border-default: #e2e8f0;
+  --border-subtle: #f1f5f9;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #94a3b8;
+  --text-on-primary: #ffffff;
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-card-hover: 0 20px 40px -12px rgba(99, 102, 241, 0.12), 0 4px 12px -2px rgba(0, 0, 0, 0.06);
+  --shadow-elevated: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+  --ring-focus: rgba(99, 102, 241, 0.3);
+  --scrollbar-thumb: #cbd5e1;
+  --scrollbar-hover: #94a3b8;
+  --chart-grid: #f1f5f9;
+  --table-header-bg: #f8fafc;
+  --table-row-hover: rgba(99, 102, 241, 0.04);
+  --toast-bg: #0f172a;
+  --toast-text: #f8fafc;
+}
+
+/* ── Dark theme ── */
+.dark {
+  --bg-body: #0c0a1d;
+  --bg-card: #151230;
+  --bg-card-hover: #1a1740;
+  --bg-elevated: #1e1b4b;
+  --bg-muted: #1e1b4b;
+  --bg-input: #1a1740;
+  --bg-header: rgba(12, 10, 29, 0.9);
+  --border-default: #2e2a5a;
+  --border-subtle: #1e1b4b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-tertiary: #64748b;
+  --text-on-primary: #ffffff;
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-card-hover: 0 20px 40px -12px rgba(99, 102, 241, 0.2), 0 4px 12px -2px rgba(0, 0, 0, 0.3);
+  --shadow-elevated: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+  --ring-focus: rgba(99, 102, 241, 0.5);
+  --scrollbar-thumb: #2e2a5a;
+  --scrollbar-hover: #4338ca;
+  --chart-grid: #1e1b4b;
+  --table-header-bg: #1a1740;
+  --table-row-hover: rgba(99, 102, 241, 0.08);
+  --toast-bg: #1e1b4b;
+  --toast-text: #f1f5f9;
+}
+
+/* ── Stat card grid — responsive ── */
 .stat-card-grid {
   display: grid;
   gap: 0.75rem;
@@ -68,10 +124,11 @@ main > div {
 
 body {
   font-family: var(--font-sans);
-  background: #f8fafc;
+  background: var(--bg-body);
   background-attachment: fixed;
-  color: #1e293b;
+  color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
@@ -94,15 +151,15 @@ input[type="number"] {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: var(--scrollbar-thumb);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: var(--scrollbar-hover);
 }
 
-/* Animations */
+/* ── Animations ── */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
@@ -193,12 +250,17 @@ input[type="number"] {
   animation: spin-slow 20s linear infinite;
 }
 
-/* Glass effect */
+/* ── Glass effect ── */
 .glass {
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .glass {
+  background: rgba(21, 18, 48, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .glass-dark {
@@ -208,7 +270,7 @@ input[type="number"] {
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Gradient text */
+/* ── Gradient text ── */
 .text-gradient {
   background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%);
   -webkit-background-clip: text;
@@ -216,16 +278,40 @@ input[type="number"] {
   background-clip: text;
 }
 
-/* Card hover lift */
+/* ── Card hover lift ── */
 .card-hover {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .card-hover:hover {
   transform: translateY(-3px);
-  box-shadow: 0 20px 40px -12px rgba(99, 102, 241, 0.15), 0 4px 12px -2px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-card-hover);
 }
 
-/* Stagger children animation */
+/* ── Theme-aware card ── */
+.theme-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  box-shadow: var(--shadow-card);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.theme-card:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* ── Theme-aware surfaces ── */
+.theme-bg { background: var(--bg-body); }
+.theme-bg-card { background: var(--bg-card); }
+.theme-bg-muted { background: var(--bg-muted); }
+.theme-bg-input { background: var(--bg-input); }
+.theme-bg-elevated { background: var(--bg-elevated); }
+.theme-border { border-color: var(--border-default); }
+.theme-border-subtle { border-color: var(--border-subtle); }
+.theme-text { color: var(--text-primary); }
+.theme-text-secondary { color: var(--text-secondary); }
+.theme-text-tertiary { color: var(--text-tertiary); }
+
+/* ── Stagger children animation ── */
 .stagger-children > * {
   animation: fadeIn 0.4s ease-out both;
 }
@@ -238,12 +324,41 @@ input[type="number"] {
 .stagger-children > *:nth-child(7) { animation-delay: 360ms; }
 .stagger-children > *:nth-child(8) { animation-delay: 420ms; }
 
+/* ── Dark mode overrides for common elements ── */
+.dark input,
+.dark select,
+.dark textarea {
+  background: var(--bg-input);
+  color: var(--text-primary);
+  border-color: var(--border-default);
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: var(--text-tertiary);
+}
+
+.dark table thead {
+  background: var(--table-header-bg);
+}
+
+.dark table tbody tr:hover {
+  background: var(--table-row-hover);
+}
+
+.dark table td,
+.dark table th {
+  border-color: var(--border-subtle);
+}
+
+/* ── Print styles ── */
 @media print {
   .no-print, aside, nav, header, button, [role="dialog"] > div:first-child {
     display: none !important;
   }
   body {
     background: white !important;
+    color: black !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }

@@ -143,8 +143,8 @@ export default function ExpiryTrackerPage() {
                 onClick={() => setFilter(f.id)}
                 className={`flex items-center gap-1.5 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-sm font-semibold transition-all ${
                   filter === f.id
-                    ? "bg-slate-900 text-white shadow-md"
-                    : "bg-white text-slate-600 border border-slate-200 hover:border-slate-300"
+                    ? "bg-indigo-600 text-white shadow-md"
+                    : "bg-[var(--bg-card)] text-[var(--text-secondary)] border border-[var(--border-default)] hover:border-indigo-400"
                 }`}
               >
                 <span className={`w-2 h-2 rounded-full ${f.color}`} />
@@ -172,14 +172,14 @@ export default function ExpiryTrackerPage() {
               <div className="overflow-x-auto">
                 <table className="w-full text-sm min-w-[700px]">
                   <thead>
-                    <tr className="bg-slate-50 border-b border-slate-200">
-                      <th className="text-left py-3 px-4 font-semibold text-slate-500 text-xs">Medicine</th>
-                      <th className="text-left py-3 px-4 font-semibold text-slate-500 text-xs">Category</th>
-                      <th className="text-left py-3 px-4 font-semibold text-slate-500 text-xs">Batch</th>
-                      <th className="text-right py-3 px-4 font-semibold text-slate-500 text-xs">Qty</th>
-                      <th className="text-right py-3 px-4 font-semibold text-slate-500 text-xs">Value</th>
-                      <th className="text-left py-3 px-4 font-semibold text-slate-500 text-xs">Expiry</th>
-                      <th className="text-left py-3 px-4 font-semibold text-slate-500 text-xs">Status</th>
+                    <tr className="bg-[var(--table-header-bg)] border-b border-[var(--border-default)]">
+                      <th className="text-left py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Medicine</th>
+                      <th className="text-left py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Category</th>
+                      <th className="text-left py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Batch</th>
+                      <th className="text-right py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Qty</th>
+                      <th className="text-right py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Value</th>
+                      <th className="text-left py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Expiry</th>
+                      <th className="text-left py-3 px-4 font-semibold text-[var(--text-tertiary)] text-xs">Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -187,16 +187,16 @@ export default function ExpiryTrackerPage() {
                       const daysLeft = Math.ceil((new Date(b.expiryDate).getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
                       const isExpired = daysLeft <= 0;
                       return (
-                        <tr key={b.id} className={`border-b border-slate-50 hover:bg-slate-50/50 ${isExpired ? "bg-red-50/30" : ""}`}>
+                        <tr key={b.id} className={`border-b border-[var(--border-subtle)] hover:bg-[var(--table-row-hover)] ${isExpired ? "bg-red-500/5" : ""}`}>
                           <td className="py-3 px-4">
-                            <p className="font-semibold text-slate-900">{b.medicine.name}</p>
-                            <p className="text-[10px] text-slate-400">{b.medicine.manufacturer}</p>
+                            <p className="font-semibold text-[var(--text-primary)]">{b.medicine.name}</p>
+                            <p className="text-[10px] text-[var(--text-tertiary)]">{b.medicine.manufacturer}</p>
                           </td>
                           <td className="py-3 px-4"><Badge>{b.medicine.category}</Badge></td>
-                          <td className="py-3 px-4 text-slate-600 font-medium">{b.batchNumber}</td>
-                          <td className="py-3 px-4 text-right font-medium">{b.quantity}</td>
-                          <td className="py-3 px-4 text-right text-slate-600">{formatCurrency(b.purchasePrice * b.quantity)}</td>
-                          <td className="py-3 px-4 text-slate-600">{formatDate(b.expiryDate)}</td>
+                          <td className="py-3 px-4 text-[var(--text-secondary)] font-medium">{b.batchNumber}</td>
+                          <td className="py-3 px-4 text-right font-medium text-[var(--text-primary)]">{b.quantity}</td>
+                          <td className="py-3 px-4 text-right text-[var(--text-secondary)]">{formatCurrency(b.purchasePrice * b.quantity)}</td>
+                          <td className="py-3 px-4 text-[var(--text-secondary)]">{formatDate(b.expiryDate)}</td>
                           <td className="py-3 px-4">
                             <Badge variant={isExpired ? "danger" : daysLeft <= 7 ? "danger" : daysLeft <= 30 ? "warning" : "info"}>
                               {isExpired ? "EXPIRED" : `${daysLeft}d left`}
